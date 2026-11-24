@@ -2,159 +2,197 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>שומרי הזמן</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#140f33">
+<title>שׁוֹמְרֵי הַזְּמַן</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Noto+Sans+Hebrew:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg1:#1b1036; --bg2:#3a1f6b; --card:#fffaf0; --ink:#2b2140; --muted:#7a6f8f;
-  --gold:#f6b93b; --gold2:#e58e26; --ok:#2ecc71; --bad:#ff7675; --accent:#6c5ce7; --sky:#74b9ff;
+  --night1:#0f0b2a; --night2:#2b1f5e;
+  --parch1:#fdf7e6; --parch2:#f4e4be; --goldline:#d4a94f; --gold:#f0c35a; --gold2:#c98d1e;
+  --ink:#3a2614; --muted:#8a7357; --ok:#1e9e5a; --bad:#d9534f; --accent:#5b3fd1;
+  --display:'Frank Ruhl Libre','Noto Sans Hebrew',serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%}
+html,body{margin:0;min-height:100%}
 body{
-  font-family:'Noto Sans Hebrew',Arial,sans-serif;color:var(--ink);
-  background:radial-gradient(circle at 30% 10%,var(--bg2),var(--bg1) 70%);background-color:var(--bg1);
-  min-height:100vh;overflow-x:hidden;user-select:none;
+  font-family:'Noto Sans Hebrew',Arial,sans-serif;color:var(--ink);background-color:var(--night1);
+  background-image:radial-gradient(ellipse at 50% -10%,#3f2c8c 0%,transparent 60%),radial-gradient(ellipse at 100% 110%,#173a66 0%,transparent 55%),linear-gradient(var(--night2),var(--night1));
+  background-attachment:fixed;min-height:100vh;overflow-x:hidden;user-select:none;
 }
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.7;
+  background-image:
+   radial-gradient(1.6px 1.6px at 8% 18%,#fff 50%,transparent 51%),radial-gradient(1.2px 1.2px at 22% 64%,#fff 50%,transparent 51%),
+   radial-gradient(1.8px 1.8px at 35% 12%,#ffe9a8 50%,transparent 51%),radial-gradient(1.2px 1.2px at 47% 82%,#fff 50%,transparent 51%),
+   radial-gradient(1.5px 1.5px at 61% 33%,#fff 50%,transparent 51%),radial-gradient(1.2px 1.2px at 74% 9%,#fff 50%,transparent 51%),
+   radial-gradient(1.8px 1.8px at 88% 52%,#ffe9a8 50%,transparent 51%),radial-gradient(1.2px 1.2px at 93% 85%,#fff 50%,transparent 51%),
+   radial-gradient(1.4px 1.4px at 15% 92%,#fff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 54% 54%,#fff 50%,transparent 51%),
+   radial-gradient(1.2px 1.2px at 80% 70%,#fff 50%,transparent 51%),radial-gradient(1.6px 1.6px at 3% 45%,#fff 50%,transparent 51%);}
 button{font-family:inherit;cursor:pointer;border:none}
 .hidden{display:none!important}
 
-/* top bar */
+/* ---------- top bar ---------- */
 #topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:10px 16px;
-  background:rgba(0,0,0,.25);backdrop-filter:blur(6px);color:#fff}
-.pill{background:rgba(255,255,255,.14);border-radius:999px;padding:6px 14px;font-weight:800;font-size:20px;display:flex;gap:6px;align-items:center}
+  background:linear-gradient(rgba(15,11,42,.92),rgba(15,11,42,.75));backdrop-filter:blur(6px);color:#fff;border-bottom:1px solid rgba(240,195,90,.25)}
+.pill{background:rgba(240,195,90,.12);border:1px solid rgba(240,195,90,.35);border-radius:999px;padding:5px 14px;font-weight:800;font-size:20px;display:flex;gap:6px;align-items:center;color:#ffe7a6}
 #topbar .spacer{flex:1}
-.iconbtn{background:rgba(255,255,255,.14);color:#fff;border-radius:14px;font-size:22px;width:46px;height:46px}
-#rank{font-size:16px;font-weight:600;opacity:.9}
+.iconbtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:14px;font-size:22px;width:46px;height:46px}
+#rank{font-size:16px;font-weight:600;color:#d9cfff}
+main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:16px 16px 60px}
 
-main{max-width:900px;margin:0 auto;padding:16px}
-
-/* generic card */
-.panel{background:var(--card);border-radius:28px;padding:28px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+/* ---------- parchment panel ---------- */
+.panel{position:relative;background:linear-gradient(170deg,var(--parch1),var(--parch2));border:3px solid var(--goldline);border-radius:24px;padding:28px;
+  box-shadow:0 18px 50px rgba(0,0,0,.5),inset 0 0 50px rgba(160,110,40,.16);outline:2px solid rgba(212,169,79,.45);outline-offset:-11px}
 h1,h2{margin:0 0 12px}
-.big-title{color:#fff;text-align:center;font-size:44px;margin:24px 0 4px;text-shadow:0 4px 0 rgba(0,0,0,.3)}
-.subtitle{color:#e6dcff;text-align:center;font-size:20px;margin-bottom:24px}
+.display{font-family:var(--display);font-weight:900}
 
-/* worlds */
-.worlds{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.world{border-radius:28px;padding:26px 20px;color:#fff;text-align:center;min-height:230px;display:flex;flex-direction:column;justify-content:center;gap:8px;
-  box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .15s;font-size:18px;position:relative}
+/* ---------- title ---------- */
+.logo{display:flex;flex-direction:column;align-items:center;margin:18px 0 8px}
+.logo svg{width:84px;height:84px;filter:drop-shadow(0 0 18px rgba(240,195,90,.55));animation:float 4s ease-in-out infinite}
+.big-title{font-family:var(--display);font-weight:900;text-align:center;font-size:50px;margin:4px 0;line-height:1.3;
+  background:linear-gradient(#fff3c4,#f0c35a 55%,#c98d1e);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}
+.subtitle{color:#d9cfff;text-align:center;font-size:20px;margin-bottom:24px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* ---------- worlds ---------- */
+.worlds{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.world{border-radius:24px;padding:0;overflow:hidden;color:#fff;text-align:right;display:flex;flex-direction:column;position:relative;
+  border:3px solid var(--goldline);box-shadow:0 12px 34px rgba(0,0,0,.45);transition:transform .15s;background:#24194a}
 .world:active{transform:scale(.97)}
-.world .emoji{font-size:72px}
-.world b{font-size:26px}
-.w-hist{background:linear-gradient(160deg,#e58e26,#b33939)}
-.w-adv{background:linear-gradient(160deg,#00b894,#006266)}
-.w-saba{background:linear-gradient(160deg,#0984e3,#2d3436)}
-.locked{filter:grayscale(.55);opacity:.8}
-.lock-tag{position:absolute;top:14px;left:14px;background:rgba(0,0,0,.35);border-radius:999px;padding:4px 12px;font-size:15px}
+.world .art{height:170px;display:block}
+.world .art svg{width:100%;height:100%;display:block}
+.world .wtxt{padding:14px 18px 18px;display:flex;flex-direction:column;gap:2px}
+.world b{font-family:var(--display);font-size:28px;color:#ffe7a6}
+.world span{font-size:17px;color:#d9cfff}
+.locked{filter:grayscale(.6) brightness(.8)}
+.lock-tag{position:absolute;top:12px;left:12px;background:rgba(10,6,30,.75);border-radius:999px;padding:5px 12px;font-size:15px;color:#fff}
 
-/* map */
-.map{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 0 40px}
-.node{width:120px;height:120px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  font-size:46px;background:#fff;box-shadow:0 8px 0 #c9b8ff,0 12px 30px rgba(0,0,0,.4);position:relative;transition:transform .15s}
-.node:active{transform:translateY(4px)}
-.node.done{background:linear-gradient(#fff6d6,#ffd96a);box-shadow:0 8px 0 var(--gold2),0 12px 30px rgba(0,0,0,.4)}
-.node.current{animation:pulse 1.4s infinite}
-.node.lockednode{background:#5b4b80;box-shadow:0 8px 0 #3b2e5a;font-size:36px;color:#fff}
-.node-label{color:#fff;font-weight:800;font-size:20px;text-align:center;margin-bottom:6px;text-shadow:0 2px 0 rgba(0,0,0,.4)}
-.node-stars{position:absolute;bottom:-34px;font-size:20px;letter-spacing:2px}
-.path{width:10px;height:44px;border-radius:5px;background:repeating-linear-gradient(#fff6 0 10px,transparent 10px 20px)}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+/* ---------- map ---------- */
+.mapwrap{position:relative;margin:0 auto}
+.mapwrap > svg.trail{position:absolute;inset:0;pointer-events:none}
+.mnode{position:absolute;width:124px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.medal{width:118px;height:118px;border-radius:50%;overflow:hidden;position:relative;padding:0;background:#1c1440;
+  border:5px solid var(--gold);box-shadow:0 0 0 3px #7a5414,0 10px 26px rgba(0,0,0,.55);transition:transform .15s}
+.medal svg{width:100%;height:100%;display:block}
+.medal:active{transform:scale(.95)}
+.medal.done{border-color:#ffe08a}
+.medal.current{animation:glow 1.6s ease-in-out infinite}
+.medal.lockedm{border-color:#6c5b99;box-shadow:0 0 0 3px #352a5c,0 10px 26px rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;font-size:38px;cursor:default}
+.medal .lockveil{position:absolute;inset:0;background:rgba(20,14,50,.72);display:flex;align-items:center;justify-content:center;font-size:36px}
+@keyframes glow{0%,100%{box-shadow:0 0 0 3px #7a5414,0 0 12px 4px rgba(240,195,90,.45)}50%{box-shadow:0 0 0 3px #7a5414,0 0 34px 14px rgba(240,195,90,.85)}}
+.mlabel{margin-top:8px;color:#fff;font-weight:800;font-size:18px;line-height:1.3;text-shadow:0 2px 4px rgba(0,0,0,.8);width:170px}
+.mstars{font-size:17px;letter-spacing:2px;margin-top:2px}
+.ribbon{position:absolute;top:-46px;white-space:nowrap;background:linear-gradient(#f6d27a,#d89f2c);color:#3a2614;font-family:var(--display);font-weight:900;
+  font-size:19px;padding:4px 18px;border-radius:8px;box-shadow:0 4px 0 #8a5d12,0 6px 14px rgba(0,0,0,.4)}
+.youhere{position:absolute;top:-30px;right:-18px;background:#fff;color:var(--accent);font-weight:800;font-size:14px;border-radius:999px;padding:3px 10px;box-shadow:0 3px 8px rgba(0,0,0,.35);animation:float 2s ease-in-out infinite}
 
-/* level */
+/* ---------- level ---------- */
 .progress{display:flex;gap:6px;margin:4px 0 14px}
-.progress span{flex:1;height:12px;border-radius:6px;background:rgba(255,255,255,.18)}
-.progress span.on{background:var(--gold)}
-.guide{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
-.avatar{flex:none;width:72px;height:72px;border-radius:50%;background:linear-gradient(#ffeaa7,#fab1a0);display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 4px 0 #e17055}
-.guide-name{font-weight:800;color:var(--accent);font-size:18px}
-.story{font-size:32px;line-height:1.9;font-weight:600}
+.progress span{flex:1;height:12px;border-radius:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.08)}
+.progress span.on{background:linear-gradient(var(--gold),var(--gold2));border-color:#ffe08a}
+.scene{margin:-28px -28px 0;height:260px;border-radius:21px 21px 0 0;overflow:hidden;position:relative;border-bottom:3px solid var(--goldline)}
+.scene svg{width:100%;height:100%;display:block}
+.sticker{position:absolute;bottom:14px;left:18px;width:84px;height:84px;border-radius:50%;background:var(--parch1);border:4px solid var(--goldline);
+  display:flex;align-items:center;justify-content:center;font-size:48px;box-shadow:0 6px 16px rgba(0,0,0,.4);animation:pop .6s .4s both}
+.guide{display:flex;gap:12px;align-items:flex-end;margin:-46px 0 14px;position:relative}
+.guide.flat{margin-top:0}
+.avatar{flex:none;width:86px;height:86px;border-radius:50%;border:4px solid var(--goldline);background:#fff;box-shadow:0 6px 14px rgba(0,0,0,.3);overflow:hidden}
+.avatar svg{width:100%;height:100%;display:block}
+.guide-name{background:var(--accent);color:#fff;font-weight:800;font-size:16px;border-radius:999px;padding:3px 14px;margin-bottom:6px}
+.story{font-size:32px;line-height:1.85;font-weight:600;color:var(--ink)}
 .story p{margin:0 0 6px;opacity:0;transform:translateY(8px);animation:in .45s forwards}
 @keyframes in{to{opacity:1;transform:none}}
-.question{font-size:28px;line-height:1.8;font-weight:800;margin-bottom:18px}
+.question{font-size:28px;line-height:1.75;font-weight:800;margin-bottom:18px;color:var(--ink)}
 .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
-.btn{border-radius:20px;padding:16px 28px;font-size:26px;font-weight:800;color:#fff;background:linear-gradient(var(--accent),#4834d4);box-shadow:0 6px 0 #30229c;transition:transform .1s}
-.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #30229c}
-.btn.go{background:linear-gradient(#55efc4,#00b894);box-shadow:0 6px 0 #00876a}
-.btn.gold{background:linear-gradient(var(--gold),var(--gold2));box-shadow:0 6px 0 #b86b10}
-.btn.ghost{background:#efe8ff;color:var(--accent);box-shadow:0 6px 0 #cfc2ff;font-size:20px;padding:12px 18px}
+.btn{border-radius:18px;padding:15px 28px;font-size:26px;font-weight:800;color:#fff;background:linear-gradient(#7b61ff,#4b31c9);box-shadow:0 6px 0 #2e1d8a,0 8px 18px rgba(0,0,0,.25);transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #2e1d8a}
+.btn.go{background:linear-gradient(#3ddc84,#16a36a);box-shadow:0 6px 0 #0d6e47,0 8px 18px rgba(0,0,0,.25)}
+.btn.gold{background:linear-gradient(#f6d27a,#d89f2c);color:#3a2614;box-shadow:0 6px 0 #8a5d12,0 8px 18px rgba(0,0,0,.25)}
+.btn.ghost{background:rgba(91,63,209,.1);color:var(--accent);box-shadow:0 4px 0 rgba(91,63,209,.25);font-size:20px;padding:11px 18px;border:2px solid rgba(91,63,209,.25)}
 .btn:disabled{opacity:.45}
 .options{display:grid;gap:14px}
-.opt{text-align:right;background:#fff;border:3px solid #e3dbff;border-radius:20px;padding:18px 22px;font-size:28px;font-weight:600;color:var(--ink);box-shadow:0 5px 0 #e3dbff}
+.opt{text-align:right;background:#fffdf6;border:3px solid #e4cf9a;border-radius:18px;padding:16px 22px;font-size:28px;font-weight:600;color:var(--ink);box-shadow:0 5px 0 #d9bf82}
 .opt:active{transform:translateY(3px)}
+.opt.right{border-color:var(--ok);background:#e6f9ee;box-shadow:0 5px 0 var(--ok)}
+.opt.wrong{border-color:var(--bad);background:#fdeeee;box-shadow:0 5px 0 var(--bad);opacity:.6}
 .options.tf{grid-template-columns:1fr 1fr}
 .options.tf .opt{text-align:center;font-size:30px;font-weight:800}
-.pic{font-size:64px;text-align:center;letter-spacing:6px;margin:-6px 0 8px;animation:pop .5s}
-.opt.right{border-color:var(--ok);background:#e8fff1;box-shadow:0 5px 0 var(--ok)}
-.opt.wrong{border-color:var(--bad);background:#fff0f0;box-shadow:0 5px 0 var(--bad);opacity:.6}
 .shake{animation:shake .4s}
 @keyframes shake{25%{transform:translateX(8px)}50%{transform:translateX(-8px)}75%{transform:translateX(4px)}}
 .words{font-size:34px;line-height:2.2;font-weight:600}
-.w{display:inline-block;padding:0 8px;border-radius:12px;margin:2px;cursor:pointer;border-bottom:3px dashed #d6ccff}
-.w.right{background:#c8f7dc;border-color:var(--ok)}
-.w.wrong{background:#ffd9d9}
+.w{display:inline-block;padding:0 8px;border-radius:12px;margin:2px;cursor:pointer;border-bottom:3px dashed #d4b46a}
+.w.right{background:#c8f2d8;border-color:var(--ok)}
+.w.wrong{background:#f9d5d3}
 .chips{display:flex;flex-wrap:wrap;gap:10px;min-height:70px}
-.chip{background:#fff;border:3px solid #e3dbff;border-radius:16px;padding:10px 18px;font-size:28px;font-weight:600;box-shadow:0 4px 0 #e3dbff;color:var(--ink)}
-.slot{border:3px dashed #c9b8ff;border-radius:18px;padding:10px;background:#f7f3ff;margin-bottom:14px}
+.chip{background:#fffdf6;border:3px solid #e4cf9a;border-radius:14px;padding:9px 18px;font-size:28px;font-weight:600;box-shadow:0 4px 0 #d9bf82;color:var(--ink)}
+.slot{border:3px dashed #d4b46a;border-radius:18px;padding:10px;background:rgba(255,255,255,.5);margin-bottom:14px}
 .numpad{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:520px}
-.numpad button{font-size:30px;font-weight:800;border-radius:16px;padding:14px 0;background:#fff;border:3px solid #e3dbff;box-shadow:0 4px 0 #e3dbff;color:var(--ink)}
-.numdisplay{font-size:48px;font-weight:800;min-width:140px;text-align:center;background:#f7f3ff;border:3px dashed #c9b8ff;border-radius:18px;padding:6px 20px;display:inline-block;margin-bottom:14px;min-height:80px}
-textarea,input[type=text],input[type=number],input[type=password]{width:100%;font-family:inherit;font-size:28px;border:3px solid #d6ccff;border-radius:18px;padding:14px;color:var(--ink);background:#fff;user-select:text}
-textarea{min-height:150px;resize:vertical;line-height:1.6}
-.meter{height:16px;border-radius:8px;background:#eee;overflow:hidden;margin:10px 0 4px}
+.numpad button{font-size:30px;font-weight:800;border-radius:14px;padding:13px 0;background:#fffdf6;border:3px solid #e4cf9a;box-shadow:0 4px 0 #d9bf82;color:var(--ink)}
+.numdisplay{font-size:48px;font-weight:800;min-width:140px;text-align:center;background:rgba(255,255,255,.6);border:3px dashed #d4b46a;border-radius:18px;padding:6px 20px;display:inline-block;margin-bottom:14px;min-height:80px}
+textarea,input[type=text],input[type=number],input[type=password]{width:100%;font-family:inherit;font-size:28px;border:3px solid #e4cf9a;border-radius:16px;padding:14px;color:var(--ink);background:#fffdf6;user-select:text}
+textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repeating-linear-gradient(transparent 0 44px,#ecdcb4 44px 46px);background-attachment:local}
+.meter{height:16px;border-radius:8px;background:rgba(0,0,0,.08);overflow:hidden;margin:10px 0 4px}
 .meter i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--ok));width:0;transition:width .3s}
 .meter-label{font-size:18px;color:var(--muted)}
-.hint{margin-top:16px;background:#fff7e0;border-radius:16px;padding:12px 16px;font-size:24px;border-right:6px solid var(--gold)}
+.hint{margin-top:16px;background:#fff3cf;border-radius:14px;padding:12px 16px;font-size:24px;border-right:6px solid var(--gold2)}
 .feedback{font-size:26px;font-weight:800;margin-top:12px;min-height:36px}
-
-/* overlay */
-#overlay{position:fixed;inset:0;background:rgba(10,5,30,.72);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
-#overlay .panel{max-width:620px;width:100%;text-align:center;max-height:92vh;overflow:auto}
-.celebrate-emoji{font-size:90px;animation:pop .6s}
-@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
-.stars-big{font-size:56px;letter-spacing:8px}
-.coinfly{position:fixed;font-size:34px;pointer-events:none;z-index:60;animation:fly 1s forwards;font-weight:800;color:var(--gold)}
-@keyframes fly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-140px) scale(1.4)}}
-.confetti{position:fixed;top:-40px;font-size:30px;pointer-events:none;z-index:55;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
-.chest{font-size:110px;cursor:pointer;display:inline-block;animation:wobble 1s infinite}
-@keyframes wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
-
-/* cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
-.ccard{background:linear-gradient(160deg,#fff,#fff3c4);border-radius:22px;padding:18px;text-align:center;box-shadow:0 6px 0 var(--gold2);min-height:220px}
-.ccard .e{font-size:64px}
-.ccard b{display:block;font-size:22px;margin:6px 0}
-.ccard small{font-size:16px;color:var(--muted);line-height:1.5;display:block}
-.ccard.off{background:#5b4b80;box-shadow:0 6px 0 #3b2e5a;color:#cfc2ff}
-.ccard.off .e{filter:brightness(0) invert(.4)}
-
-/* parent */
-.ptable{width:100%;border-collapse:collapse;font-size:20px;margin:10px 0 20px}
-.ptable td{padding:8px;border-bottom:1px solid #eee}
 .small{font-size:18px;color:var(--muted)}
+
+/* ---------- overlay & celebrations ---------- */
+#overlay{position:fixed;inset:0;background:rgba(8,5,26,.78);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+#overlay .panel{max-width:620px;width:100%;text-align:center;max-height:92vh;overflow:auto}
+.restored{width:230px;height:115px;margin:0 auto 6px;border-radius:16px;overflow:hidden;border:4px solid var(--gold);box-shadow:0 0 0 3px #7a5414,0 0 40px rgba(240,195,90,.8);animation:pop .7s}
+.restored svg{width:100%;height:100%;display:block}
+.stars-big{font-size:46px;letter-spacing:8px}
+.wincard{display:flex;gap:14px;align-items:center;text-align:right;max-width:420px;margin:10px auto 0;padding:12px 14px;min-height:0}
+.wincard .e{flex:none;width:70px;height:70px;font-size:38px;margin:0}
+.wincard b{margin:0 0 4px}
+.stars-big span{display:inline-block;animation:pop .5s both}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.coinfly{position:fixed;font-size:32px;pointer-events:none;z-index:60;animation:fly 1s forwards;font-weight:800;color:var(--gold);text-shadow:0 2px 0 #7a5414}
+@keyframes fly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-140px) scale(1.4)}}
+.confetti{position:fixed;top:-40px;font-size:28px;pointer-events:none;z-index:55;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.chest{width:120px;cursor:pointer;display:inline-block;animation:wobble 1s infinite;background:none;padding:0}
+.chest svg{width:100%;display:block}
+@keyframes wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}
+.ccard{background:linear-gradient(165deg,#fffaf0,#f6e3b4);border:3px solid var(--goldline);border-radius:18px;padding:16px;text-align:center;
+  box-shadow:0 6px 0 #8a5d12,0 10px 24px rgba(0,0,0,.35);min-height:230px;outline:2px solid rgba(212,169,79,.5);outline-offset:-8px}
+.ccard .e{width:88px;height:88px;margin:4px auto 6px;border-radius:50%;background:radial-gradient(#fff,#f3d98f);border:3px solid var(--gold2);display:flex;align-items:center;justify-content:center;font-size:48px}
+.ccard b{display:block;font-family:var(--display);font-size:22px;margin:6px 0;color:var(--ink)}
+.ccard small{font-size:16px;color:var(--muted);line-height:1.5;display:block}
+.ccard.off{background:linear-gradient(165deg,#3a2f66,#261d4d);border-color:#6c5b99;box-shadow:0 6px 0 #1a1238;outline-color:rgba(108,91,153,.5)}
+.ccard.off .e{background:#1c1440;border-color:#6c5b99;filter:grayscale(1) brightness(.35)}
+.ccard.off b,.ccard.off small{color:#a99fd0}
+
+/* ---------- parent ---------- */
+.ptable{width:100%;border-collapse:collapse;font-size:20px;margin:10px 0 20px}
+.ptable td{padding:8px;border-bottom:1px solid #e4cf9a}
 label.field{display:block;font-size:20px;margin:12px 0}
 label.field input{font-size:22px;padding:8px 12px;margin-top:4px}
 
 @media (max-width:600px){
   .story{font-size:26px}.question{font-size:24px}.opt{font-size:23px}.btn{font-size:22px}.words{font-size:28px}
-  .panel{padding:20px}.big-title{font-size:34px}
+  .panel{padding:20px}.scene{margin:-20px -20px 0;height:170px}.big-title{font-size:38px}
+  .avatar{width:70px;height:70px}.sticker{width:64px;height:64px;font-size:36px}
+  #rank{display:none}
 }
 </style>
 </head>
 <body>
 
 <div id="topbar">
-  <button class="iconbtn" id="homeBtn" title="בית">🏠</button>
-  <div class="pill" title="מטבעות">🪙 <span id="coins">0</span></div>
-  <div class="pill" title="ימים ברצף">🔥 <span id="streak">0</span></div>
+  <button class="iconbtn" id="homeBtn" title="בַּיִת">🏠</button>
+  <div class="pill" title="מַטְבְּעוֹת">🪙 <span id="coins">0</span></div>
+  <div class="pill" title="יָמִים בָּרֶצֶף">🔥 <span id="streak">0</span></div>
   <div id="rank"></div>
   <div class="spacer"></div>
-  <button class="iconbtn" id="nikudBtn" title="ניקוד">אָ</button>
-  <button class="iconbtn" id="cardsBtn" title="האוסף שלי">🃏</button>
-  <button class="iconbtn" id="parentBtn" title="אזור הורים">⚙️</button>
+  <button class="iconbtn" id="cardsBtn" title="הָאֹסֶף שֶׁלִּי">🃏</button>
+  <button class="iconbtn" id="parentBtn" title="אֵזוֹר הוֹרִים">⚙️</button>
 </div>
 
 <main id="app"></main>
@@ -165,68 +203,69 @@ label.field input{font-size:22px;padding:8px 12px;margin-top:4px}
    תוכן המשחק
    כאן נמצאים כל הסיפורים והמשימות. כדי להוסיף שלב – מעתיקים שלב קיים
    ומשנים את הטקסטים. {name} מוחלף בשם של הילד.
+   scene = האיור של השלב (library, syracuse, bath, venice, desert, palace, prison)
+   בכל צעד אפשר לשנות: scene:'...', night:true (לילה), eraser:true (המוחק מופיע), pic:'💴' (מדבקה)
    ===================================================================== */
-const GUIDE = { name: 'יוּבַל', emoji: '🧑‍🏫' };
+const GUIDE = { name: 'יוּבַל' };
 
 const CARDS = {
-  book:       { e:'📖', name:'סֵפֶר הַזְּמַן', fact:'כל הסיפורים של העולם גרים בתוכו. המוחק רוצה למחוק אותם.' },
-  crown:      { e:'👑', name:'כֶּתֶר הַזָּהָב', fact:'מלך סירקוזה חשד שהצורף רימה אותו.' },
-  archimedes: { e:'🛁', name:'אַרְכִימֶדֶס', fact:'מדען וממציא מסירקוזה. גילה איך מים עוזרים למדוד חפצים, והמציא מכונות ענק להגן על העיר.' },
-  venice:     { e:'🛶', name:'וֶנֶצְיָה', fact:'עיר שבנויה על המים. במקום רחובות יש תעלות, ובמקום מכוניות – סירות.' },
-  desert:     { e:'🏜️', name:'הַמִּדְבָּר הַגָּדוֹל', fact:'מרקו סיפר שבמדבר יש קולות שקוראים לנוסעים בשמם. לכן תלו פעמונים על הגמלים.' },
-  kublai:     { e:'🐉', name:'קוּבְּלַאי חָאן', fact:'הקיסר המונגולי של סין. היה לו דואר מהיר עם סוסים, וכסף שעשוי מנייר.' },
-  marco:      { e:'🐫', name:'מַרְקוֹ פּוֹלוֹ', fact:'יצא מוונציה ונסע 24 שנים עד סין ובחזרה. 200 שנה אחר כך, קולומבוס קרא את הספר שלו וחלם להגיע לסין בעצמו.' },
-  leonardo:   { e:'🎨', name:'לֵאוֹנַרְדוֹ דָּה וִינְצִ\'י', fact:'צייר את המונה ליזה ושרטט מכונות מעופפות 400 שנה לפני המטוס.' },
-  harriet:    { e:'⭐', name:'הַרְיֶט טַבְּמַן', fact:'ברחה מעבדות והובילה עשרות אנשים לחופש בדרך סודית.' },
+  book:       { e:'📖', name:'סֵפֶר הַזְּמַן', fact:'כָּל הַסִּפּוּרִים שֶׁל הָעוֹלָם גָּרִים בְּתוֹכוֹ. הַמּוֹחֵק רוֹצֶה לִמְחֹק אוֹתָם.' },
+  crown:      { e:'👑', name:'כֶּתֶר הַזָּהָב', fact:'מֶלֶךְ סִירָקוּזָה חָשַׁד שֶׁהַצּוֹרֵף רִמָּה אוֹתוֹ.' },
+  archimedes: { e:'🛁', name:'אַרְכִימֶדֶס', fact:'מַדְעָן וּמַמְצִיא מִסִּירָקוּזָה. גִּלָּה אֵיךְ מַיִם עוֹזְרִים לִמְדֹּד חֲפָצִים, וְהִמְצִיא מְכוֹנוֹת עֲנָק לְהָגֵן עַל הָעִיר.' },
+  venice:     { e:'🛶', name:'וֶנֶצְיָה', fact:'עִיר שֶׁבְּנוּיָה עַל הַמַּיִם. בִּמְקוֹם רְחוֹבוֹת יֵשׁ תְּעָלוֹת, וּבִמְקוֹם מְכוֹנִיּוֹת – סִירוֹת.' },
+  desert:     { e:'🏜️', name:'הַמִּדְבָּר הַגָּדוֹל', fact:'מַרְקוֹ סִפֵּר שֶׁבַּמִּדְבָּר יֵשׁ קוֹלוֹת שֶׁקּוֹרְאִים לַנּוֹסְעִים בַּשֵּׁם. לָכֵן תָּלוּ פַּעֲמוֹנִים עַל הַגְּמַלִּים.' },
+  kublai:     { e:'🐉', name:'קוּבְּלַאי חָאן', fact:'הַקֵּיסָר הַמּוֹנְגּוֹלִי שֶׁל סִין. הָיָה לוֹ דֹּאַר מָהִיר עִם סוּסִים, וְכֶסֶף שֶׁעָשׂוּי מִנְּיָר.' },
+  marco:      { e:'🐫', name:'מַרְקוֹ פּוֹלוֹ', fact:'יָצָא מִוֶּנֶצְיָה וְנָסַע 24 שָׁנִים עַד סִין וּבַחֲזָרָה. 200 שָׁנָה אַחַר כָּךְ, קוֹלוּמְבּוּס קָרָא אֶת הַסֵּפֶר שֶׁלּוֹ וְחָלַם לְהַגִּיעַ לְסִין בְּעַצְמוֹ.' },
+  leonardo:   { e:'🎨', name:'לֵאוֹנַרְדוֹ דָּה וִינְצִ\'י', fact:'צִיֵּר אֶת הַמּוֹנָה לִיזָה, וְשִׂרְטֵט מְכוֹנוֹת מְעוֹפְפוֹת 400 שָׁנָה לִפְנֵי הַמָּטוֹס.' },
+  harriet:    { e:'⭐', name:'הַרְיֶט טַבְּמַן', fact:'בָּרְחָה מֵעַבְדוּת, וְהוֹבִילָה עֶשְׂרוֹת אֲנָשִׁים לַחֹפֶשׁ בְּדֶרֶךְ סוֹדִית.' },
 };
 
 const WORLDS = [
-  { id:'history', title:'דְּמֻיּוֹת בַּהִיסְטוֹרְיָה', emoji:'🏛️', cls:'w-hist', open:true,
-    desc:'ממציאים, מגלי ארצות ומהפכנים' },
-  { id:'adventure', title:'הַרְפַּתְקָאוֹת', emoji:'🗺️', cls:'w-adv', open:false,
-    desc:'איים, אוצרות ומסעות', lockText:'נפתח בקרוב' },
-  { id:'saba', title:'הַסִּפּוּרִים שֶׁל סַבָּא יַעֲקֹב', emoji:'🇮🇱', cls:'w-saba', open:false,
-    desc:'איך הקמנו את מדינת ישראל', lockText:'אבא כותב את הדפים האלה' },
+  { id:'history', title:'דְּמֻיּוֹת בַּהִיסְטוֹרְיָה', open:true, desc:'מַמְצִיאִים, מְגַלֵּי אֲרָצוֹת וּמַהְפְּכָנִים' },
+  { id:'adventure', title:'הַרְפַּתְקָאוֹת', open:false, desc:'אִיִּים, אוֹצָרוֹת וּמַסָּעוֹת', lockText:'נִפְתָּח בְּקָרוֹב' },
+  { id:'saba', title:'הַסִּפּוּרִים שֶׁל סַבָּא יַעֲקֹב', open:false, desc:'אֵיךְ הֵקַמְנוּ אֶת מְדִינַת יִשְׂרָאֵל', lockText:'אַבָּא כּוֹתֵב אֶת הַדַּפִּים הָאֵלֶּה' },
 ];
 
 const LEVELS = {
   history: [
-  { id:'p1', title:'הַסֵּפֶר שֶׁנִּמְחַק', emoji:'📖', card:'book',
+  /* ---------- פְּתִיחָה ---------- */
+  { id:'p1', chapter:'פְּתִיחָה', title:'הַסֵּפֶר שֶׁנִּמְחַק', scene:'library', card:'book',
     end:'וְאוּלַי נְגַלֶּה מִי הַמּוֹחֵק בֶּאֱמֶת...',
     steps:[
-      { t:'read', lines:['שָׁלוֹם! אֲנִי יוּבַל.','אֲנִי אוֹהֵב סִפּוּרִים עַל הִיסְטוֹרְיָה.','וְזֶה הַסֵּפֶר הֲכִי חָשׁוּב שֶׁלִּי: סֵפֶר הַזְּמַן. 📖'] },
+      { t:'read', lines:['שָׁלוֹם! אֲנִי יוּבַל.','אֲנִי אוֹהֵב סִפּוּרִים עַל הִיסְטוֹרְיָה.','וְזֶה הַסֵּפֶר הֲכִי חָשׁוּב שֶׁלִּי: סֵפֶר הַזְּמַן.'] },
       { t:'read', lines:['בְּתוֹךְ הַסֵּפֶר גָּרִים כָּל הַגִּבּוֹרִים שֶׁל הָעוֹלָם.','מַמְצִיאִים, מְלָכִים וּמְגַלֵּי אֲרָצוֹת.','אֲבָל אֶתְמוֹל בַּלַּיְלָה קָרָה מַשֶּׁהוּ נוֹרָא...'] },
-      { t:'read', lines:['מִישֶׁהוּ נִכְנַס לַסִּפְרִיָּה שֶׁלִּי.','הוּא לָבַשׁ גְּלִימָה שְׁחוֹרָה. 🦹','וְהוּא מָחַק דַּפִּים מֵהַסֵּפֶר!'] },
+      { t:'read', eraser:true, lines:['מִישֶׁהוּ נִכְנַס לַסִּפְרִיָּה שֶׁלִּי.','הוּא לָבַשׁ גְּלִימָה שְׁחוֹרָה.','וְהוּא מָחַק דַּפִּים מֵהַסֵּפֶר!'] },
       { t:'choice', q:'מָה עָשָׂה הָאִישׁ בַּגְּלִימָה הַשְּׁחוֹרָה?',
         options:['מָחַק דַּפִּים מֵהַסֵּפֶר','אָפָה עוּגָה','שָׁתָה מַיִם'], answer:0,
         hint:'תִּקְרָא שׁוּב אֶת הַשּׁוּרָה הָאַחֲרוֹנָה בַּסִּפּוּר.' },
-      { t:'read', lines:['קוֹרְאִים לוֹ: הַמּוֹחֵק.','כְּשֶׁדַּף נִמְחָק – כֻּלָּם שׁוֹכְחִים אֶת הַגִּבּוֹר שֶׁלּוֹ.','אֲנִי צָרִיךְ עֶזְרָה. אֲנִי צָרִיךְ שׁוֹמֵר זְמַן חָדָשׁ!'] },
+      { t:'read', eraser:true, lines:['קוֹרְאִים לוֹ: הַמּוֹחֵק.','כְּשֶׁדַּף נִמְחָק – כֻּלָּם שׁוֹכְחִים אֶת הַגִּבּוֹר שֶׁלּוֹ.','אֲנִי צָרִיךְ עֶזְרָה. אֲנִי צָרִיךְ שׁוֹמֵר זְמַן חָדָשׁ!'] },
       { t:'find', q:'גַּע בַּמִּלָּה שֶׁהִיא הַשֵּׁם שֶׁל הָאִישׁ הָרַע:',
         text:'קוֹרְאִים לוֹ הַמּוֹחֵק, וְהוּא בּוֹרֵחַ בַּלַּיְלָה.', answer:'הַמּוֹחֵק',
         hint:'הַשֵּׁם מַתְחִיל בָּאוֹת ה.' },
       { t:'name', q:'שׁוֹמֵר זְמַן חָדָשׁ, אֵיךְ קוֹרְאִים לְךָ? כְּתֹב אֶת הַשֵּׁם שֶׁלְּךָ:' },
-      { t:'read', lines:['{name}, בָּרוּךְ הַבָּא לְשׁוֹמְרֵי הַזְּמַן! 🎉','בְּיַחַד נַחְזִיר אֶת הַדַּפִּים הַמְּחוּקִים לַסֵּפֶר.'] },
+      { t:'read', pic:'🎉', lines:['{name}, בָּרוּךְ הַבָּא לְשׁוֹמְרֵי הַזְּמַן!','בְּיַחַד נַחְזִיר אֶת הַדַּפִּים הַמְּחוּקִים לַסֵּפֶר.'] },
     ]},
 
-  { id:'a1', title:'הַכֶּתֶר שֶׁל הַמֶּלֶךְ', emoji:'👑', card:'crown',
+  /* ---------- אַרְכִימֶדֶס ---------- */
+  { id:'a1', chapter:'אַרְכִימֶדֶס', title:'הַכֶּתֶר שֶׁל הַמֶּלֶךְ', scene:'syracuse', card:'crown',
     end:'מָה יִקְרֶה בָּאַמְבַּטְיָה? נְגַלֶּה בַּשָּׁלָב הַבָּא!',
     steps:[
-      { t:'read', lines:['הַדַּף הָרִאשׁוֹן שֶׁנִּמְחַק הוּא שֶׁל אַרְכִימֶדֶס.','קְפֹץ אִתִּי לְתוֹךְ הַסֵּפֶר! 🌀'] },
+      { t:'read', scene:'library', lines:['הַדַּף הָרִאשׁוֹן שֶׁנִּמְחַק הוּא שֶׁל אַרְכִימֶדֶס.','קְפֹץ אִתִּי לְתוֹךְ הַסֵּפֶר! 🌀'] },
       { t:'read', lines:['אֲנַחְנוּ בָּעִיר סִירָקוּזָה, לִפְנֵי יוֹתֵר מֵאַלְפַּיִם שָׁנָה.','פֹּה גָּר אַרְכִימֶדֶס.','הוּא מַמְצִיא גָּאוֹן, וְהוּא אוֹהֵב חֶשְׁבּוֹן.'] },
       { t:'choice', q:'מִי זֶה אַרְכִימֶדֶס?', options:['מַמְצִיא גָּאוֹן','שׁוֹדֵד יָם','מֶלֶךְ'], answer:0,
         hint:'חַפֵּשׂ בַּסִּפּוּר אֶת הַמִּלָּה "מַמְצִיא".' },
-      { t:'read', lines:['הַמֶּלֶךְ שֶׁל סִירָקוּזָה הִזְמִין כֶּתֶר מִזָּהָב. 👑','אֲבָל הַמֶּלֶךְ חָשַׁד:','אוּלַי הַצּוֹרֵף רִמָּה, וְשָׂם בַּכֶּתֶר גַּם כֶּסֶף זוֹל?'] },
+      { t:'read', pic:'👑', lines:['הַמֶּלֶךְ שֶׁל סִירָקוּזָה הִזְמִין כֶּתֶר מִזָּהָב.','אֲבָל הַמֶּלֶךְ חָשַׁד:','אוּלַי הַצּוֹרֵף רִמָּה, וְשָׂם בַּכֶּתֶר גַּם כֶּסֶף זוֹל?'] },
       { t:'choice', q:'מִמָּה הָיָה צָרִיךְ לִהְיוֹת הַכֶּתֶר?', options:['מֵעֵץ','מִזָּהָב','מִנְּיָר'], answer:1,
         hint:'מָה הַמֶּלֶךְ הִזְמִין? כֶּתֶר מִ...' },
-      { t:'read', lines:['הַמֶּלֶךְ קָרָא לְאַרְכִימֶדֶס.','"גַּלֵּה אֶת הָאֱמֶת," אָמַר הַמֶּלֶךְ.','"אֲבָל אָסוּר לְךָ לִשְׁבֹּר אֶת הַכֶּתֶר!"'] },
+      { t:'read', pic:'🤴', lines:['הַמֶּלֶךְ קָרָא לְאַרְכִימֶדֶס.','"גַּלֵּה אֶת הָאֱמֶת," אָמַר הַמֶּלֶךְ.','"אֲבָל אָסוּר לְךָ לִשְׁבֹּר אֶת הַכֶּתֶר!"'] },
       { t:'find', q:'גַּע בַּמִּלָּה שֶׁאוֹמֶרֶת מָה אָסוּר לַעֲשׂוֹת לַכֶּתֶר:',
         text:'אָסוּר לְךָ לִשְׁבֹּר אֶת הַכֶּתֶר!', answer:'לִשְׁבֹּר', hint:'זֹאת הַמִּלָּה הַשְּׁלִישִׁית.' },
       { t:'number', q:'הַמֶּלֶךְ נָתַן לַצּוֹרֵף 10 גּוּשֵׁי זָהָב. בַּכֶּתֶר יֵשׁ רַק 7 גּוּשֵׁי זָהָב. כַּמָּה גּוּשִׁים חֲסֵרִים?',
         answer:3, hint:'10 פָּחוֹת 7 = ?' },
-      { t:'read', lines:['אַרְכִימֶדֶס חָשַׁב יוֹם שָׁלֵם... וְלֹא מָצָא פִּתְרוֹן.','בָּעֶרֶב הוּא הָיָה עָיֵף מְאוֹד.','אָז הוּא הָלַךְ לְהִתְרַחֵץ בָּאַמְבַּטְיָה... 🛁'] },
+      { t:'read', night:true, pic:'🛁', lines:['אַרְכִימֶדֶס חָשַׁב יוֹם שָׁלֵם... וְלֹא מָצָא פִּתְרוֹן.','בָּעֶרֶב הוּא הָיָה עָיֵף מְאוֹד.','אָז הוּא הָלַךְ לְהִתְרַחֵץ בָּאַמְבַּטְיָה...'] },
     ]},
 
-  { id:'a2', title:'אֶאוּרֵיקָה!', emoji:'🛁', card:'archimedes',
+  { id:'a2', title:'אֶאוּרֵיקָה!', scene:'bath', card:'archimedes',
     end:'הַמּוֹחֵק הָיָה כָּאן! וְהַשְּׁבִיל שֶׁלּוֹ מוֹבִיל אֶל מַרְקוֹ פּוֹלוֹ... 🐫',
     steps:[
       { t:'read', lines:['אַרְכִימֶדֶס נִכְנַס לָאַמְבַּטְיָה הַמְּלֵאָה.','הַמַּיִם עָלוּ... וְגָלְשׁוּ הַחוּצָה! 💦','פִּתְאוֹם הוּא קָפַץ וְצָעַק: "אֶאוּרֵיקָה!"'] },
@@ -235,7 +274,7 @@ const LEVELS = {
       { t:'read', lines:['"אֶאוּרֵיקָה" בְּיוָנִית זֶה: "מָצָאתִי!"','אַרְכִימֶדֶס הֵבִין:','כָּל דָּבָר שֶׁנִּכְנָס לַמַּיִם – דּוֹחֵף אֶת הַמַּיִם לְמַעְלָה.'] },
       { t:'order', q:'סַדֵּר אֶת הַמִּלִּים לְמִשְׁפָּט:', words:['אַרְכִימֶדֶס','צָעַק','מָצָאתִי!'],
         hint:'מִי צָעַק? מַתְחִילִים בּוֹ.' },
-      { t:'read', lines:['הוּא לָקַח גּוּשׁ זָהָב טָהוֹר, כָּבֵד בְּדִיּוּק כְּמוֹ הַכֶּתֶר.','הוּא שָׂם כָּל אֶחָד מֵהֶם בִּקְעָרַת מַיִם.','אִם הַכֶּתֶר מִזָּהָב – הַמַּיִם יַעֲלוּ בְּדִיּוּק אוֹתוֹ דָּבָר.'] },
+      { t:'read', pic:'⚖️', lines:['הוּא לָקַח גּוּשׁ זָהָב טָהוֹר, כָּבֵד בְּדִיּוּק כְּמוֹ הַכֶּתֶר.','הוּא שָׂם כָּל אֶחָד מֵהֶם בִּקְעָרַת מַיִם.','אִם הַכֶּתֶר מִזָּהָב – הַמַּיִם יַעֲלוּ בְּדִיּוּק אוֹתוֹ דָּבָר.'] },
       { t:'number', q:'הַזָּהָב הֶעֱלָה אֶת הַמַּיִם 6 סֶנְטִימֶטְרִים. הַכֶּתֶר הֶעֱלָה אֶת הַמַּיִם 9 סֶנְטִימֶטְרִים. בְּכַמָּה סֶנְטִימֶטְרִים הַכֶּתֶר הֶעֱלָה יוֹתֵר?',
         answer:3, hint:'9 פָּחוֹת 6 = ?' },
       { t:'choice', q:'מָה זֶה אוֹמֵר עַל הַכֶּתֶר?',
@@ -244,18 +283,18 @@ const LEVELS = {
       { t:'write', q:'אַתָּה הָעוֹזֵר שֶׁל אַרְכִימֶדֶס. כְּתֹב מִכְתָּב לַמֶּלֶךְ: מָה גִּלִּיתָ עַל הַכֶּתֶר, וְאֵיךְ?',
         starters:['הַמֶּלֶךְ הַיָּקָר,','גִּלִּינוּ שֶׁהַכֶּתֶר','בִּגְלַל שֶׁהַמַּיִם','הַצּוֹרֵף'], minWords:6,
         keywords:['מים','זהב','רימה','צורף','כסף','אמבטיה'] },
-      { t:'read', lines:['כָּל הַכָּבוֹד, {name}!','הַמֶּלֶךְ קָרָא אֶת הַמִּכְתָּב, וְהַצּוֹרֵף הָרַמַּאי נִתְפַּס.','וְהַדַּף שֶׁל אַרְכִימֶדֶס חָזַר לַסֵּפֶר! ✨'] },
-      { t:'read', lines:['רֶגַע... מָה זֶה?','בְּפִנַּת הַדַּף יֵשׁ טְבִיעַת אֶצְבַּע שֶׁל דְּיוֹ שָׁחֹר. 🖤'] },
+      { t:'read', scene:'syracuse', pic:'✨', lines:['כָּל הַכָּבוֹד, {name}!','הַמֶּלֶךְ קָרָא אֶת הַמִּכְתָּב, וְהַצּוֹרֵף הָרַמַּאי נִתְפַּס.','וְהַדַּף שֶׁל אַרְכִימֶדֶס חָזַר לַסֵּפֶר!'] },
+      { t:'read', scene:'library', pic:'🖤', lines:['רֶגַע... מָה זֶה?','בְּפִנַּת הַדַּף יֵשׁ טְבִיעַת אֶצְבַּע שֶׁל דְּיוֹ שָׁחֹר.'] },
     ]},
 
   /* ---------- מַרְקוֹ פּוֹלוֹ ---------- */
-  { id:'m1', title:'יוֹצְאִים לַדֶּרֶךְ', emoji:'⛵', card:'venice',
+  { id:'m1', chapter:'מַרְקוֹ פּוֹלוֹ', title:'יוֹצְאִים לַדֶּרֶךְ', scene:'venice', card:'venice',
     end:'מָה הַמּוֹחֵק רוֹצֶה מִמַּרְקוֹ? נְגַלֶּה בַּמִּדְבָּר... 🏜️',
     steps:[
-      { t:'read', lines:['הַשְּׁבִיל שֶׁל הַמּוֹחֵק הוֹבִיל אוֹתָנוּ לְדַף חָדָשׁ.','עַל הַדַּף כָּתוּב: מַרְקוֹ פּוֹלוֹ.','קְפֹץ אִתִּי! 🌀'] },
-      { t:'read', pic:'🏙️ ⛵ 🌊', lines:['אֲנַחְנוּ בָּעִיר וֶנֶצְיָה, לִפְנֵי 750 שָׁנָה.','בְּוֶנֶצְיָה אֵין רְחוֹבוֹת שֶׁל אֲדָמָה.','יֵשׁ תְּעָלוֹת שֶׁל מַיִם, וְכֻלָּם שָׁטִים בְּסִירוֹת.'] },
+      { t:'read', scene:'library', lines:['הַשְּׁבִיל שֶׁל הַמּוֹחֵק הוֹבִיל אוֹתָנוּ לְדַף חָדָשׁ.','עַל הַדַּף כָּתוּב: מַרְקוֹ פּוֹלוֹ.','קְפֹץ אִתִּי! 🌀'] },
+      { t:'read', lines:['אֲנַחְנוּ בָּעִיר וֶנֶצְיָה, לִפְנֵי 750 שָׁנָה.','בְּוֶנֶצְיָה אֵין רְחוֹבוֹת שֶׁל אֲדָמָה.','יֵשׁ תְּעָלוֹת שֶׁל מַיִם, וְכֻלָּם שָׁטִים בְּסִירוֹת.'] },
       { t:'tf', q:'בְּוֶנֶצְיָה נוֹסְעִים בְּסִירוֹת.', answer:true, hint:'תִּקְרָא שׁוּב אֶת הַשּׁוּרָה הָאַחֲרוֹנָה.' },
-      { t:'read', lines:['פֹּה גָּר נַעַר בֶּן 17. קוֹרְאִים לוֹ מַרְקוֹ.','הָאַבָּא שֶׁלּוֹ וְהַדּוֹד שֶׁלּוֹ הֵם סוֹחֲרִים.','הֵם כְּבָר הָיוּ בְּאֶרֶץ רְחוֹקָה מְאוֹד: סִין.'] },
+      { t:'read', pic:'👦', lines:['פֹּה גָּר נַעַר בֶּן 17. קוֹרְאִים לוֹ מַרְקוֹ.','הָאַבָּא שֶׁלּוֹ וְהַדּוֹד שֶׁלּוֹ הֵם סוֹחֲרִים.','הֵם כְּבָר הָיוּ בְּאֶרֶץ רְחוֹקָה מְאוֹד: סִין.'] },
       { t:'choice', q:'מָה הָעֲבוֹדָה שֶׁל הָאַבָּא שֶׁל מַרְקוֹ?', options:['מַלָּח','סוֹחֵר','מֶלֶךְ'], answer:1,
         hint:'חַפֵּשׂ בַּסִּפּוּר אֶת הַמִּלָּה "סוֹחֲרִים".' },
       { t:'read', pic:'🎒', lines:['הַקֵּיסָר שֶׁל סִין בִּקֵּשׁ מֵהֶם לַחְזֹר אֵלָיו.','וְהַפַּעַם – מַרְקוֹ מִצְטָרֵף!','הוּא יוֹצֵא לְמַסָּע אָרֹךְ, לַצַּד הַשֵּׁנִי שֶׁל הָעוֹלָם.'] },
@@ -266,65 +305,65 @@ const LEVELS = {
       { t:'write', q:'מַרְקוֹ אוֹרֵז תִּיק לַמַּסָּע. מָה הוּא צָרִיךְ לָקַחַת? כְּתֹב לוֹ רְשִׁימָה וְתַסְבִּיר לָמָּה.',
         starters:['מַרְקוֹ, תִּקַּח','כִּי בַּדֶּרֶךְ','וְגַם'], minWords:5,
         keywords:['מים','אוכל','מפה','בגדים','שמיכה','כסף','אוהל','גמל','סכין'] },
-      { t:'read', lines:['בַּלַּיְלָה הָאַחֲרוֹן בְּוֶנֶצְיָה, מַרְקוֹ לֹא הִצְלִיחַ לִישֹׁן.','פִּתְאוֹם הוּא רָאָה צֵל בַּחַלּוֹן... צֵל עִם גְּלִימָה שְׁחוֹרָה. 🦹','הַמּוֹחֵק עוֹקֵב אַחֲרָיו!'] },
+      { t:'read', night:true, eraser:true, lines:['בַּלַּיְלָה הָאַחֲרוֹן בְּוֶנֶצְיָה, מַרְקוֹ לֹא הִצְלִיחַ לִישֹׁן.','פִּתְאוֹם הוּא רָאָה צֵל עַל הַגֶּשֶׁר... צֵל עִם גְּלִימָה שְׁחוֹרָה.','הַמּוֹחֵק עוֹקֵב אַחֲרָיו!'] },
     ]},
 
-  { id:'m2', title:'הַקּוֹלוֹת בַּמִּדְבָּר', emoji:'🏜️', card:'desert',
+  { id:'m2', title:'הַקּוֹלוֹת בַּמִּדְבָּר', scene:'desert', card:'desert',
     end:'הַמּוֹחֵק נִסָּה לְהַעֲלִים אֶת מַרְקוֹ בַּמִּדְבָּר – וְלֹא הִצְלִיחַ! עַכְשָׁו מַמְשִׁיכִים לְסִין... 🏯',
     steps:[
-      { t:'read', pic:'🏜️ 🐫🐫🐫 ☀️', lines:['אַחֲרֵי שְׁנָתַיִם שֶׁל מַסָּע, הַשַּׁיָּרָה מַגִּיעָה לְמִדְבָּר עֲנָק.','אֵין פֹּה עֵצִים. אֵין פֹּה בָּתִּים.','יֵשׁ רַק חוֹל, חוֹל, וְעוֹד חוֹל.'] },
+      { t:'read', lines:['אַחֲרֵי שְׁנָתַיִם שֶׁל מַסָּע, הַשַּׁיָּרָה מַגִּיעָה לְמִדְבָּר עֲנָק.','אֵין פֹּה עֵצִים. אֵין פֹּה בָּתִּים.','יֵשׁ רַק חוֹל, חוֹל, וְעוֹד חוֹל.'] },
       { t:'choice', q:'מָה יֵשׁ בַּמִּדְבָּר?', options:['הַרְבֵּה עֵצִים','רַק חוֹל','בָּתִּים גְּדוֹלִים'], answer:1,
         hint:'תִּקְרָא שׁוּב אֶת הַשּׁוּרָה הָאַחֲרוֹנָה.' },
-      { t:'read', lines:['לַעֲבֹר אֶת הַמִּדְבָּר לוֹקֵחַ חֹדֶשׁ שָׁלֵם – 30 יוֹם.','בַּיּוֹם חַם מְאוֹד, וּבַלַּיְלָה קַר מְאוֹד.','וְצָרִיךְ לָשֵׂאת מַיִם לְכָל הַדֶּרֶךְ. 💧'] },
+      { t:'read', pic:'💧', lines:['לַעֲבֹר אֶת הַמִּדְבָּר לוֹקֵחַ חֹדֶשׁ שָׁלֵם – 30 יוֹם.','בַּיּוֹם חַם מְאוֹד, וּבַלַּיְלָה קַר מְאוֹד.','וְצָרִיךְ לָשֵׂאת מַיִם לְכָל הַדֶּרֶךְ.'] },
       { t:'number', q:'הַשַּׁיָּרָה צְרִיכָה לָלֶכֶת 30 יוֹם. הִיא כְּבָר הָלְכָה 18 יוֹם. כַּמָּה יָמִים נִשְׁאֲרוּ?',
         answer:12, hint:'30 פָּחוֹת 18. אֶפְשָׁר לִסְפֹּר מִ־18 עַד 30.' },
-      { t:'read', pic:'🌙 ✨', lines:['בַּלַּיְלָה, מַרְקוֹ שׁוֹמֵעַ קוֹל:','"מַרְקוֹ... מַרְקוֹ... בּוֹא אֵלַי..."','הַקּוֹל בָּא מִתּוֹךְ הַחֹשֶׁךְ, רָחוֹק מֵהַשַּׁיָּרָה.'] },
-      { t:'read', lines:['מַרְקוֹ כָּתַב שֶׁבַּמִּדְבָּר הַזֶּה יֵשׁ קוֹלוֹת מוּזָרִים.','הֵם קוֹרְאִים לַנּוֹסְעִים בַּשֵּׁם, כְּדֵי לְהַרְחִיק אוֹתָם מֵהַשַּׁיָּרָה.','מִי שֶׁהוֹלֵךְ אַחֲרֵי הַקּוֹל – הוֹלֵךְ לְאִבּוּד!'] },
+      { t:'read', night:true, eraser:true, lines:['בַּלַּיְלָה, מַרְקוֹ שׁוֹמֵעַ קוֹל:','"מַרְקוֹ... מַרְקוֹ... בּוֹא אֵלַי..."','הַקּוֹל בָּא מִתּוֹךְ הַחֹשֶׁךְ, רָחוֹק מֵהַשַּׁיָּרָה.'] },
+      { t:'read', night:true, lines:['מַרְקוֹ כָּתַב שֶׁבַּמִּדְבָּר הַזֶּה יֵשׁ קוֹלוֹת מוּזָרִים.','הֵם קוֹרְאִים לַנּוֹסְעִים בַּשֵּׁם, כְּדֵי לְהַרְחִיק אוֹתָם מֵהַשַּׁיָּרָה.','מִי שֶׁהוֹלֵךְ אַחֲרֵי הַקּוֹל – הוֹלֵךְ לְאִבּוּד!'] },
       { t:'tf', q:'כְּדַאי לָלֶכֶת אַחֲרֵי הַקּוֹל בַּחֹשֶׁךְ.', answer:false,
         hint:'מָה קוֹרֶה לְמִי שֶׁהוֹלֵךְ אַחֲרֵי הַקּוֹל?' },
-      { t:'read', pic:'🔔🐫', lines:['הַסּוֹחֲרִים הַזְּקֵנִים יוֹדְעִים מָה לַעֲשׂוֹת:','הֵם תּוֹלִים פַּעֲמוֹנִים עַל הַצַּוָּאר שֶׁל הַגְּמַלִּים.','כָּךְ כֻּלָּם שׁוֹמְעִים אֶת הַשַּׁיָּרָה, וְאַף אֶחָד לֹא הוֹלֵךְ לְאִבּוּד.'] },
+      { t:'read', pic:'🔔', lines:['הַסּוֹחֲרִים הַזְּקֵנִים יוֹדְעִים מָה לַעֲשׂוֹת:','הֵם תּוֹלִים פַּעֲמוֹנִים עַל הַצַּוָּאר שֶׁל הַגְּמַלִּים.','כָּךְ כֻּלָּם שׁוֹמְעִים אֶת הַשַּׁיָּרָה, וְאַף אֶחָד לֹא הוֹלֵךְ לְאִבּוּד.'] },
       { t:'find', q:'גַּע בַּמִּלָּה שֶׁאוֹמֶרֶת מָה תּוֹלִים עַל הַגְּמַלִּים:',
         text:'הֵם תּוֹלִים פַּעֲמוֹנִים עַל הַצַּוָּאר שֶׁל הַגְּמַלִּים.', answer:'פַּעֲמוֹנִים', hint:'זֶה עוֹשֶׂה "דִּינְג דִּינְג" 🔔' },
-      { t:'read', lines:['בַּבֹּקֶר מַרְקוֹ מָצָא בַּחוֹל עִקְּבוֹת שֶׁל מַגָּפַיִם.','וּלְיַד הָעִקְּבוֹת – כֶּתֶם שֶׁל דְּיוֹ שָׁחֹר. 🖤','הַקּוֹל בַּלַּיְלָה... הָיָה הַמּוֹחֵק!'] },
+      { t:'read', pic:'👣', lines:['בַּבֹּקֶר מַרְקוֹ מָצָא בַּחוֹל עִקְּבוֹת שֶׁל מַגָּפַיִם.','וּלְיַד הָעִקְּבוֹת – כֶּתֶם שֶׁל דְּיוֹ שָׁחֹר.','הַקּוֹל בַּלַּיְלָה... הָיָה הַמּוֹחֵק!'] },
     ]},
 
-  { id:'m3', title:'הָאַרְמוֹן שֶׁל הַקֵּיסָר', emoji:'🏯', card:'kublai',
+  { id:'m3', title:'הָאַרְמוֹן שֶׁל הַקֵּיסָר', scene:'palace', card:'kublai',
     end:'אַחֲרֵי 17 שָׁנִים בְּסִין, מַרְקוֹ חוֹזֵר הַבַּיְתָה. אֲבָל בְּוֶנֶצְיָה מְחַכָּה לוֹ הַפְתָּעָה לֹא נְעִימָה...',
     steps:[
-      { t:'read', pic:'🏯 🐉', lines:['אַחֲרֵי שָׁלוֹשׁ וָחֵצִי שָׁנִים, מַרְקוֹ מַגִּיעַ לְסִין.','הוּא נִכְנָס לָאַרְמוֹן שֶׁל הַקֵּיסָר קוּבְּלַאי חָאן.','הַקִּירוֹת שֶׁל הָאַרְמוֹן מְכֻסִּים בְּזָהָב וּבְכֶסֶף!'] },
+      { t:'read', lines:['אַחֲרֵי שָׁלוֹשׁ וָחֵצִי שָׁנִים, מַרְקוֹ מַגִּיעַ לְסִין.','הוּא נִכְנָס לָאַרְמוֹן שֶׁל הַקֵּיסָר קוּבְּלַאי חָאן.','הַקִּירוֹת שֶׁל הָאַרְמוֹן מְכֻסִּים בְּזָהָב וּבְכֶסֶף!'] },
       { t:'choice', q:'אֵיךְ קוֹרְאִים לַקֵּיסָר שֶׁל סִין?', options:['אַרְכִימֶדֶס','מַרְקוֹ פּוֹלוֹ','קוּבְּלַאי חָאן'], answer:2,
         hint:'הַשֵּׁם מוֹפִיעַ בַּשּׁוּרָה הַשְּׁנִיָּה.' },
-      { t:'read', lines:['הַקֵּיסָר אָהַב אֶת מַרְקוֹ, הַנַּעַר הַסַּקְרָן.','מַרְקוֹ לָמַד אַרְבַּע שָׂפוֹת!','הַקֵּיסָר שָׁלַח אוֹתוֹ לְמַסָּעוֹת בְּכָל הָאָרֶץ, לִרְאוֹת וּלְסַפֵּר לוֹ.'] },
+      { t:'read', pic:'🗣️', lines:['הַקֵּיסָר אָהַב אֶת מַרְקוֹ, הַנַּעַר הַסַּקְרָן.','מַרְקוֹ לָמַד אַרְבַּע שָׂפוֹת!','הַקֵּיסָר שָׁלַח אוֹתוֹ לְמַסָּעוֹת בְּכָל הָאָרֶץ, לִרְאוֹת וּלְסַפֵּר לוֹ.'] },
       { t:'read', pic:'💴', lines:['בְּסִין מַרְקוֹ רָאָה דְּבָרִים שֶׁאַף אֶחָד בְּאֵירוֹפָּה לֹא הִכִּיר.','דָּבָר רִאשׁוֹן: כֶּסֶף מִנְּיָר!','בְּוֶנֶצְיָה הָיוּ רַק מַטְבְּעוֹת.'] },
       { t:'number', q:'מַרְקוֹ קָנָה 3 סוּסִים. כָּל סוּס עָלָה 5 שְׁטָרוֹת. כַּמָּה שְׁטָרוֹת הוּא שִׁלֵּם?',
         answer:15, hint:'5 + 5 + 5 = ?' },
-      { t:'read', pic:'🪨🔥', lines:['דָּבָר שֵׁנִי: אֲבָנִים שְׁחוֹרוֹת שֶׁבּוֹעֲרוֹת כְּמוֹ עֵצִים!','הַסִּינִים חִמְּמוּ בָּהֶן אֶת הַבָּתִּים בַּחֹרֶף.','הַיּוֹם אֲנַחְנוּ קוֹרְאִים לָאֲבָנִים הָאֵלֶּה: פֶּחָם.'] },
+      { t:'read', night:true, pic:'🔥', lines:['דָּבָר שֵׁנִי: אֲבָנִים שְׁחוֹרוֹת שֶׁבּוֹעֲרוֹת כְּמוֹ עֵצִים!','הַסִּינִים חִמְּמוּ בָּהֶן אֶת הַבָּתִּים בַּחֹרֶף.','הַיּוֹם אֲנַחְנוּ קוֹרְאִים לָאֲבָנִים הָאֵלֶּה: פֶּחָם.'] },
       { t:'tf', q:'בְּסִין הָיוּ אֲבָנִים שֶׁבּוֹעֲרוֹת.', answer:true, hint:'אֵיךְ קוֹרְאִים לָאֲבָנִים הַשְּׁחוֹרוֹת?' },
       { t:'write', q:'אַתָּה מַרְקוֹ. כְּתֹב מִכְתָּב לְחָבֵר בְּוֶנֶצְיָה: מָה הַדָּבָר הֲכִי מַדְהִים שֶׁרָאִיתָ בְּסִין? לָמָּה?',
         starters:['חָבֵר יָקָר,','בְּסִין רָאִיתִי','הֲכִי הִפְתִּיעַ אוֹתִי','כִּי'], minWords:7,
         keywords:['כסף','נייר','אבנים','פחם','ארמון','קיסר','זהב','בוערות'] },
     ]},
 
-  { id:'m4', title:'הַסֵּפֶר מֵהַכֶּלֶא', emoji:'📜', card:'marco',
+  { id:'m4', title:'הַסֵּפֶר מֵהַכֶּלֶא', scene:'prison', card:'marco',
     end:'הַמּוֹחֵק בָּרַח, אֲבָל הִשְׁאִיר כַּפְתּוֹר זָהָב מֵהַגְּלִימָה. עָלָיו מְצֻיָּר... שְׁעוֹן חוֹל. ⏳ מָה הַקֶּשֶׁר שֶׁלּוֹ לַזְּמַן?',
     steps:[
-      { t:'read', lines:['מַרְקוֹ חָזַר לְוֶנֶצְיָה אַחֲרֵי 24 שָׁנִים.','הַבְּגָדִים שֶׁלּוֹ הָיוּ קְרוּעִים, וְהוּא דִּבֵּר מוּזָר.','בַּהַתְחָלָה אֲפִלּוּ הַמִּשְׁפָּחָה לֹא זִהֲתָה אוֹתוֹ!'] },
+      { t:'read', scene:'venice', lines:['מַרְקוֹ חָזַר לְוֶנֶצְיָה אַחֲרֵי 24 שָׁנִים.','הַבְּגָדִים שֶׁלּוֹ הָיוּ קְרוּעִים, וְהוּא דִּבֵּר מוּזָר.','בַּהַתְחָלָה אֲפִלּוּ הַמִּשְׁפָּחָה לֹא זִהֲתָה אוֹתוֹ!'] },
       { t:'number', q:'מַרְקוֹ יָצָא מִוֶּנֶצְיָה כְּשֶׁהָיָה בֶּן 17. הוּא חָזַר אַחֲרֵי 24 שָׁנִים. בֶּן כַּמָּה הוּא הָיָה כְּשֶׁחָזַר?',
         answer:41, hint:'17 + 24. קֹדֶם 17 + 20 = 37, וְאָז עוֹד 4.' },
-      { t:'read', pic:'💎', lines:['מְסַפְּרִים שֶׁמַּרְקוֹ קָרַע אֶת הַתְּפָרִים שֶׁל הַבְּגָדִים הַיְּשָׁנִים...','וּמִתּוֹכָם נָפְלוּ אֲבָנִים יְקָרוֹת!','אֲבָל כְּשֶׁהוּא סִפֵּר עַל סִין, אֲנָשִׁים צָחֲקוּ: "שְׁטֻיּוֹת! אֵין כֶּסֶף מִנְּיָר!"'] },
+      { t:'read', scene:'venice', pic:'💎', lines:['מְסַפְּרִים שֶׁמַּרְקוֹ קָרַע אֶת הַתְּפָרִים שֶׁל הַבְּגָדִים הַיְּשָׁנִים...','וּמִתּוֹכָם נָפְלוּ אֲבָנִים יְקָרוֹת!','אֲבָל כְּשֶׁהוּא סִפֵּר עַל סִין, אֲנָשִׁים צָחֲקוּ: "שְׁטֻיּוֹת! אֵין כֶּסֶף מִנְּיָר!"'] },
       { t:'choice', q:'לָמָּה אֲנָשִׁים צָחֲקוּ עַל מַרְקוֹ?', options:['כִּי הוּא סִפֵּר בְּדִיחוֹת','כִּי הֵם לֹא הֶאֱמִינוּ לַסִּפּוּרִים שֶׁלּוֹ','כִּי הוּא נָפַל לַמַּיִם'], answer:1,
         hint:'מָה הֵם אָמְרוּ? "שְׁטֻיּוֹת!"' },
-      { t:'read', pic:'⚔️ ⛵', lines:['כַּמָּה שָׁנִים אַחַר כָּךְ פָּרְצָה מִלְחָמָה בַּיָּם.','מַרְקוֹ נִשְׁבָּה, וְנִכְנַס לַכֶּלֶא בָּעִיר גֵּנוּאָה.','בַּתָּא אִתּוֹ יָשַׁב סוֹפֵר שֶׁאָהַב סִפּוּרִים.'] },
-      { t:'read', pic:'📜', lines:['מַרְקוֹ סִפֵּר, וְהַסּוֹפֵר כָּתַב.','כָּךְ נוֹלַד סֵפֶר: "הַמַּסָּעוֹת שֶׁל מַרְקוֹ פּוֹלוֹ".','אֲבָל אָז... הַמּוֹחֵק נִכְנַס לַתָּא, וְהַדַּפִּים הִתְחִילוּ לְהֵעָלֵם! 🦹'] },
+      { t:'read', pic:'⚔️', lines:['כַּמָּה שָׁנִים אַחַר כָּךְ פָּרְצָה מִלְחָמָה בַּיָּם.','מַרְקוֹ נִשְׁבָּה, וְנִכְנַס לַכֶּלֶא בָּעִיר גֵּנוּאָה.','בַּתָּא אִתּוֹ יָשַׁב סוֹפֵר שֶׁאָהַב סִפּוּרִים.'] },
+      { t:'read', eraser:true, lines:['מַרְקוֹ סִפֵּר, וְהַסּוֹפֵר כָּתַב.','כָּךְ נוֹלַד סֵפֶר: "הַמַּסָּעוֹת שֶׁל מַרְקוֹ פּוֹלוֹ".','אֲבָל אָז... הַמּוֹחֵק נִכְנַס לַתָּא, וְהַדַּפִּים הִתְחִילוּ לְהֵעָלֵם!'] },
       { t:'write', q:'מַהֵר! עֲזֹר לְמַרְקוֹ לִכְתֹּב מֵחָדָשׁ דַּף מֵהַסֵּפֶר. סַפֵּר מָה קָרָה לְמַרְקוֹ בַּמַּסָּע.',
         starters:['מַרְקוֹ יָצָא מִוֶּנֶצְיָה','בַּמִּדְבָּר','בְּסִין הוּא רָאָה','בַּסּוֹף'], minWords:10,
         keywords:['מדבר','גמל','סין','קיסר','נייר','פחם','קול','פעמונים','ונציה','כלא','שיירה'] },
-      { t:'read', lines:['הַדַּפִּים חוֹזְרִים, וְהַמּוֹחֵק בּוֹרֵחַ! ✨','הַסֵּפֶר שֶׁל מַרְקוֹ הִתְפַּרְסֵם בְּכָל אֵירוֹפָּה.'] },
-      { t:'read', lines:['כְּשֶׁמַּרְקוֹ הָיָה זָקֵן, שָׁאֲלוּ אוֹתוֹ: "אוּלַי הִמְצֵאתָ אֶת הַכֹּל?"','וּמַרְקוֹ עָנָה: "לֹא סִפַּרְתִּי אֲפִלּוּ חֲצִי מִמָּה שֶׁרָאִיתִי!"'] },
+      { t:'read', pic:'📜', lines:['הַדַּפִּים חוֹזְרִים, וְהַמּוֹחֵק בּוֹרֵחַ! ✨','הַסֵּפֶר שֶׁל מַרְקוֹ הִתְפַּרְסֵם בְּכָל אֵירוֹפָּה.'] },
+      { t:'read', scene:'library', pic:'👴', lines:['כְּשֶׁמַּרְקוֹ הָיָה זָקֵן, שָׁאֲלוּ אוֹתוֹ: "אוּלַי הִמְצֵאתָ אֶת הַכֹּל?"','וּמַרְקוֹ עָנָה: "לֹא סִפַּרְתִּי אֲפִלּוּ חֲצִי מִמָּה שֶׁרָאִיתִי!"'] },
     ]},
 
-  { id:'l1', title:'לֵאוֹנַרְדוֹ', emoji:'🎨', locked:true },
-  { id:'h1', title:'הַרְיֶט טַבְּמַן', emoji:'⭐', locked:true },
+  { id:'l1', chapter:'לֵאוֹנַרְדוֹ', title:'בְּקָרוֹב', locked:true },
+  { id:'h1', chapter:'הַרְיֶט טַבְּמַן', title:'בְּקָרוֹב', locked:true },
   ]
 };
 
@@ -335,6 +374,294 @@ const RANKS = [
 
 const PRAISE = ['מְעֻלֶּה!','כָּל הַכָּבוֹד!','יֵשׁ!','אַלּוּף!','בְּדִיּוּק!','וָאוּ!','גָּאוֹן!'];
 const RETRY  = ['כִּמְעַט! נְנַסֶּה שׁוּב?','לֹא נוֹרָא, עוֹד נִסָּיוֹן!','קָרוֹב! תִּסְתַּכֵּל שׁוּב.'];
+
+/* =====================================================================
+   איורים – מצוירים בקוד (SVG), בלי קבצי תמונה
+   ===================================================================== */
+let GID = 0;
+function rng(seed){ let s = 7; for(const c of seed) s = (s*31 + c.charCodeAt(0)) >>> 0; return ()=>{ s = (s*1664525 + 1013904223) >>> 0; return s/4294967296; }; }
+const star4 = (x,y,r,fill='#fff6c8',op=1)=>`<path d="M${x} ${y-r}L${x+r*.22} ${y-r*.22}L${x+r} ${y}L${x+r*.22} ${y+r*.22}L${x} ${y+r}L${x-r*.22} ${y+r*.22}L${x-r} ${y}L${x-r*.22} ${y-r*.22}Z" fill="${fill}" opacity="${op}"/>`;
+
+function sky(id, night, top, bottom, seed, sun){
+  const t = night ? '#0b0a2a' : top, b = night ? '#3a2c70' : bottom;
+  let s = `<defs><linearGradient id="${id}sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${t}"/><stop offset="1" stop-color="${b}"/></linearGradient>
+    <radialGradient id="${id}glow"><stop offset="0" stop-color="#fff7c2" stop-opacity=".95"/><stop offset="1" stop-color="#fff7c2" stop-opacity="0"/></radialGradient></defs>
+    <rect width="800" height="320" fill="url(#${id}sky)"/>`;
+  if(night){
+    const r = rng(seed);
+    for(let i=0;i<46;i++) s += `<circle cx="${(r()*800).toFixed(0)}" cy="${(r()*190).toFixed(0)}" r="${(r()*1.6+.5).toFixed(1)}" fill="#fff" opacity="${(r()*.6+.4).toFixed(2)}"/>`;
+    s += `<circle cx="660" cy="80" r="80" fill="url(#${id}glow)" opacity=".5"/><circle cx="660" cy="80" r="28" fill="#fdf3c4"/><circle cx="650" cy="74" r="5" fill="#efe2a8"/><circle cx="668" cy="90" r="4" fill="#efe2a8"/>`;
+  } else if(sun){
+    s += `<circle cx="${sun[0]}" cy="${sun[1]}" r="120" fill="url(#${id}glow)" opacity=".8"/><circle cx="${sun[0]}" cy="${sun[1]}" r="38" fill="#fff4b8"/>`;
+  }
+  return s;
+}
+function eraserFig(x,y,s=1,op=1){
+  return `<g transform="translate(${x} ${y}) scale(${s})" opacity="${op}">
+    <ellipse cx="0" cy="48" rx="46" ry="7" fill="#000" opacity=".35"/>
+    <path d="M0 -72C-24 -72 -36 -50 -36 -28L-50 46Q0 58 50 46L36 -28C36 -50 24 -72 0 -72Z" fill="#0d0716"/>
+    <path d="M-36 -10Q-60 10 -52 40L-40 40Q-44 14 -30 0Z" fill="#160c24"/><path d="M36 -10Q60 10 52 40L40 40Q44 14 30 0Z" fill="#160c24"/>
+    <path d="M0 -62C-15 -62 -22 -48 -22 -34Q0 -20 22 -34C22 -48 15 -62 0 -62Z" fill="#000"/>
+    <ellipse cx="-8" cy="-40" rx="7" ry="4" fill="#ff4d6d" opacity=".35"/><ellipse cx="8" cy="-40" rx="7" ry="4" fill="#ff4d6d" opacity=".35"/>
+    <ellipse cx="-8" cy="-40" rx="3.4" ry="1.8" fill="#ff8095"/><ellipse cx="8" cy="-40" rx="3.4" ry="1.8" fill="#ff8095"/>
+  </g>`;
+}
+function camel(x,y,s,c){
+  return `<g transform="translate(${x} ${y}) scale(${s})" fill="${c}">
+    <ellipse cx="0" cy="0" rx="24" ry="11"/><ellipse cx="3" cy="-9" rx="11" ry="10"/>
+    <path d="M-18 -4Q-27 -10 -28 -25L-22 -27Q-20 -13 -11 -6Z"/><ellipse cx="-30" cy="-27" rx="8" ry="4.5"/>
+    <rect x="-17" y="5" width="3.5" height="24" rx="1.5"/><rect x="-10" y="5" width="3.5" height="24" rx="1.5"/>
+    <rect x="9" y="5" width="3.5" height="24" rx="1.5"/><rect x="15" y="5" width="3.5" height="24" rx="1.5"/>
+    <path d="M23 -2Q30 4 27 12" stroke="${c}" stroke-width="2" fill="none"/>
+    <rect x="-4" y="-24" width="14" height="8" rx="3" fill="#b03a2e" opacity=".85"/></g>`;
+}
+function roof(cx,y,w,h,fill){
+  return `<path d="M${cx-w/2-14} ${y-14}Q${cx-w/2+w*.08} ${y+2} ${cx-w/2+w*.2} ${y}L${cx+w/2-w*.2} ${y}Q${cx+w/2-w*.08} ${y+2} ${cx+w/2+14} ${y-14}L${cx+w*.3} ${y-h}L${cx-w*.3} ${y-h}Z" fill="${fill}"/>
+    <path d="M${cx-w*.3} ${y-h}L${cx+w*.3} ${y-h}" stroke="#f0c35a" stroke-width="4"/>`;
+}
+function facade(x,y,w,h,color,night,seed){
+  const r = rng(seed); let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${color}"/><rect x="${x}" y="${y}" width="${w}" height="8" fill="#000" opacity=".12"/>`;
+  const cols = Math.max(2, Math.floor(w/30)), gap = w/cols;
+  for(let ry=y+26; ry<y+h-40; ry+=46) for(let c=0;c<cols;c++){
+    const wx = x + c*gap + gap/2 - 7, lit = night && r()>.35;
+    s += `<path d="M${wx} ${ry+26}V${ry+8}A7 7 0 0 1 ${wx+14} ${ry+8}V${ry+26}Z" fill="${lit?'#ffd36b':night?'#1a1433':'#5a3524'}"/>`;
+  }
+  return s;
+}
+
+const SCENES = {
+  library(id,o){
+    const r = rng('lib');
+    let s = `<defs><linearGradient id="${id}w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26173f"/><stop offset="1" stop-color="#4a2c4f"/></linearGradient>
+      <radialGradient id="${id}bk"><stop offset="0" stop-color="#ffe9a3" stop-opacity="${o.eraser?.45:.95}"/><stop offset=".5" stop-color="#ffc94d" stop-opacity="${o.eraser?.12:.35}"/><stop offset="1" stop-color="#ffc94d" stop-opacity="0"/></radialGradient></defs>
+      <rect width="800" height="320" fill="url(#${id}w)"/>
+      <path d="M330 40Q400 -8 470 40V185H330Z" fill="#100c38"/>`;
+    for(let i=0;i<14;i++) s += `<circle cx="${(340+r()*120).toFixed(0)}" cy="${(30+r()*140).toFixed(0)}" r="${(r()*1.4+.5).toFixed(1)}" fill="#fff" opacity=".8"/>`;
+    s += `<circle cx="438" cy="72" r="15" fill="#fdf3c4"/>
+      <path d="M330 40Q400 -8 470 40V185H330Z" fill="none" stroke="#6b4a2b" stroke-width="9"/><path d="M400 18V185M330 105H470" stroke="#6b4a2b" stroke-width="6"/>`;
+    const colors = ['#8e3b46','#2e6b8a','#c48a2c','#3f7d4f','#6a4c93','#b5523b','#2f4858','#d1a54b'];
+    [[16,262],[538,784]].forEach(([x0,x1])=>{
+      s += `<rect x="${x0-6}" y="30" width="${x1-x0+12}" height="250" fill="#3a2416"/>`;
+      [96,176,256].forEach(sy=>{
+        let x = x0;
+        while(x < x1-8){ const w = 9+r()*10, h = 46+r()*22; s += `<rect x="${x.toFixed(0)}" y="${(sy-h).toFixed(0)}" width="${w.toFixed(0)}" height="${h.toFixed(0)}" rx="1.5" fill="${colors[Math.floor(r()*colors.length)]}"/><rect x="${x.toFixed(0)}" y="${(sy-h+8).toFixed(0)}" width="${w.toFixed(0)}" height="3" fill="#f0c35a" opacity=".6"/>`; x += w+1.5; }
+        s += `<rect x="${x0-6}" y="${sy}" width="${x1-x0+12}" height="9" fill="#5b3a24"/>`;
+      });
+    });
+    s += `<rect y="276" width="800" height="44" fill="#22142c"/>
+      <circle cx="400" cy="185" r="190" fill="url(#${id}bk)"/>
+      <rect x="372" y="226" width="56" height="52" fill="#5b3a24"/><rect x="338" y="218" width="124" height="11" rx="3" fill="#7a5034"/>
+      <path d="M298 216Q350 200 400 212Q450 200 502 216V226Q450 211 400 223Q350 211 298 226Z" fill="#7a2c34"/>
+      <path d="M304 213Q350 196 400 208V146Q350 132 304 150Z" fill="#fff8e1"/>
+      <path d="M496 213Q450 196 400 208V146Q450 132 496 150Z" fill="#fff1cc"/>`;
+    for(let k=0;k<4;k++) s += `<path d="M318 ${163+k*11}Q352 ${153+k*11} 388 ${161+k*11}" stroke="#c9b48a" stroke-width="2.4" fill="none" ${o.eraser&&k>1?'opacity=".15"':''}/><path d="M412 ${161+k*11}Q448 ${153+k*11} 482 ${163+k*11}" stroke="#c9b48a" stroke-width="2.4" fill="none" ${o.eraser&&k%2?'opacity=".15"':''}/>`;
+    if(!o.eraser){ s += star4(300,120,11)+star4(505,105,14)+star4(455,70,7)+star4(345,85,6)+star4(400,128,8,'#fff'); }
+    else {
+      s += eraserFig(170,232,1.35);
+      [[250,150,20],[280,110,-30],[230,95,45],[320,70,-12]].forEach(([x,y,a],i)=> s += `<rect x="${x}" y="${y}" width="26" height="34" rx="2" fill="#fff8e1" opacity="${.85-i*.17}" transform="rotate(${a} ${x+13} ${y+17})"/>`);
+    }
+    return s;
+  },
+
+  syracuse(id,o){
+    let s = sky(id,o.night,'#86cdf0','#ffe2a6','syr',[610,105]);
+    s += `<defs><linearGradient id="${id}sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${o.night?'#23306b':'#2f95cf'}"/><stop offset="1" stop-color="${o.night?'#141a40':'#185a96'}"/></linearGradient></defs>
+      <rect y="206" width="800" height="114" fill="url(#${id}sea)"/>`;
+    for(let i=0;i<14;i++) s += `<rect x="${420+((i*53)%360)}" y="${222+(i*17)%80}" width="${18+(i%3)*8}" height="2.5" rx="1" fill="#fff" opacity=".45"/>`;
+    s += `<path d="M0 212Q130 140 320 168Q450 186 540 214Z" fill="${o.night?'#4b4166':'#c2ab6f'}"/>
+      <path d="M0 212Q90 170 200 180Q300 190 380 214Z" fill="${o.night?'#3d3456':'#b09658'}"/>`;
+    const H = o.night ? '#d8d2e8' : '#fbf6ea', R = o.night ? '#8a5a6a' : '#c8643c';
+    [[40,186,30,22],[78,178,26,28],[262,182,34,24],[302,190,26,20],[345,196,28,18]].forEach(([x,y,w,h])=>{
+      s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${H}"/><path d="M${x-3} ${y}L${x+w/2} ${y-10}L${x+w+3} ${y}Z" fill="${R}"/><rect x="${x+w/2-3}" y="${y+h-11}" width="6" height="11" fill="#6b4a2b" opacity=".6"/>`;
+    });
+    s += `<rect x="128" y="150" width="128" height="10" fill="${H}"/><rect x="134" y="142" width="116" height="8" fill="${H}"/>`;
+    for(let c=0;c<7;c++) s += `<rect x="${140+c*17}" y="104" width="8" height="38" fill="${H}"/>`;
+    s += `<rect x="132" y="96" width="120" height="9" fill="${H}"/><path d="M128 96L192 70L256 96Z" fill="${H}"/><path d="M146 92L192 76L238 92Z" fill="#000" opacity=".06"/>
+      <rect y="200" width="420" height="16" fill="${o.night?'#6d6488':'#d8c093'}"/>`;
+    for(let c=0;c<21;c++) s += `<rect x="${c*20}" y="193" width="11" height="8" fill="${o.night?'#6d6488':'#d8c093'}"/>`;
+    [[110,168],[118,172],[232,166]].forEach(([x,y])=> s += `<ellipse cx="${x}" cy="${y}" rx="6" ry="24" fill="${o.night?'#1f3a33':'#2f5e3a'}"/>`);
+    s += `<path d="M590 248Q640 262 700 248L692 262Q640 272 598 262Z" fill="#6b3f22"/><path d="M645 250V192" stroke="#4a2c18" stroke-width="3"/><path d="M647 196L690 240H647Z" fill="#fff8ea"/><path d="M643 200L612 238H643Z" fill="#f3e2bb"/>
+      <path d="M0 320V280Q60 258 140 276Q200 288 230 320Z" fill="${o.night?'#2b2440':'#8a7552'}"/>`;
+    return s;
+  },
+
+  bath(id,o){
+    let s = `<defs><linearGradient id="${id}wl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0dcb2"/><stop offset="1" stop-color="#ddc08b"/></linearGradient>
+      <linearGradient id="${id}wt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fd3f7"/><stop offset="1" stop-color="#3a9bd6"/></linearGradient></defs>
+      <rect width="800" height="320" fill="url(#${id}wl)"/>
+      <path d="M330 30Q400 -10 470 30V120H330Z" fill="#8fd1f2"/><circle cx="440" cy="60" r="16" fill="#fff4b8"/><path d="M330 30Q400 -10 470 30V120H330Z" fill="none" stroke="#c9a46b" stroke-width="8"/>`;
+    const mc = ['#2f6f8f','#e0a43a','#a8432f','#f6efe0'];
+    for(let i=0;i<67;i++) s += `<rect x="${i*12}" y="134" width="12" height="12" fill="${mc[i%4]}"/>`;
+    [40,712].forEach(x=>{ s += `<rect x="${x}" y="20" width="48" height="262" fill="#f6efe0"/><rect x="${x-8}" y="14" width="64" height="16" fill="#e8dcc4"/>`;
+      for(let f=0;f<4;f++) s += `<rect x="${x+8+f*10}" y="34" width="3" height="240" fill="#d8c9a8"/>`; });
+    for(let i=0;i<20;i++) for(let j=0;j<2;j++) s += `<rect x="${i*40}" y="${280+j*20}" width="40" height="20" fill="${(i+j)%2?'#c49a5f':'#b0844d'}"/>`;
+    s += `<path d="M224 238Q236 304 400 304Q564 304 576 238Z" fill="#e9e2d3" stroke="#cbbfa6" stroke-width="3"/>
+      <ellipse cx="400" cy="238" rx="178" ry="28" fill="#f7f2e8"/><ellipse cx="400" cy="238" rx="160" ry="20" fill="url(#${id}wt)"/>
+      <path d="M232 244Q220 270 226 300" stroke="#5fb8e8" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M568 244Q584 268 578 302" stroke="#5fb8e8" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <ellipse cx="208" cy="306" rx="34" ry="7" fill="#5fb8e8" opacity=".7"/><ellipse cx="596" cy="307" rx="36" ry="7" fill="#5fb8e8" opacity=".7"/>
+      <path d="M380 236L338 178" stroke="#e8b48a" stroke-width="12" stroke-linecap="round"/><path d="M420 236L462 178" stroke="#e8b48a" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="336" cy="172" r="10" fill="#e8b48a"/><circle cx="464" cy="172" r="10" fill="#e8b48a"/>
+      <circle cx="384" cy="190" r="9" fill="#cfcfcf"/><circle cx="400" cy="184" r="10" fill="#cfcfcf"/><circle cx="416" cy="190" r="9" fill="#cfcfcf"/>
+      <circle cx="400" cy="208" r="25" fill="#e8b48a"/>
+      <path d="M378 212Q400 252 422 212Q412 226 400 226Q388 226 378 212Z" fill="#dcdcdc"/>
+      <circle cx="391" cy="203" r="3" fill="#3a2614"/><circle cx="409" cy="203" r="3" fill="#3a2614"/>
+      <ellipse cx="400" cy="217" rx="5" ry="6.5" fill="#7a2c2c"/>
+      <ellipse cx="400" cy="240" rx="40" ry="8" fill="url(#${id}wt)"/>`;
+    [[300,200],[310,170],[500,190],[492,160],[280,226],[524,222],[350,150],[455,145]].forEach(([x,y],i)=> s += `<ellipse cx="${x}" cy="${y}" rx="${5+i%3}" ry="${8+i%3}" fill="#7fd3f7" opacity=".9"/>`);
+    s += [0,1,2].map(i=>`<path d="M${330+i*60} 130Q${320+i*60} 110 ${336+i*60} 92Q${350+i*60} 74 ${338+i*60} 56" stroke="#fff" stroke-width="5" fill="none" opacity=".45" stroke-linecap="round"/>`).join('');
+    s += star4(530,110,16,'#f0c35a')+star4(270,120,11,'#f0c35a')+star4(560,70,8,'#f0c35a');
+    return s;
+  },
+
+  venice(id,o){
+    let s = sky(id,o.night,'#ffae7a','#ffe7b8','ven',[400,120]);
+    s += `<rect x="388" y="40" width="26" height="150" fill="${o.night?'#4b3a5c':'#c27b56'}"/><path d="M384 40L401 6L418 40Z" fill="${o.night?'#3a2d4a':'#7a8a5a'}"/><rect x="392" y="52" width="18" height="16" fill="${o.night?'#ffd36b':'#5a3524'}"/>`;
+    const left = [[0,70,96,190,'#d9825b'],[96,100,84,160,'#e6b85c'],[180,85,92,175,'#c95f4a']], right = [[528,90,94,170,'#e8c9a0'],[622,64,86,196,'#cf6b4c'],[708,96,92,164,'#e3a95a']];
+    left.concat(right).forEach(([x,y,w,h,c],i)=>{ s += facade(x,y,w,h,o.night?'#4a3d66':c,o.night,'f'+i); s += `<rect x="${x-4}" y="${y-8}" width="${w+8}" height="10" fill="${o.night?'#2b2340':'#8a4b30'}"/>`; });
+    s += `<defs><linearGradient id="${id}cn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${o.night?'#1f3b5c':'#2fa597'}"/><stop offset="1" stop-color="${o.night?'#0f1d36':'#1a6c70'}"/></linearGradient></defs>
+      <rect y="254" width="800" height="66" fill="url(#${id}cn)"/>`;
+    left.concat(right).forEach(([x,,w,,c])=> s += `<rect x="${x+6}" y="258" width="${w-12}" height="40" fill="${o.night?'#6a5a90':c}" opacity=".25"/>`);
+    for(let i=0;i<12;i++) s += `<rect x="${(i*71)%780}" y="${264+(i*13)%48}" width="${24+(i%3)*10}" height="2.5" rx="1" fill="#fff" opacity=".35"/>`;
+    s += `<path d="M262 236Q400 160 538 236" stroke="${o.night?'#8a82a8':'#efe3cb'}" stroke-width="22" fill="none"/>
+      <path d="M262 222Q400 146 538 222" stroke="${o.night?'#6f6890':'#d9c9a8'}" stroke-width="5" fill="none"/>
+      <rect x="252" y="226" width="22" height="34" fill="${o.night?'#8a82a8':'#efe3cb'}"/><rect x="526" y="226" width="22" height="34" fill="${o.night?'#8a82a8':'#efe3cb'}"/>
+      <path d="M318 282Q400 304 512 280L530 266Q518 288 470 292Q400 300 330 290Z" fill="#141018"/>
+      <path d="M318 282L306 270" stroke="#141018" stroke-width="4"/>
+      <rect x="462" y="250" width="9" height="30" rx="3" fill="${o.night?'#1a1433':'#2a2a3a'}"/><circle cx="466.5" cy="243" r="7" fill="#e8b48a"/>
+      <rect x="459" y="236" width="15" height="4" fill="#b8322c"/><path d="M467 262L436 318" stroke="#5a3a1e" stroke-width="3"/>`;
+    if(o.eraser) s += eraserFig(400,150,.55);
+    return s;
+  },
+
+  desert(id,o){
+    const n = o.night;
+    let s = sky(id,n,'#7cc6ee','#fde6b0','des',[190,95]);
+    s += `<path d="M0 200Q150 150 300 186T600 176T800 192V320H0Z" fill="${n?'#5a4a8a':'#ecbd78'}"/>`;
+    if(o.eraser) s += eraserFig(230,152,.42);
+    s += `<path d="M0 238Q200 192 420 226T800 214V320H0Z" fill="${n?'#46397a':'#dda055'}"/>`;
+    [[480,206],[540,203],[600,202],[660,204]].forEach(([x,y],i)=> s += camel(x,y,.82,n?'#1c1538':'#6b4423'));
+    s += `<path d="M454 206H690" stroke="${n?'#1c1538':'#6b4423'}" stroke-width="1.5" opacity=".7"/>
+      <path d="M0 280Q250 244 500 272T800 264V320H0Z" fill="${n?'#352a63':'#c98a3e'}"/>`;
+    if(!n) s += `<path d="M60 150H140M90 162H190M500 120H560" stroke="#fff" stroke-width="2.5" opacity=".5" stroke-linecap="round"/>`;
+    return s;
+  },
+
+  palace(id,o){
+    const n = o.night;
+    let s = sky(id,n,'#8ecae6','#fff1cf','pal',[650,80]);
+    s += `<path d="M0 200L90 120L170 175L260 105L360 180L470 110L580 172L690 116L800 180V320H0Z" fill="${n?'#2e2a5a':'#a9c6d9'}"/>
+      <path d="M0 230L120 170L240 220L380 160L520 222L660 168L800 220V320H0Z" fill="${n?'#25224d':'#8fb3c9'}"/>
+      <rect x="170" y="268" width="460" height="14" fill="#efe9dc"/><rect x="200" y="256" width="400" height="14" fill="#f6f1e6"/><rect x="230" y="244" width="340" height="14" fill="#efe9dc"/>
+      <rect x="262" y="176" width="276" height="70" fill="#7a1f1a"/>`;
+    for(let c=0;c<8;c++) s += `<rect x="${268+c*37}" y="176" width="12" height="70" fill="#c0392b"/>`;
+    s += `<rect x="378" y="196" width="44" height="50" fill="#f0c35a"/><path d="M400 196V246" stroke="#b07d17" stroke-width="2"/>
+      ${roof(400,178,330,32,n?'#164a40':'#1f6f5c')}
+      <rect x="326" y="122" width="148" height="34" fill="#a8281f"/>${roof(400,124,236,36,n?'#164a40':'#1f6f5c')}
+      <circle cx="400" cy="84" r="7" fill="#f0c35a"/>
+      <rect x="110" y="214" width="70" height="40" fill="#a8281f"/>${roof(145,216,80,22,n?'#164a40':'#1f6f5c')}
+      <rect x="620" y="214" width="70" height="40" fill="#a8281f"/>${roof(655,216,80,22,n?'#164a40':'#1f6f5c')}`;
+    [[250,188],[550,188],[300,186],[500,186]].forEach(([x,y])=> s += `<path d="M${x} ${y-12}V${y-4}" stroke="#3a2614" stroke-width="1.5"/><ellipse cx="${x}" cy="${y+6}" rx="10" ry="12" fill="${n?'#ff6b4a':'#e74c3c'}"/><path d="M${x} ${y+18}V${y+28}" stroke="#f0c35a" stroke-width="2"/>${n?`<circle cx="${x}" cy="${y+6}" r="26" fill="#ff9a5a" opacity=".25"/>`:''}`);
+    s += `<circle cx="40" cy="276" r="40" fill="${n?'#3a2a50':'#f4a6c0'}"/><circle cx="80" cy="292" r="30" fill="${n?'#33244a':'#f7b9cd'}"/>
+      <circle cx="770" cy="280" r="42" fill="${n?'#3a2a50':'#f4a6c0'}"/><rect y="300" width="800" height="20" fill="${n?'#1d1838':'#7fa36b'}"/>`;
+    return s;
+  },
+
+  prison(id,o){
+    let s = `<defs><radialGradient id="${id}cg"><stop offset="0" stop-color="#ffd36b" stop-opacity=".7"/><stop offset="1" stop-color="#ffd36b" stop-opacity="0"/></radialGradient></defs>
+      <rect width="800" height="320" fill="#3b3d52"/>`;
+    for(let row=0; row<12; row++) for(let c=0;c<18;c++){ const x = c*48 - (row%2?24:0); s += `<rect x="${x+2}" y="${row*26+2}" width="44" height="22" rx="3" fill="${(row*7+c*3)%5?'#45475e':'#4c4e66'}"/>`; }
+    s += `<rect x="338" y="44" width="124" height="88" fill="#15113a"/><circle cx="430" cy="74" r="14" fill="#fdf3c4"/>`;
+    for(let i=0;i<5;i++) s += `<circle cx="${350+i*24}" cy="${60+(i*17)%50}" r="1.2" fill="#fff"/>`;
+    for(let b=0;b<5;b++) s += `<rect x="${352+b*24}" y="44" width="7" height="88" fill="#1b1b24"/>`;
+    s += `<rect x="332" y="38" width="136" height="8" fill="#2a2b38"/><rect x="332" y="130" width="136" height="8" fill="#2a2b38"/>
+      <path d="M338 136H462L580 320H220Z" fill="#fff3c4" opacity=".1"/>
+      <rect y="276" width="800" height="44" fill="#26273a"/>
+      <path d="M30 300Q90 270 170 296Q120 312 30 310Z" fill="#b8913a"/><path d="M40 296L60 284M80 292L100 280M120 294L136 284" stroke="#d9b25f" stroke-width="2"/>
+      <circle cx="560" cy="206" r="70" fill="url(#${id}cg)"/>
+      <rect x="470" y="226" width="240" height="12" fill="#7a4b2a"/><rect x="486" y="238" width="10" height="44" fill="#5b3a24"/><rect x="684" y="238" width="10" height="44" fill="#5b3a24"/>
+      <rect x="553" y="198" width="12" height="28" fill="#f4ead1"/><ellipse cx="559" cy="190" rx="5.5" ry="10" fill="#ffcc4d"/><ellipse cx="559" cy="193" rx="2.5" ry="5" fill="#fff"/>
+      <rect x="600" y="208" width="70" height="18" rx="3" fill="#fff8e1" transform="rotate(-4 635 217)"/>
+      <path d="M612 214H660M612 220H650" stroke="#c9b48a" stroke-width="1.5" transform="rotate(-4 635 217)"/>
+      <path d="M676 222L712 168" stroke="#f6efe0" stroke-width="3"/><path d="M702 182Q716 168 712 160Q700 170 698 186Z" fill="#f6efe0"/>
+      <path d="M90 60V110" stroke="#1b1b24" stroke-width="2" stroke-dasharray="6 3"/><circle cx="90" cy="116" r="8" fill="none" stroke="#1b1b24" stroke-width="3"/>`;
+    if(o.eraser){
+      s += eraserFig(240,232,1.25);
+      [[600,170,-15],[640,140,20],[580,120,40]].forEach(([x,y,a],i)=> s += `<rect x="${x}" y="${y}" width="22" height="28" rx="2" fill="#fff8e1" opacity="${.7-i*.2}" transform="rotate(${a} ${x+11} ${y+14})"/>`);
+    }
+    return s;
+  },
+};
+
+function scene(name, o={}){
+  const id = 's'+(++GID), f = SCENES[name] || SCENES.library;
+  const align = (name==='venice' || name==='bath') ? 'xMidYMax' : 'xMidYMid';   // לא לחתוך את הסירה / האמבטיה
+  return `<svg viewBox="0 0 800 320" preserveAspectRatio="${align} slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${f(id,o)}</svg>`;
+}
+
+function guideSVG(){
+  const id = 'gv'+(++GID);
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd56b"/><stop offset="1" stop-color="#f39c43"/></linearGradient></defs>
+    <rect width="100" height="100" fill="url(#${id})"/>
+    <path d="M14 100Q18 74 50 72Q82 74 86 100Z" fill="#1f7a8c"/>
+    <path d="M34 74Q50 86 66 74L64 82Q50 92 36 82Z" fill="#d64545"/>
+    <rect x="43" y="60" width="14" height="14" fill="#e3ad84"/>
+    <circle cx="29" cy="48" r="4.5" fill="#e9b48c"/><circle cx="71" cy="48" r="4.5" fill="#e9b48c"/>
+    <ellipse cx="50" cy="45" rx="21" ry="24" fill="#f1c39b"/>
+    <path d="M28 46Q24 18 50 16Q76 18 72 46Q70 32 62 29Q50 25 38 29Q30 32 28 46Z" fill="#3b2a20"/>
+    <circle cx="34" cy="24" r="7" fill="#3b2a20"/><circle cx="46" cy="18" r="7.5" fill="#3b2a20"/><circle cx="58" cy="19" r="7" fill="#3b2a20"/><circle cx="68" cy="27" r="6.5" fill="#3b2a20"/>
+    <path d="M30 50Q31 71 50 73Q69 71 70 50Q66 61 50 62Q34 61 30 50Z" fill="#4a3426"/>
+    <path d="M43 61Q50 67 57 61" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M35 38Q41 35 46 38M54 38Q59 35 65 38" stroke="#3b2a20" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <circle cx="41" cy="46" r="2.4" fill="#2a1d16"/><circle cx="59" cy="46" r="2.4" fill="#2a1d16"/>
+    <circle cx="41" cy="46" r="7.5" fill="#fff" fill-opacity=".18" stroke="#2a1d16" stroke-width="2.4"/><circle cx="59" cy="46" r="7.5" fill="#fff" fill-opacity=".18" stroke="#2a1d16" stroke-width="2.4"/>
+    <path d="M48.5 45.5H51.5" stroke="#2a1d16" stroke-width="2.4"/>
+  </svg>`;
+}
+
+const LOGO = `<svg viewBox="0 0 100 100" aria-hidden="true">
+  <rect x="22" y="8" width="56" height="8" rx="3" fill="#f0c35a"/><rect x="22" y="84" width="56" height="8" rx="3" fill="#f0c35a"/>
+  <path d="M30 16H70Q70 40 54 50Q70 60 70 84H30Q30 60 46 50Q30 40 30 16Z" fill="#fff7dc" fill-opacity=".25" stroke="#f0c35a" stroke-width="3.5"/>
+  <path d="M36 26H64Q62 38 50 46Q38 38 36 26Z" fill="#f0c35a"/><path d="M50 50V72" stroke="#f0c35a" stroke-width="2" stroke-dasharray="3 3"/>
+  <path d="M36 82Q50 66 64 82Z" fill="#f0c35a"/>
+  <path d="M16 20V80M84 20V80" stroke="#c98d1e" stroke-width="4"/>
+</svg>`;
+
+function worldArt(wid){
+  const id = 'w'+(++GID);
+  if(wid==='history') return `<svg viewBox="0 0 300 170" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${sky(id,false,'#f7a26b','#ffe1a8','',[220,70])}
+    <path d="M0 170V120Q80 96 150 108Q230 120 300 104V170Z" fill="#b5523b"/>
+    <rect x="70" y="112" width="140" height="10" fill="#fbf3e0"/><rect x="76" y="104" width="128" height="8" fill="#fbf3e0"/>
+    ${[0,1,2,3,4,5,6].map(c=>`<rect x="${84+c*17}" y="58" width="8" height="46" fill="#fbf3e0"/>`).join('')}
+    <rect x="74" y="50" width="132" height="9" fill="#fbf3e0"/><path d="M70 50L140 22L210 50Z" fill="#fbf3e0"/>
+    ${camel(258,132,.9,'#5a2e1e')}</svg>`;
+  if(wid==='adventure') return `<svg viewBox="0 0 300 170" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${sky(id,false,'#6fd0e8','#d8f6ff','',[60,50])}
+    <rect y="110" width="300" height="60" fill="#1e90a8"/><path d="M60 128Q150 88 240 128Z" fill="#f2d48f"/>
+    <path d="M150 112Q148 80 160 56" stroke="#7a4b2a" stroke-width="6" fill="none"/>
+    <path d="M160 56Q134 44 116 58Q138 52 160 58ZM160 56Q186 40 206 54Q184 50 160 58ZM160 56Q150 34 130 30Q152 40 160 58ZM160 56Q176 34 196 34Q174 42 160 58Z" fill="#2f8f4e"/>
+    <rect x="176" y="106" width="26" height="16" rx="3" fill="#8b4a1f"/><rect x="176" y="104" width="26" height="6" rx="2" fill="#f0c35a"/>
+    <path d="M30 132Q50 140 74 132L70 140Q52 146 34 140Z" fill="#5a3218"/><path d="M52 134V100" stroke="#3a2614" stroke-width="2"/><path d="M54 102L72 128H54Z" fill="#fff"/></svg>`;
+  return `<svg viewBox="0 0 300 170" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${sky(id,false,'#8ccdf2','#fff3cf','',[230,52])}
+    <path d="M0 130Q70 96 150 118Q220 136 300 108V170H0Z" fill="#9bbf6a"/><path d="M0 150Q90 126 180 146Q240 158 300 140V170H0Z" fill="#7aa64e"/>
+    <rect x="70" y="72" width="8" height="54" fill="#8a8a8a"/><rect x="58" y="60" width="32" height="18" rx="3" fill="#a9a9a9"/>
+    <path d="M200 124V56" stroke="#6b4a2b" stroke-width="3"/><rect x="202" y="56" width="44" height="30" fill="#fff"/>
+    <rect x="202" y="60" width="44" height="4" fill="#2a5db0"/><rect x="202" y="78" width="44" height="4" fill="#2a5db0"/>
+    <path d="M224 64L229 73L219 73Z M224 76L219 67L229 67Z" fill="none" stroke="#2a5db0" stroke-width="1.6"/>
+    <ellipse cx="130" cy="112" rx="6" ry="20" fill="#2f5e3a"/><ellipse cx="144" cy="116" rx="5" ry="16" fill="#2f5e3a"/></svg>`;
+}
+
+const CHEST_CLOSED = `<svg viewBox="0 0 120 100" aria-hidden="true">
+  <ellipse cx="60" cy="94" rx="46" ry="5" fill="#000" opacity=".25"/>
+  <rect x="14" y="46" width="92" height="44" rx="6" fill="#8b4a1f"/><path d="M14 52Q14 16 60 16Q106 16 106 52Z" fill="#a85a24"/>
+  <path d="M20 30Q60 4 100 30" stroke="#7a3c14" stroke-width="2" fill="none"/>
+  <rect x="12" y="44" width="96" height="9" rx="3" fill="#f0c35a"/><rect x="12" y="84" width="96" height="6" rx="3" fill="#f0c35a"/>
+  <rect x="52" y="40" width="16" height="22" rx="3" fill="#ffe08a" stroke="#b07d17" stroke-width="2"/><circle cx="60" cy="50" r="2.5" fill="#7a5414"/></svg>`;
+const CHEST_OPEN = `<svg viewBox="0 0 120 110" aria-hidden="true">
+  <circle cx="60" cy="50" r="50" fill="#ffe08a" opacity=".45"/>
+  <path d="M14 46L22 8Q60 -6 98 8L106 46Z" fill="#a85a24"/><rect x="18" y="40" width="84" height="8" fill="#f0c35a"/>
+  <rect x="14" y="54" width="92" height="44" rx="6" fill="#8b4a1f"/><rect x="12" y="52" width="96" height="9" rx="3" fill="#f0c35a"/>
+  <circle cx="44" cy="54" r="9" fill="#ffd34d" stroke="#c98d1e" stroke-width="2"/><circle cx="62" cy="50" r="9" fill="#ffd34d" stroke="#c98d1e" stroke-width="2"/><circle cx="78" cy="55" r="9" fill="#ffd34d" stroke="#c98d1e" stroke-width="2"/>
+  <path d="M30 24L34 16M60 18V8M88 24L84 16" stroke="#fff3b0" stroke-width="3" stroke-linecap="round"/></svg>`;
 
 /* =====================================================================
    מצב המשחק ושמירה
@@ -363,14 +690,17 @@ const tx = s => { s = s.replace(/\{name\}/g, S.name || 'שׁוֹמֵר'); return
 const norm = s => plain(s).replace(/[^א-ת0-9]/g,'');
 const pick = a => a[Math.floor(Math.random()*a.length)];
 const esc = s => s.replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let screen = 'worlds';
 
 function rank(){ let r = RANKS[0]; RANKS.forEach(x=>{ if(S.done.length >= x.min) r = x; }); return r.name; }
 function refreshBar(){
   $('#coins').textContent = S.coins; $('#streak').textContent = S.streak.count;
   $('#rank').textContent = tx(rank()) + (S.name ? ' · ' + S.name : '');
-  $('#nikudBtn').textContent = S.nikud ? 'אָ' : 'א';
 }
+// שלב שכבר הושלם בעבר נותן רק חלק קטן מהמטבעות – כדי שלא "יחרוש" שלבים קלים בשביל זמן מסך
+const earn = n => (L && L.replay) ? Math.max(1, Math.round(n*0.2)) : n;
 function addCoins(n, el){
+  if(n<=0) return;
   S.coins += n; save(); refreshBar();
   const r = (el||$('#coins')).getBoundingClientRect();
   const f = document.createElement('div'); f.className='coinfly'; f.textContent = '+' + n + ' 🪙';
@@ -378,7 +708,7 @@ function addCoins(n, el){
   document.body.appendChild(f); setTimeout(()=>f.remove(), 1000);
 }
 function confetti(n=40){
-  const em = ['⭐','✨','🎉','🪙','💛','🎊'];
+  const em = ['⭐','✨','🪙','💛','🌟'];
   for(let i=0;i<n;i++){ const c=document.createElement('div'); c.className='confetti'; c.textContent=pick(em);
     c.style.left=Math.random()*100+'vw'; c.style.animationDuration=(1.5+Math.random()*1.5)+'s';
     document.body.appendChild(c); setTimeout(()=>c.remove(),3200); }
@@ -412,13 +742,14 @@ function updateStreak(){
    מסכים
    ===================================================================== */
 function showWorlds(){
-  closeOverlay();
-  app.innerHTML = `<h1 class="big-title">${tx('שׁוֹמְרֵי הַזְּמַן')}</h1>
+  closeOverlay(); screen = 'worlds';
+  app.innerHTML = `<div class="logo">${LOGO}<h1 class="big-title">${tx('שׁוֹמְרֵי הַזְּמַן')}</h1></div>
     <div class="subtitle">${tx('בְּחַר עוֹלָם וְהַצֵּל אֶת הַסִּפּוּרִים')}</div>
     <div class="worlds">${WORLDS.map(w=>`
-      <button class="world ${w.cls} ${w.open?'':'locked'}" data-w="${w.id}">
-        ${w.open?'':`<span class="lock-tag">🔒 ${w.lockText}</span>`}
-        <div class="emoji">${w.emoji}</div><b>${tx(w.title)}</b><span>${w.desc}</span>
+      <button class="world ${w.open?'':'locked'}" data-w="${w.id}">
+        <div class="art">${worldArt(w.id)}</div>
+        ${w.open?'':`<span class="lock-tag">🔒 ${tx(w.lockText)}</span>`}
+        <div class="wtxt"><b>${tx(w.title)}</b><span>${tx(w.desc)}</span></div>
       </button>`).join('')}</div>`;
   app.querySelectorAll('.world').forEach(b=>b.onclick=()=>{
     const w = WORLDS.find(x=>x.id===b.dataset.w);
@@ -427,34 +758,49 @@ function showWorlds(){
   refreshBar();
 }
 
+let mapWorld = 'history';
 function showMap(world){
-  closeOverlay();
+  closeOverlay(); screen = 'map'; mapWorld = world;
   const lv = LEVELS[world];
   const firstOpen = lv.findIndex(l=>!l.locked && !S.done.includes(l.id));
-  app.innerHTML = `<h1 class="big-title">${tx(WORLDS.find(w=>w.id===world).title)}</h1>
+  const W = Math.min(app.clientWidth - 32, 640), amp = Math.min(150, W*0.27), stepY = 215, top = 90;
+  const pts = lv.map((l,i)=>({ x: W/2 + Math.sin(i*1.2)*amp, y: top + i*stepY }));
+  const H = top + (lv.length-1)*stepY + 150;
+  let trail = '';
+  for(let i=0;i<pts.length-1;i++){
+    const a = pts[i], b = pts[i+1], d = `M${a.x} ${a.y}C${a.x} ${a.y+stepY/2} ${b.x} ${b.y-stepY/2} ${b.x} ${b.y}`;
+    trail += S.done.includes(lv[i].id)
+      ? `<path d="${d}" stroke="#f0c35a" stroke-width="8" fill="none" stroke-linecap="round" opacity=".95"/>`
+      : `<path d="${d}" stroke="#ffffff" stroke-width="5" fill="none" stroke-dasharray="2 14" stroke-linecap="round" opacity=".45"/>`;
+  }
+  app.innerHTML = `<h1 class="big-title" style="font-size:40px">${tx(WORLDS.find(w=>w.id===world).title)}</h1>
     <div class="subtitle">${tx('הַדַּפִּים שֶׁל סֵפֶר הַזְּמַן')}</div>
-    <div class="map">${lv.map((l,i)=>{
-      const done = S.done.includes(l.id), avail = !l.locked && (done || i<=firstOpen || firstOpen===-1);
-      const st = S.stars[l.id]||0;
-      return `${i?'<div class="path"></div>':''}
-        <div class="node-label">${tx(l.title)}</div>
-        <button class="node ${done?'done':''} ${i===firstOpen?'current':''} ${avail?'':'lockednode'}" data-i="${i}" ${avail?'':'disabled'}>
-          ${avail ? l.emoji : '🔒'}
-          ${done?`<span class="node-stars">${'⭐'.repeat(st)}${'☆'.repeat(3-st)}</span>`:''}
-        </button>${done?'<div style="height:30px"></div>':''}`;
-    }).join('')}</div>`;
-  app.querySelectorAll('.node:not([disabled])').forEach(b=>b.onclick=()=>playLevel(world, +b.dataset.i));
-  const cur = app.querySelector('.node.current'); if(cur) setTimeout(()=>cur.scrollIntoView({behavior:'smooth', block:'center'}), 200);
+    <div class="mapwrap" style="width:${W}px;height:${H}px">
+      <svg class="trail" width="${W}" height="${H}">${trail}</svg>
+      ${lv.map((l,i)=>{
+        const done = S.done.includes(l.id), avail = !l.locked && (done || i<=firstOpen || firstOpen===-1), st = S.stars[l.id]||0, cur = i===firstOpen;
+        const inner = l.locked ? '🔒' : scene(l.scene, {}) + (avail ? '' : '<div class="lockveil">🔒</div>');
+        return `<div class="mnode" style="left:${pts[i].x-62}px;top:${pts[i].y-59}px">
+          ${l.chapter?`<div class="ribbon">${tx(l.chapter)}</div>`:''}
+          <button class="medal ${done?'done':''} ${cur?'current':''} ${l.locked?'lockedm':''}" data-i="${i}" ${avail?'':'disabled'}>${inner}</button>
+          ${cur?`<div class="youhere">${tx('אַתָּה כָּאן')}</div>`:''}
+          <div class="mlabel">${tx(l.title)}</div>
+          ${done?`<div class="mstars">${'⭐'.repeat(st)}${'☆'.repeat(3-st)}</div>`:''}
+        </div>`;
+      }).join('')}
+    </div>`;
+  app.querySelectorAll('.medal:not([disabled])').forEach(b=>b.onclick=()=>playLevel(world, +b.dataset.i));
+  const cur = app.querySelector('.medal.current'); if(cur) setTimeout(()=>cur.scrollIntoView({behavior:'smooth', block:'center'}), 200);
   refreshBar();
 }
 
 function showCards(){
-  closeOverlay();
-  app.innerHTML = `<h1 class="big-title">${tx('הָאֹסֶף שֶׁלִּי')}</h1>
+  closeOverlay(); screen = 'cards';
+  app.innerHTML = `<h1 class="big-title" style="font-size:40px">${tx('הָאֹסֶף שֶׁלִּי')}</h1>
     <div class="subtitle">${S.cards.length} / ${Object.keys(CARDS).length}</div>
     <div class="cards">${Object.entries(CARDS).map(([id,c])=>{
       const has = S.cards.includes(id);
-      return `<div class="ccard ${has?'':'off'}"><div class="e">${c.e}</div><b>${has?tx(c.name):'???'}</b><small>${has?c.fact:'הצל עוד דפים כדי לגלות'}</small></div>`;
+      return `<div class="ccard ${has?'':'off'}"><div class="e">${c.e}</div><b>${has?tx(c.name):'???'}</b><small>${tx(has?c.fact:'הַצֵּל עוֹד דַּפִּים כְּדֵי לְגַלּוֹת')}</small></div>`;
     }).join('')}</div>`;
 }
 
@@ -462,25 +808,24 @@ function showCards(){
 let L; // current level runtime
 function playLevel(world, idx){
   const lvl = LEVELS[world][idx];
-  L = { world, idx, lvl, step:0, mistakes:0, lastRead:null };
+  L = { world, idx, lvl, step:0, mistakes:0, lastRead:null, replay:S.done.includes(lvl.id) };
+  screen = 'level';
   renderStep();
 }
-function guideHTML(){ return `<div class="guide"><div class="avatar">${GUIDE.emoji}</div><div><div class="guide-name">${tx(GUIDE.name)}</div></div></div>`; }
+function guideHTML(flat){ return `<div class="guide ${flat?'flat':''}"><div class="avatar">${guideSVG()}</div><div class="guide-name">${tx(GUIDE.name)}</div></div>`; }
 function progressHTML(){ return `<div class="progress">${L.lvl.steps.map((_,i)=>`<span class="${i<L.step?'on':''}"></span>`).join('')}</div>`; }
-function frame(inner){
-  app.innerHTML = progressHTML() + `<div class="panel">${inner}</div>`;
-}
+function frame(inner){ app.innerHTML = progressHTML() + `<div class="panel">${inner}</div>`; }
 function next(){ L.step++; if(L.step >= L.lvl.steps.length) finishLevel(); else renderStep(); }
 function rereadBtn(){ return L.lastRead ? `<button class="btn ghost" id="reread">📖 ${tx('לִקְרֹא שׁוּב')}</button>` : ''; }
 function bindReread(){ const b=$('#reread'); if(b) b.onclick=()=>{ overlay(`<div class="story" style="text-align:right">${L.lastRead.map(l=>`<p>${tx(l)}</p>`).join('')}</div>
   <div class="row" style="justify-content:center"><button class="btn ghost" id="ovSpeak">🔊</button><button class="btn go" id="ovClose">${tx('הֵבַנְתִּי')}</button></div>`);
   $('#ovClose').onclick=closeOverlay; $('#ovSpeak').onclick=()=>speak(L.lastRead.map(tx).join(' ')); }; }
-function speakBtn(text){ return `<button class="btn ghost" id="spk" title="הקרא לי">🔊 ${tx('הַקְרֵא לִי')}</button>`; }
+function speakBtn(){ return `<button class="btn ghost" id="spk" title="הַקְרֵא לִי">🔊 ${tx('הַקְרֵא לִי')}</button>`; }
 function bindSpeak(text){ const b=$('#spk'); if(b) b.onclick=()=>speak(text); }
 
 function correct(el, base=10){
   sound('ok'); S.tasks++; const first = L.tries===0; if(first) S.firstTry++;
-  addCoins(first ? base : Math.ceil(base/2), el);
+  addCoins(earn(first ? base : Math.ceil(base/2)), el);
   const fb = $('#fb'); if(fb){ fb.style.color='var(--ok)'; fb.textContent = tx(pick(PRAISE)); }
   setTimeout(next, 900);
 }
@@ -495,11 +840,13 @@ function renderStep(){
   const s = L.lvl.steps[L.step]; L.tries = 0;
   if(s.t==='read'){
     L.lastRead = s.lines;
-    frame(`${guideHTML()}${s.pic?`<div class="pic">${s.pic}</div>`:''}<div class="story">${s.lines.map((l,i)=>`<p style="animation-delay:${i*0.6}s">${tx(l)}</p>`).join('')}</div>
+    const sc = scene(s.scene || L.lvl.scene, { night:s.night, eraser:s.eraser });
+    frame(`<div class="scene">${sc}${s.pic?`<div class="sticker">${s.pic}</div>`:''}</div>
+      ${guideHTML()}<div class="story">${s.lines.map((l,i)=>`<p style="animation-delay:${i*0.6}s">${tx(l)}</p>`).join('')}</div>
       <div class="row">${speakBtn()}<div style="flex:1"></div><button class="btn go" id="nx">${tx('הַמְשֵׁךְ')} ◀</button></div>`);
     bindSpeak(s.lines.map(tx).join(' '));
     const nx = $('#nx'); nx.disabled = true; setTimeout(()=>nx.disabled=false, 600*s.lines.length + 300);
-    nx.onclick = ()=>{ addCoins(2, nx); next(); };
+    nx.onclick = ()=>{ addCoins(L.replay ? 0 : 2, nx); next(); };
   }
   else if(s.t==='choice' || s.t==='tf'){
     const isTF = s.t==='tf';
@@ -563,7 +910,7 @@ function renderStep(){
     document.onkeydown = e=>{ if(!L || L.lvl.steps[L.step]!==s) return; if(/^\d$/.test(e.key)&&val.length<4){val+=e.key;upd();} if(e.key==='Backspace'){val=val.slice(0,-1);upd();} if(e.key==='Enter') $('#ok').click(); };
   }
   else if(s.t==='name'){
-    frame(`${guideHTML()}<div class="question">${tx(s.q)}</div>
+    frame(`${guideHTML(true)}<div class="question">${tx(s.q)}</div>
       <input type="text" id="nm" maxlength="20" value="${esc(S.name)}" autocomplete="off">
       <div class="row"><button class="btn go" id="ok">${tx('זֶה אֲנִי!')} ◀</button>${speakBtn()}</div><div class="feedback" id="fb"></div>`);
     bindSpeak(tx(s.q));
@@ -571,16 +918,16 @@ function renderStep(){
     $('#ok').onclick=()=>{ const v=$('#nm').value.trim(); if(v.length<2){ wrong($('#nm')); return; } S.name=v; save(); refreshBar(); correct($('#ok'), 10); };
   }
   else if(s.t==='write'){
-    frame(`${guideHTML()}<div class="question">${tx(s.q)}</div>
-      <div class="chips" style="min-height:0;margin-bottom:12px">${s.starters.map(w=>`<button class="chip" data-w="${esc(plain(w))}">${tx(w)}</button>`).join('')}</div>
-      <textarea id="ta" placeholder="${plain('כְּתֹב כָּאן...')}"></textarea>
+    frame(`${guideHTML(true)}<div class="question">${tx(s.q)}</div>
+      <div class="chips" style="min-height:0;margin-bottom:12px">${s.starters.map(w=>`<button class="chip" data-w="${esc(tx(w))}">${tx(w)}</button>`).join('')}</div>
+      <textarea id="ta" placeholder="${tx('כְּתֹב כָּאן...')}"></textarea>
       <div class="meter"><i id="mt"></i></div><div class="meter-label" id="ml"></div>
       <div class="row"><button class="btn gold" id="ok" disabled>${tx('שְׁלַח אֶת הַמִּכְתָּב')} ✉️</button>${speakBtn()}${rereadBtn()}</div>
       <div class="feedback" id="fb"></div>`);
     bindSpeak(tx(s.q)); bindReread();
     const ta=$('#ta'), cnt=()=>ta.value.trim().split(/\s+/).filter(Boolean).length;
     const upd=()=>{ const n=cnt(); $('#mt').style.width=Math.min(100,n/s.minWords*100)+'%';
-      $('#ml').textContent = n>=s.minWords ? '✔ מצוין! אפשר לשלוח (וגם להוסיף עוד)' : `עוד ${s.minWords-n} מילים`; $('#ok').disabled = n<s.minWords; };
+      $('#ml').textContent = n>=s.minWords ? tx('✔ מְצֻיָּן! אֶפְשָׁר לִשְׁלֹחַ (וְגַם לְהוֹסִיף עוֹד)') : tx(s.minWords-n===1 ? 'עוֹד מִלָּה אַחַת' : `עוֹד ${s.minWords-n} מִלִּים`); $('#ok').disabled = n<s.minWords; };
     app.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{ ta.value = (ta.value.trim()+' '+c.dataset.w+' ').trimStart(); ta.focus(); upd(); });
     ta.oninput=upd; upd();
     $('#ok').onclick=()=>{
@@ -588,9 +935,9 @@ function renderStep(){
       const hits = s.keywords.filter(k=>text.includes(k)).length;
       const bonus = 15 + Math.min(15, (n - s.minWords)) + hits*3;
       S.tasks++; S.firstTry++; (S.letters = S.letters||[]).push({ level:L.lvl.id, text:ta.value, at:new Date().toISOString() }); save();
-      sound('win'); addCoins(bonus, $('#ok'));
+      sound('win'); addCoins(earn(bonus), $('#ok'));
       $('#fb').style.color='var(--ok)';
-      $('#fb').textContent = hits>=2 ? '😮 מכתב של בלש אמיתי! הסברת בדיוק מה גילית.' : '✉️ מכתב נהדר! המלך קיבל אותו.';
+      $('#fb').textContent = hits>=2 ? tx('😮 מִכְתָּב שֶׁל בַּלָּשׁ אֲמִתִּי! הִסְבַּרְתָּ בְּדִיּוּק מָה גִּלִּיתָ.') : tx('✉️ מִכְתָּב נֶהְדָּר! הוּא נִשְׁלַח.');
       $('#ok').disabled = true; setTimeout(next, 1800);
     };
   }
@@ -606,18 +953,20 @@ function finishLevel(){
   updateStreak(); save(); refreshBar();
   sound('win'); confetti();
   const c = CARDS[L.lvl.card];
-  overlay(`<div class="celebrate-emoji">🏆</div>
-    <h2 style="font-size:34px">${tx('הַדַּף נִצַּל!')}</h2>
-    <div class="stars-big">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
-    ${newCard?`<div class="ccard" style="max-width:240px;margin:14px auto"><div class="e">${c.e}</div><b>${tx(c.name)}</b><small>${c.fact}</small></div><div class="small">קלף חדש לאוסף!</div>`:''}
-    <p style="font-size:22px">${tx('גַּע בַּתֵּבָה!')}</p>
-    <div class="chest" id="chest">🎁</div>`);
+  overlay(`<div class="restored">${scene(L.lvl.scene,{})}</div>
+    <h2 class="display" style="font-size:36px;margin:8px 0 0">${tx('הַדַּף נִצַּל!')}</h2>
+    <div class="stars-big">${[0,1,2].map(i=>`<span style="animation-delay:${.3+i*.25}s">${i<stars?'⭐':'☆'}</span>`).join('')}</div>
+    ${newCard?`<div class="ccard wincard"><div class="e">${c.e}</div><div><b>${tx(c.name)}</b><small>${tx(c.fact)}</small></div></div><div class="small">${tx('קְלָף חָדָשׁ לָאֹסֶף!')}</div>`:''}
+    ${L.replay?`<div class="small">${tx('שָׁלָב חוֹזֵר: פָּחוֹת מַטְבְּעוֹת, אֲבָל אֶפְשָׁר לְשַׁפֵּר כּוֹכָבִים')} ⭐</div>`:''}
+    <p style="font-size:22px;margin:10px 0 4px">${tx('גַּע בַּתֵּבָה!')}</p>
+    <button class="chest" id="chest">${CHEST_CLOSED}</button>`);
   $('#chest').onclick = ()=>{
-    const prize = pick([10,15,20,25,30,50]);
+    const prize = earn(pick([10,15,20,25,30,50]));
     addCoins(prize, $('#chest')); confetti(20);
-    $('#chest').outerHTML = `<div style="font-size:40px;font-weight:800;color:var(--gold2)">+${prize} 🪙</div>`;
-    $('#overlayBody').insertAdjacentHTML('beforeend', `<p class="story" style="font-size:26px">${tx(L.lvl.end||'')}</p>
+    $('#chest').outerHTML = `<div style="width:120px;margin:0 auto">${CHEST_OPEN}</div><div style="font-size:40px;font-weight:800;color:var(--gold2)">+${prize} 🪙</div>`;
+    $('#overlayBody').insertAdjacentHTML('beforeend', `<p class="story" style="font-size:24px">${tx(L.lvl.end||'')}</p>
       <div class="row" style="justify-content:center"><button class="btn go" id="cont">${tx('לַמַּפָּה')} ◀</button></div>`);
+    $('#cont').scrollIntoView({behavior:'smooth', block:'end'});
     $('#cont').onclick = ()=>{
       const mins = (Date.now()-sessionStart)/60000;
       if(mins >= S.settings.sessionMin) showBreak(); else showMap(L.world);
@@ -626,7 +975,7 @@ function finishLevel(){
 }
 
 function showBreak(){
-  overlay(`<div class="celebrate-emoji">🧘</div><h2 style="font-size:30px">${tx('שׁוֹמֵר זְמַן טוֹב יוֹדֵעַ גַּם לָנוּחַ!')}</h2>
+  overlay(`<div style="font-size:80px">🌙</div><h2 class="display" style="font-size:30px">${tx('שׁוֹמֵר זְמַן טוֹב יוֹדֵעַ גַּם לָנוּחַ!')}</h2>
     <p class="story" style="font-size:24px">${tx('עָבַדְתָּ הַיּוֹם מְצֻיָּן. הַסֵּפֶר מְחַכֶּה לְךָ מָחָר – וְהָרֶצֶף שֶׁלְּךָ מַמְשִׁיךְ! 🔥')}</p>
     <div class="row" style="justify-content:center"><button class="btn go" id="bye">${tx('לְהִתְרָאוֹת!')} 👋</button><button class="btn ghost" id="more">${tx('עוֹד שָׁלָב אֶחָד')}</button></div>`);
   $('#bye').onclick = ()=>{ closeOverlay(); showWorlds(); };
@@ -635,7 +984,7 @@ function showBreak(){
 
 /* ----------------------------- אזור הורים ----------------------------- */
 function showParent(){
-  overlay(`<h2>אזור הורים 🔒</h2><p class="small">הקוד ההתחלתי הוא 1234 – כדאי לשנות אותו.</p>
+  overlay(`<h2 class="display">אזור הורים 🔒</h2><p class="small">הקוד ההתחלתי הוא 1234 – כדאי לשנות אותו.</p>
     <input type="password" id="pin" inputmode="numeric" maxlength="6"><div class="row" style="justify-content:center">
     <button class="btn" id="pinok">כניסה</button><button class="btn ghost" id="pincancel">ביטול</button></div>`);
   $('#pin').focus();
@@ -646,7 +995,7 @@ function parentPanel(){
   const st = S.settings, units = Math.floor(S.coins / st.coinsPer);
   const acc = S.tasks ? Math.round(S.firstTry/S.tasks*100) : 0;
   overlay(`<div style="text-align:right">
-    <h2>אזור הורים</h2>
+    <h2 class="display">אזור הורים</h2>
     <table class="ptable">
       <tr><td>שלבים שהושלמו</td><td><b>${S.done.length}</b></td></tr>
       <tr><td>דקות משחק</td><td><b>${S.minutes}</b></td></tr>
@@ -658,13 +1007,15 @@ function parentPanel(){
     <label class="field">כמה מטבעות שווה פרס אחד<input type="number" id="s1" value="${st.coinsPer}"></label>
     <label class="field">מה הפרס<input type="text" id="s2" value="${esc(st.rewardText)}"></label>
     <label class="field">אחרי כמה דקות להציע הפסקה<input type="number" id="s3" value="${st.sessionMin}"></label>
+    <label class="field" style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="s5" ${S.nikud?'checked':''} style="width:26px;height:26px"> להציג ניקוד בכל המשחק (מומלץ להשאיר)</label>
     <label class="field">קוד הורים חדש<input type="text" id="s4" value="${esc(st.pin)}"></label>
     ${(S.letters||[]).length?`<h3>מכתבים שהוא כתב</h3>${S.letters.slice(-5).reverse().map(l=>`<div class="hint" style="font-size:18px">${esc(l.text)}</div>`).join('')}`:''}
     <div class="small" style="margin-top:12px">מימושים: ${S.redeemed.length ? S.redeemed.slice(-5).map(r=>new Date(r).toLocaleDateString('he-IL')).join(', ') : 'עדיין אין'}</div>
     <div class="row" style="justify-content:space-between"><button class="btn go" id="psave">שמירה</button>
     <button class="btn ghost" id="preset" style="color:#c0392b">איפוס התקדמות</button></div></div>`);
   $('#redeem').onclick = ()=>{ S.coins -= st.coinsPer; S.redeemed.push(Date.now()); save(); refreshBar(); confetti(); parentPanel(); };
-  $('#psave').onclick = ()=>{ st.coinsPer=Math.max(1,+$('#s1').value||100); st.rewardText=$('#s2').value; st.sessionMin=Math.max(3,+$('#s3').value||12); st.pin=$('#s4').value||'1234'; save(); closeOverlay(); };
+  $('#psave').onclick = ()=>{ st.coinsPer=Math.max(1,+$('#s1').value||100); st.rewardText=$('#s2').value; st.sessionMin=Math.max(3,+$('#s3').value||12); st.pin=$('#s4').value||'1234'; S.nikud=$('#s5').checked; save(); closeOverlay(); refreshBar();
+    if(screen==='level') renderStep(); else if(screen==='map') showMap(mapWorld); else if(screen==='cards') showCards(); else showWorlds(); };
   $('#preset').onclick = ()=>{ if(confirm('למחוק את כל ההתקדמות?')){ const keep=S.settings; S=structuredClone(DEFAULT); S.settings=keep; save(); closeOverlay(); showWorlds(); } };
 }
 
@@ -672,8 +1023,8 @@ function parentPanel(){
 $('#homeBtn').onclick = showWorlds;
 $('#cardsBtn').onclick = showCards;
 $('#parentBtn').onclick = showParent;
-$('#nikudBtn').onclick = ()=>{ S.nikud=!S.nikud; save(); refreshBar(); if(L && app.querySelector('.progress')) renderStep(); else showWorlds(); };
 $('#overlay').onclick = e=>{ if(e.target.id==='overlay' && !$('#chest') && !$('#cont')) closeOverlay(); };
+let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz = setTimeout(()=>{ if(screen==='map') showMap(mapWorld); }, 250); });
 
 // פתיחה: ילד חדש מתחיל ישר בפרולוג
 if(!S.done.includes('p1')) { refreshBar(); playLevel('history', 0); } else showWorlds();
