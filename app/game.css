@@ -8,7 +8,7 @@
 .kg{position:relative;min-height:100vh;
   font-family:'Noto Sans Hebrew',Arial,sans-serif;color:var(--ink);background-color:var(--night1);
   background-image:radial-gradient(ellipse at 50% -10%,#3f2c8c 0%,transparent 60%),radial-gradient(ellipse at 100% 110%,#173a66 0%,transparent 55%),linear-gradient(var(--night2),var(--night1));
-  background-attachment:fixed;min-height:100vh;overflow-x:hidden;user-select:none;
+  background-attachment:fixed;min-height:100vh;overflow-x:clip;user-select:none;
 }
 .kg::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.7;
   background-image:
@@ -22,7 +22,7 @@
 .hidden{display:none!important}
 
 /* ---------- top bar ---------- */
-#topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:10px 16px;
+#topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));flex-wrap:nowrap;
   background:linear-gradient(rgba(15,11,42,.92),rgba(15,11,42,.75));backdrop-filter:blur(6px);color:#fff;border-bottom:1px solid rgba(240,195,90,.25)}
 .pill{background:rgba(240,195,90,.12);border:1px solid rgba(240,195,90,.35);border-radius:999px;padding:5px 14px;font-weight:800;font-size:20px;display:flex;gap:6px;align-items:center;color:#ffe7a6}
 #topbar .spacer{flex:1}
@@ -74,7 +74,7 @@ h1,h2{margin:0 0 12px}
 .mstars{font-size:17px;letter-spacing:2px;margin-top:2px}
 .ribbon{position:absolute;top:-46px;white-space:nowrap;background:linear-gradient(#f6d27a,#d89f2c);color:#3a2614;font-family:var(--display);font-weight:900;
   font-size:19px;padding:4px 18px;border-radius:8px;box-shadow:0 4px 0 #8a5d12,0 6px 14px rgba(0,0,0,.4)}
-.youhere{position:absolute;top:-30px;right:-18px;background:#fff;color:var(--accent);font-weight:800;font-size:14px;border-radius:999px;padding:3px 10px;box-shadow:0 3px 8px rgba(0,0,0,.35);animation:float 2s ease-in-out infinite}
+.youhere{position:relative;margin-top:6px;background:#fff;color:var(--accent);font-weight:800;font-size:14px;border-radius:999px;padding:3px 10px;box-shadow:0 3px 8px rgba(0,0,0,.35);animation:float 2s ease-in-out infinite}
 
 /* ---------- level ---------- */
 .progress{display:flex;gap:6px;margin:4px 0 14px}
@@ -266,3 +266,58 @@ label.field input{font-size:22px;padding:8px 12px;margin-top:4px}
 .flash{position:fixed;inset:0;background:radial-gradient(#fff8dc,#ffe7a6 40%,rgba(255,231,166,0) 75%);z-index:80;pointer-events:none;animation:flash .9s forwards}
 @keyframes flash{0%{opacity:0}35%{opacity:1}100%{opacity:0}}
 .sleep h2{font-size:32px;margin:4px 0 10px}
+
+/* ---------- אימון שומרי הזמן (סיור מודרך) ---------- */
+#coach{position:fixed;inset:0;z-index:70}
+.coach-hole{position:fixed;border-radius:18px;box-shadow:0 0 0 200vmax rgba(8,5,26,.82);border:3px solid var(--gold);pointer-events:none;
+  transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease;animation:holeglow 1.6s ease-in-out infinite}
+@keyframes holeglow{50%{border-color:#fff3c4;box-shadow:0 0 0 200vmax rgba(8,5,26,.82),0 0 26px 6px rgba(240,195,90,.8)}}
+.coach-card{position:fixed;background:linear-gradient(170deg,var(--parch1),var(--parch2));border:3px solid var(--goldline);border-radius:20px;padding:16px 18px;
+  box-shadow:0 18px 50px rgba(0,0,0,.55);color:var(--ink);transition:top .35s ease,left .35s ease}
+.coach-card.coach-in{animation:pageIn .4s ease}
+.coach-card h3{font-size:28px;margin:0 0 8px;text-align:center}
+.coach-icon{font-size:54px;text-align:center;animation:pop .5s}
+.coach-who{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.coach-who img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--goldline)}
+.coach-who b{color:var(--accent);font-size:16px}
+.coach-text{font-size:23px;line-height:1.7;font-weight:600;margin:4px 0 10px}
+.coach-help{display:grid;gap:8px;margin:6px 0}
+.coach-help div{background:#fffdf6;border:2px solid #e4cf9a;border-radius:12px;padding:8px 12px}
+.coach-help b{display:block;font-size:20px}
+.coach-help span{font-size:18px;line-height:1.5}
+.coach-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.coach-dots{display:flex;gap:5px}
+.coach-dots i{width:8px;height:8px;border-radius:50%;background:#e4cf9a}
+.coach-dots i.on{background:var(--gold2);transform:scale(1.3)}
+.coach-foot .btn{font-size:22px;padding:12px 22px}
+
+/* ---------- טיפ בפעם הראשונה ---------- */
+.tip{display:flex;gap:10px;align-items:center;background:#fff3cf;border:2px solid var(--gold);border-radius:14px;padding:8px 12px;margin:0 0 16px;font-size:20px;font-weight:600;line-height:1.5;animation:pop .45s .3s both}
+.story + .tip{margin:14px 0 0}
+.tip img{width:42px;height:42px;border-radius:50%;object-fit:cover;flex:none;border:2px solid var(--goldline)}
+
+/* ---------- 🏆 שאלת אלוף ---------- */
+.aluf-head{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;background:linear-gradient(#f6d27a,#d89f2c);color:#3a2614;
+  font-family:var(--display);font-weight:900;font-size:28px;border-radius:14px;padding:8px 14px;margin-bottom:16px;box-shadow:0 4px 0 #8a5d12}
+.aluf-head small{font-family:'Noto Sans Hebrew',sans-serif;font-size:16px;font-weight:700;background:rgba(255,255,255,.5);border-radius:999px;padding:2px 10px}
+
+/* ---------- תיקוני עיצוב: סרגל עליון, מסכים קטנים ---------- */
+#topbar > *{flex:none}
+#topbar .spacer{flex:1 1 auto;min-width:0}
+.kg main{padding-bottom:max(60px,calc(env(safe-area-inset-bottom) + 40px))}
+.howto{display:block;margin:-6px auto 16px;background:none;color:#d9cfff;font-size:17px;text-decoration:underline;text-underline-offset:4px}
+@media (max-width:600px){
+  #topbar{gap:5px;padding-left:8px;padding-right:8px}
+  .pill{font-size:15px;padding:3px 8px;gap:4px}
+  .iconbtn{width:38px;height:38px;font-size:18px;border-radius:12px}
+  .kg main{padding-left:12px;padding-right:12px}
+  /* כפתור "המשך" תמיד נראה */
+  .row.actions{position:sticky;bottom:0;z-index:3;margin:16px -20px -20px;padding:12px 20px max(12px,env(safe-area-inset-bottom));
+    background:var(--parch2);box-shadow:0 -14px 18px rgba(244,228,190,.95);border-radius:0 0 21px 21px}
+  .story{font-size:25px;line-height:1.75}
+  .question{font-size:23px}
+  .scene{height:180px}
+  .tip{font-size:17px}
+  .coach-text{font-size:20px}
+}
+@media (max-width:430px){ #helpBtn{display:none} }
