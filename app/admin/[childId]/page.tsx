@@ -1,0 +1,233 @@
+'use client';
+import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import AdminShell from '@/components/admin/AdminShell';
+import { LifelineCard, RedemptionCard, ReplyBox } from '@/components/admin/Cards';
+import { KeeperHead } from '@/components/Art';
+import { api, vowelize, fmtTime, type Row } from '@/lib/admin';
+import { LEVELS, DEFAULT_SETTINGS, SHOP } from '@/lib/game/content.js';
+
+const NIKUD = /[֑-ׇ]/g;
+const plain = (s: string) => String(s || '').replace(NIKUD, '');
+const ALL_LEVELS: Row[] = Object.values(LEVELS as Record<string, Row[]>).flat();
+const levelTitle = (id: string) => plain(ALL_LEVELS.find(l => l.id === id)?.title || id || '');
+const TABS = [
+  { id: 'overview', t: 'סקירה' }, { id: 'rewards', t: 'פרסים' }, { id: 'letters', t: 'מכתבים' },
+  { id: 'lifeline', t: 'גלגל הצלה' }, { id: 'riddles', t: 'חידות' }, { id: 'settings', t: 'הגדרות' },
+];
+
+export default function ChildAdmin() {
+  const { childId } = useParams<{ childId: string }>();
+  return (
+    <AdminShell title="אזור הורים" back="/admin">
+      {kids => { const k = kids.find(x => x.id === childId) || kids[0]; return k ? <ChildView child={k} /> : <div className="a-card">לא נמצא</div>; }}
+    </AdminShell>
+  );
+}
+
+function ChildView({ child }: { child: Row }) {
+  const [tab, setTab] = useState('overview');
+  const [d, setD] = useState<Row | null>(null);
+  const [settings, setSettings] = useState<Row>({ ...DEFAULT_SETTINGS, ...(child.settings || {}) });
+
+  useEffect(() => { const t = new URLSearchParams(window.location.search).get('tab'); if (t) setTab(t); }, []);
+  const load = useCallback(async () => {
+    const a = api(), id = child.id;
+    const [state, events, ledger, reds, letters, lifelines, riddles] = await Promise.all([
+      a.state(id), a.events(id, 40), a.ledger(id), a.redemptions([id]), a.letters(id), a.lifelines([id]), a.riddles(id),
+    ]);
+    setD({ state, events, ledger, reds, letters, lifelines, riddles, balance: ledger.reduce((s: number, r: Row) => s + r.delta, 0) });
+  }, [child.id]);
+  useEffect(() => { load(); return api().live(load); }, [load]);
+
+  if (!d) return <div className="a-card">טוען…</div>;
+  const s = d.state || {};
+  const badge: Record<string, number> = {
+    rewards: d.reds.filter((r: Row) => r.status === 'pending').length,
+    letters: d.letters.filter((l: Row) => !l.reply).length,
+    lifeline: d.lifelines.filter((l: Row) => l.status === 'open').length,
+  };
+  return (
+    <>
+      <div className="a-card"><div className="a-child-card"><KeeperHead equipped={s.equipped} /><div className="a-grow"><b style={{ fontSize: 22 }}>{child.name}</b>
+        <div className="a-help">🪙 {s.coins || 0} מטבעות · 🎟️ {d.balance} כרטיסים ({d.balance * settings.ticketMinutes} דק׳)</div></div></div></div>
+      <div className="a-tabs">{TABS.map(t => (
+        <button key={t.id} className={'a-tab' + (tab === t.id ? ' on' : '')} onClick={() => { setTab(t.id); history.replaceState(null, '', '?tab=' + t.id); }}>
+          {t.t}{badge[t.id] ? <span className="a-badge">{badge[t.id]}</span> : null}
+        </button>))}</div>
+      {tab === 'overview' && <Overview d={d} settings={settings} />}
+      {tab === 'rewards' && <Rewards d={d} child={child} settings={settings} reload={load} />}
+      {tab === 'letters' && <Letters d={d} reload={load} />}
+      {tab === 'lifeline' && <Lifelines d={d} reload={load} />}
+      {tab === 'riddles' && <Riddles d={d} child={child} reload={load} />}
+      {tab === 'settings' && <Settings child={child} settings={settings} setSettings={setSettings} />}
+    </>
+  );
+}
+
+function Overview({ d, settings }: { d: Row; settings: Row }) {
+  const s = d.state || {}, today = new Date().toDateString();
+  const t = s.today?.date === today ? s.today : { pages: 0, tickets: 0, lifelines: 0 };
+  const acc = s.tasks ? Math.round((s.firstTry / s.tasks) * 100) : 0;
+  const ev = (e: Row) => {
+    const x = e.data || {};
+    switch (e.type) {
+      case 'level_done': return `📖 ${x.replay ? 'שיחק שוב' : 'הציל את'} "${levelTitle(x.level)}" ${'⭐'.repeat(x.stars || 0)} · ${Math.max(1, Math.round((x.seconds || 0) / 60))} דק׳ · ${x.mistakes || 0} טעויות`;
+      case 'daily_goal': return '🎯 השלים את משימת היום';
+      case 'lifeline': return `📞 ביקש עזרה ב"${levelTitle(x.level)}"`;
+      case 'riddle_solved': return `🧩 פתר חידה (${x.tries ? x.tries + ' ניסיונות שגויים' : 'בניסיון ראשון'})`;
+      case 'shop_buy': return `🛍️ קנה ${plain(SHOP.find((i: Row) => i.id === x.item)?.name || '')}`;
+      case 'session_start': return '🎮 נכנס למשחק';
+      default: return e.type;
+    }
+  };
+  return (
+    <>
+      <div className="a-card"><h2>היום</h2><div className="a-stats">
+        <div className="a-stat"><b>{t.pages}/{settings.dailyGoal}</b><span>משימת היום</span></div>
+        <div className="a-stat"><b>🎟️ {t.tickets}/{settings.dailyTicketCap}</b><span>כרטיסים היום</span></div>
+        <div className="a-stat"><b>📞 {t.lifelines || 0}/{settings.lifelinesPerDay}</b><span>גלגלי הצלה</span></div>
+        <div className="a-stat"><b>🔥 {s.streak?.count || 0}</b><span>ימים ברצף</span></div>
+      </div></div>
+      <div className="a-card"><h2>בסך הכול</h2><div className="a-stats">
+        <div className="a-stat"><b>{(s.done || []).length}</b><span>דפים שהציל</span></div>
+        <div className="a-stat"><b>{acc}%</b><span>הצלחה בניסיון ראשון<br />(יעד 70%–85%)</span></div>
+        <div className="a-stat"><b>{s.minutes || 0}</b><span>דקות משחק</span></div>
+        <div className="a-stat"><b>{(s.cards || []).length}</b><span>קלפים באוסף</span></div>
+      </div>
+      <h3>מפת ההתקדמות</h3>
+      <div className="a-levels">{ALL_LEVELS.filter(l => !l.locked).map(l => {
+        const done = (s.done || []).includes(l.id);
+        return <div key={l.id} className={'a-level' + (done ? ' done' : '')}>{done ? '⭐'.repeat(s.stars?.[l.id] || 0) : '⬜'} {plain(l.title)}</div>;
+      })}</div></div>
+      <div className="a-card"><h2>פעילות אחרונה</h2>
+        <div className="a-ledger">{d.events.filter((e: Row) => e.type !== 'session_start').slice(0, 25).map((e: Row, i: number) => <div key={i}><span>{ev(e)}</span><span className="a-help">{fmtTime(e.created_at)}</span></div>)}
+          {!d.events.length && <div className="a-help">עוד אין פעילות</div>}</div></div>
+    </>
+  );
+}
+
+function Rewards({ d, child, settings, reload }: { d: Row; child: Row; settings: Row; reload: () => void }) {
+  const pending = d.reds.filter((r: Row) => r.status === 'pending');
+  const [reason, setReason] = useState('בונוס מאבא');
+  const grant = async (n: number) => { await api().grant(child.id, n, reason || 'בונוס'); reload(); };
+  return (
+    <>
+      <div className="a-card" style={{ textAlign: 'center' }}><div style={{ fontSize: 44, fontWeight: 800 }}>🎟️ {d.balance}</div>
+        <div className="a-help">= {d.balance * settings.ticketMinutes} דקות צפייה · כל כרטיס = {settings.ticketMinutes} דקות (אפשר לשנות בהגדרות)</div></div>
+      {pending.length > 0 && <div className="a-card a-urgent"><h2>ממתין לאישור שלך</h2><div className="a-list">{pending.map((r: Row) => <RedemptionCard key={r.id} row={r} onDone={reload} />)}</div></div>}
+      <div className="a-card"><h2>לתת כרטיס בונוס</h2>
+        <input className="a-input" value={reason} onChange={e => setReason(e.target.value)} placeholder="על מה?" />
+        <div className="a-row" style={{ marginTop: 8 }}><button className="a-btn green" onClick={() => grant(1)}>+1 🎟️</button><button className="a-btn green" onClick={() => grant(2)}>+2 🎟️</button></div></div>
+      <div className="a-card"><h2>היסטוריה</h2><div className="a-ledger">
+        {d.ledger.map((r: Row, i: number) => <div key={i}><span>{r.reason}</span><span><span className={r.delta > 0 ? 'a-plus' : 'a-minus'}>{r.delta > 0 ? '+' : ''}{r.delta}</span> <span className="a-help">{fmtTime(r.created_at)}</span></span></div>)}
+        {!d.ledger.length && <div className="a-help">עוד אין כרטיסים</div>}</div></div>
+    </>
+  );
+}
+
+function Letters({ d, reload }: { d: Row; reload: () => void }) {
+  if (!d.letters.length) return <div className="a-card"><div className="a-help">עוד לא כתב מכתבים. בכל פרק יש משימת כתיבה, והמכתבים יופיעו כאן.</div></div>;
+  return (
+    <div className="a-list">{d.letters.map((l: Row) => (
+      <div key={l.id} className={'a-card' + (!l.reply ? ' a-urgent' : '')} style={{ marginBottom: 0 }}>
+        <div className="a-meta">✉️ {levelTitle(l.level_id)} · {fmtTime(l.created_at)}</div>
+        <div className="a-kid">{l.text}</div>
+        {l.reply ? <><div className="a-help">התשובה שלך {l.reply_seen ? '· ✔ הוא קרא' : '· עוד לא קרא'}</div><div className="a-nikud">{l.reply_nikud || l.reply}</div></>
+          : <ReplyBox button="שלח תשובה ✉️" quick={['איזה מכתב מעולה! אני גאה בך', 'וואו, הסברת את זה ממש טוב!']} onSend={async (t, n) => { await api().reply(l.id, t, n); reload(); }} />}
+      </div>))}</div>
+  );
+}
+
+function Lifelines({ d, reload }: { d: Row; reload: () => void }) {
+  const open = d.lifelines.filter((l: Row) => l.status === 'open'), past = d.lifelines.filter((l: Row) => l.status !== 'open');
+  const st: Record<string, string> = { answered: '✔ ענית', cancelled: 'ביטל', expired: '⏰ לא נענה בזמן' };
+  return (
+    <>
+      <div className="a-card"><h2>📞 טלפון לחבר</h2><div className="a-help">כשהוא נתקע בשאלה הוא יכול &quot;להתקשר&quot; אליך. תקבל התראה, ומה שתכתוב יופיע לו במשחק (מנוקד). אם לא תענה תוך כמה דקות, יובל ייתן לו רמז, והגלגל לא יורד לו.</div></div>
+      {open.length > 0 && <div className="a-card a-urgent"><h2>מחכה לך עכשיו</h2><div className="a-list">{open.map((r: Row) => <LifelineCard key={r.id} row={r} onDone={reload} />)}</div></div>}
+      <div className="a-card"><h2>היסטוריה</h2><div className="a-list">{past.map((r: Row) => (
+        <div key={r.id} className="a-item"><div className="a-meta">{r.payload?.levelTitle} · {fmtTime(r.created_at)} · {st[r.status]}</div>
+          <div className="a-q">❓ {r.payload?.question}</div>{r.answer && <div className="a-nikud">{r.answer_nikud || r.answer}</div>}</div>))}
+        {!past.length && <div className="a-help">עוד לא ביקש עזרה</div>}</div></div>
+    </>
+  );
+}
+
+const SAMPLE_RIDDLES = [
+  { q: 'מה עולה ולא יורד אף פעם?', a: 'גיל' },
+  { q: 'יש לו שיניים, אבל הוא לא נושך. מה זה?', a: 'מסרק' },
+  { q: 'מה נהיה רטוב יותר ככל שהוא מייבש?', a: 'מגבת' },
+  { q: 'יש לי ידיים, אבל אני לא יכול למחוא כפיים. מי אני?', a: 'שעון' },
+  { q: 'מה שייך לך, אבל אחרים משתמשים בו יותר ממך?', a: 'שם, השם שלי' },
+];
+function Riddles({ d, child, reload }: { d: Row; child: Row; reload: () => void }) {
+  const [q, setQ] = useState(''), [a, setA] = useState(''), [h, setH] = useState(''), [tk, setTk] = useState(1);
+  const [busy, setBusy] = useState(false), [prev, setPrev] = useState('');
+  const save = async () => {
+    setBusy(true);
+    const [qn, hn] = await Promise.all([vowelize(q), h ? vowelize(h) : Promise.resolve('')]);
+    await api().addRiddle(child.id, { question: q, question_nikud: qn, answers: a.split(/[,،\/]/).map(x => x.trim()).filter(Boolean), hint: h || null, hint_nikud: hn || null, reward_tickets: tk, reward_coins: 20 });
+    setQ(''); setA(''); setH(''); setPrev(''); setBusy(false); reload();
+  };
+  const st: Record<string, string> = { active: '🟡 מחכה לו', solved: '✔ פתר', archived: 'בארכיון' };
+  return (
+    <>
+      <div className="a-card"><h2>📜 חידה חדשה</h2>
+        <div className="a-help">החידה תופיע לו במסך הראשי של המשחק כמגילה זוהרת. כתוב בלי ניקוד – נוסיף אוטומטית.</div>
+        <div className="a-chips" style={{ marginTop: 8 }}>{SAMPLE_RIDDLES.map(r => <button key={r.q} className="a-chip" onClick={() => { setQ(r.q); setA(r.a); }}>💡 {r.q.slice(0, 22)}…</button>)}</div>
+        <label className="a-label">החידה</label><textarea className="a-textarea" value={q} onChange={e => { setQ(e.target.value); setPrev(''); }} />
+        {prev && <div className="a-nikud">{prev}</div>}
+        <label className="a-label">תשובות נכונות (אפשר כמה, מופרדות בפסיק)</label><input className="a-input" value={a} onChange={e => setA(e.target.value)} placeholder="למשל: שעון, השעון" />
+        <label className="a-label">רמז (לא חובה)</label><input className="a-input" value={h} onChange={e => setH(e.target.value)} />
+        <label className="a-label">פרס</label>
+        <div className="a-chips">{[0, 1, 2].map(n => <button key={n} className={'a-chip' + (tk === n ? ' on' : '')} onClick={() => setTk(n)}>{n ? `${n} 🎟️ + 20 🪙` : 'רק 20 🪙'}</button>)}</div>
+        <div className="a-row" style={{ marginTop: 10 }}><button className="a-btn gold" disabled={busy || !q.trim() || !a.trim()} onClick={save}>{busy ? '...' : 'שלח לו את החידה'}</button>
+          <button className="a-btn light" disabled={!q.trim()} onClick={async () => setPrev(await vowelize(q))}>👁️ איך זה ייראה לו</button></div></div>
+      <div className="a-card"><h2>החידות שלך</h2><div className="a-list">{d.riddles.map((r: Row) => (
+        <div key={r.id} className="a-item"><div className="a-meta">{st[r.status]} · {fmtTime(r.solved_at || r.created_at)}</div>
+          <div className="a-q">{r.question_nikud || r.question}</div><div className="a-help">תשובה: {(r.answers || []).join(' / ')}</div>
+          {r.status === 'active' && <button className="a-chip" style={{ marginTop: 6 }} onClick={async () => { await api().archiveRiddle(r.id); reload(); }}>הסר</button>}</div>))}
+        {!d.riddles.length && <div className="a-help">עוד אין חידות</div>}</div></div>
+    </>
+  );
+}
+
+const HELPERS: Record<string, string> = { 'אבא': 'אַבָּא', 'אמא': 'אִמָּא', 'סבא': 'סַבָּא', 'סבתא': 'סַבְתָּא' };
+function Settings({ child, settings, setSettings }: { child: Row; settings: Row; setSettings: (s: Row) => void }) {
+  const [s, setS] = useState<Row>(settings);
+  const [msg, setMsg] = useState('');
+  const num = (k: string, label: string, help?: string, min = 0, max = 99) => (
+    <div><label className="a-label">{label}</label><input className="a-input" type="number" min={min} max={max} value={s[k]} onChange={e => setS({ ...s, [k]: +e.target.value })} />{help && <div className="a-help">{help}</div>}</div>
+  );
+  const save = async () => { await api().saveSettings(child.id, s); setSettings(s); setMsg('נשמר ✔ (ייכנס לתוקף בכניסה הבאה למשחק)'); setTimeout(() => setMsg(''), 3000); };
+  const intake = child.intake || {};
+  return (
+    <>
+      <div className="a-card"><h2>🎟️ פרסים בעולם האמיתי</h2>
+        {num('ticketMinutes', 'כרטיס אחד שווה (דקות צפייה)', 'מומלץ 5–10 דקות', 1, 60)}
+        {num('dailyGoal', 'משימת היום: כמה דפים', 'השלמת המשימה = כרטיס בונוס', 1, 10)}
+        {num('dailyTicketCap', 'מקסימום כרטיסים ביום', `כרגע: עד ${s.dailyTicketCap * s.ticketMinutes} דקות ביום`, 1, 30)}
+      </div>
+      <div className="a-card"><h2>📞 גלגל הצלה</h2>
+        <label className="a-label">מי עונה?</label>
+        <div className="a-chips">{Object.entries(HELPERS).map(([k, v]) => <button key={k} className={'a-chip' + (plain(s.helperName) === k ? ' on' : '')} onClick={() => setS({ ...s, helperName: v })}>{k}</button>)}</div>
+        {num('lifelinesPerDay', 'כמה פעמים ביום', undefined, 0, 10)}
+        <div><label className="a-label">כמה זמן לחכות לתשובה שלך (דקות)</label><input className="a-input" type="number" min={1} max={15} value={Math.round(s.lifelineTimeoutSec / 60 * 10) / 10} onChange={e => setS({ ...s, lifelineTimeoutSec: Math.round(+e.target.value * 60) })} /></div>
+      </div>
+      <div className="a-card"><h2>🎮 המשחק</h2>
+        {num('sessionMin', 'אחרי כמה דקות להציע הפסקה', undefined, 3, 60)}
+        <label className="a-label"><input type="checkbox" checked={!!s.nikud} onChange={e => setS({ ...s, nikud: e.target.checked })} /> ניקוד בכל המשחק (מומלץ)</label>
+        <label className="a-label">קוד הורים (ליציאה מהמשחק)</label><input className="a-input" value={s.pin} onChange={e => setS({ ...s, pin: e.target.value })} inputMode="numeric" />
+      </div>
+      <button className="a-btn block green" onClick={save}>שמירה</button>
+      {msg && <div className="a-msg">{msg}</div>}
+      <div className="a-card" style={{ marginTop: 14 }}><h2>📝 השאלון שמילאת</h2>
+        <div className="a-help">כיתה {child.grade || '?'} · {intake.reading || ''}</div>
+        {intake.interests && <div className="a-help">תחומי עניין: {intake.interests.join(', ')}</div>}
+        {intake.challenges && <div className="a-help">קשיים: {intake.challenges.join(', ')}</div>}
+        {intake.notes && <div className="a-kid">{intake.notes}</div>}
+      </div>
+    </>
+  );
+}
