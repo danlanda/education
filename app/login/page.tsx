@@ -48,9 +48,9 @@ export default function Login() {
         <div style={{ height: 14 }} />
         <button className="a-btn block" disabled={busy}>{busy ? '...' : mode === 'in' ? 'כניסה' : 'הרשמה'}</button>
         <div style={{ textAlign: 'center', marginTop: 14 }}>
-          <button type="button" className="a-btn light" onClick={() => { setMode(mode === 'in' ? 'up' : 'in'); setMsg(null); }}>
-            {mode === 'in' ? 'אין לך חשבון? הרשמה' : 'כבר רשום? כניסה'}
-          </button>
+          {mode === 'in'
+            ? <a className="a-btn light" style={{ textDecoration: 'none', display: 'inline-block' }} href="/start">חדש כאן? בואו נתחיל ✨</a>
+            : <button type="button" className="a-btn light" onClick={() => { setMode('in'); setMsg(null); }}>כבר רשום? כניסה</button>}
         </div>
       </form>
     </div>

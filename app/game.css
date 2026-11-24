@@ -220,3 +220,49 @@ label.field input{font-size:22px;padding:8px 12px;margin-top:4px}
 .tk-rules{margin-top:22px;text-align:right;display:grid;gap:6px;font-size:19px;border-top:1px solid #e4cf9a;padding-top:14px}
 .tk-lines{background:#fff3cf;border-radius:14px;padding:10px 14px;margin:8px auto;max-width:420px;font-size:20px;font-weight:700;display:grid;gap:4px}
 @media (max-width:600px){ .shop-top{flex-direction:column;text-align:center} .daily-t{display:none} #topbar{gap:6px;padding:8px} .pill{font-size:17px;padding:4px 10px} .iconbtn{width:40px;height:40px;font-size:19px} }
+
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.credit{color:rgba(217,207,255,.55);font-size:12px;text-align:center;margin-top:26px}
+.btn.phone small.free{background:#1e9e5a;color:#fff;border-radius:999px;padding:1px 8px;font-size:14px}
+
+/* ---------- סוף היום: טעם של עוד ---------- */
+.sleep{max-width:620px;margin:10px auto;text-align:center}
+.sleep .guide{justify-content:center}
+.sleep-trophy{font-size:76px;animation:pop .6s}
+.teaser{display:flex;align-items:center;gap:16px;justify-content:center;background:#1c1440;border:3px solid var(--goldline);border-radius:18px;padding:12px;color:#ffe7a6;margin:16px auto;max-width:420px;text-align:right}
+.teaser small{display:block;color:#d9cfff;font-size:16px}
+.teaser b{font-family:var(--display);font-size:26px}
+.teaser-art{position:relative;width:130px;height:84px;border-radius:12px;overflow:hidden;flex:none;filter:blur(1.5px) brightness(.7)}
+.teaser-art svg{width:100%;height:100%;display:block}
+.teaser-art span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:900;color:#fff;filter:none}
+.countdown{font-size:22px;color:var(--ink);background:#fff3cf;border-radius:14px;padding:10px 16px;display:inline-block}
+.lockveil.moon{background:rgba(20,14,60,.55);font-size:40px}
+.youhere.tomorrow{background:#2b1f5e;color:#ffe7a6;border:1px solid var(--gold)}
+
+.mirror-card{margin:14px auto 4px;max-width:320px;background:#f3e2bb;border:3px dashed #a8844a;border-radius:14px;padding:12px;text-align:center;transform:rotate(-1.5deg)}
+.mirror{display:inline-block;transform:scaleX(-1);font-family:var(--display);font-size:56px;color:#5b3a24}
+.mirror-card small{display:block;font-size:15px;color:var(--muted);font-weight:600}
+
+/* ---------- מעבר דפים ---------- */
+.kg main > .panel{animation:pageIn .45s cubic-bezier(.2,.8,.3,1)}
+@keyframes pageIn{from{opacity:0;transform:perspective(1200px) rotateY(-8deg) translateX(-24px)}to{opacity:1;transform:none}}
+
+/* ---------- הכריכה: פתיחת הספר ---------- */
+.cover-wrap{min-height:calc(100vh - 110px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;text-align:center}
+.cover-msg{font-family:var(--display);font-size:32px;color:#ffe7a6;line-height:1.5;text-shadow:0 2px 8px rgba(0,0,0,.6);animation:in .8s both}
+.cover-msg span{font-size:24px;color:#d9cfff}
+.book3d{position:relative;width:260px;height:340px;perspective:1400px;animation:float 4s ease-in-out infinite}
+.book-pages{position:absolute;inset:6px 4px 6px 10px;background:repeating-linear-gradient(90deg,#fff8e6 0 3px,#efe0bd 3px 4px);border-radius:6px 14px 14px 6px;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.book-cover{position:absolute;inset:0;transform-origin:right center;transition:transform 1.1s cubic-bezier(.6,.05,.3,1);transform-style:preserve-3d;
+  background:linear-gradient(135deg,#7a2c34,#4a1520);border-radius:8px 16px 16px 8px;border:3px solid #c98d1e;box-shadow:inset 0 0 30px rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
+.bc-frame{width:82%;height:86%;border:2px solid rgba(240,195,90,.7);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;outline:1px solid rgba(240,195,90,.4);outline-offset:-8px}
+.bc-frame svg{width:96px;height:96px;filter:drop-shadow(0 0 12px rgba(240,195,90,.7))}
+.bc-title{font-family:var(--display);font-weight:900;font-size:38px;color:#f6d27a;text-shadow:0 2px 0 #3a0e14}
+.bc-sub{font-size:17px;color:#e6c27a}
+.book-glow{position:absolute;inset:-40px;border-radius:50%;background:radial-gradient(rgba(255,226,140,.0),transparent 70%);pointer-events:none;transition:background .8s}
+.book3d.open .book-cover{transform:rotateY(170deg)}
+.book3d.open .book-glow{background:radial-gradient(rgba(255,226,140,.85),transparent 65%)}
+.big-cta{font-size:30px;padding:18px 40px;animation:glowc 2s ease-in-out infinite}
+.flash{position:fixed;inset:0;background:radial-gradient(#fff8dc,#ffe7a6 40%,rgba(255,231,166,0) 75%);z-index:80;pointer-events:none;animation:flash .9s forwards}
+@keyframes flash{0%{opacity:0}35%{opacity:1}100%{opacity:0}}
+.sleep h2{font-size:32px;margin:4px 0 10px}

@@ -55,7 +55,7 @@ function ChildView({ child }: { child: Row }) {
         <button key={t.id} className={'a-tab' + (tab === t.id ? ' on' : '')} onClick={() => { setTab(t.id); history.replaceState(null, '', '?tab=' + t.id); }}>
           {t.t}{badge[t.id] ? <span className="a-badge">{badge[t.id]}</span> : null}
         </button>))}</div>
-      {tab === 'overview' && <Overview d={d} settings={settings} />}
+      {tab === 'overview' && <Overview d={d} child={child} settings={settings} setSettings={setSettings} />}
       {tab === 'rewards' && <Rewards d={d} child={child} settings={settings} reload={load} />}
       {tab === 'letters' && <Letters d={d} reload={load} />}
       {tab === 'lifeline' && <Lifelines d={d} reload={load} />}
@@ -65,8 +65,15 @@ function ChildView({ child }: { child: Row }) {
   );
 }
 
-function Overview({ d, settings }: { d: Row; settings: Row }) {
+function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; settings: Row; setSettings: (s: Row) => void }) {
   const s = d.state || {}, today = new Date().toDateString();
+  const bonus = settings.bonusPages?.date === today ? settings.bonusPages.n || 0 : 0;
+  const [busy, setBusy] = useState(false);
+  const openPage = async () => {
+    setBusy(true);
+    const next = { ...settings, bonusPages: { date: today, n: bonus + 1 } };
+    await api().saveSettings(child.id, next); setSettings(next); setBusy(false);
+  };
   const t = s.today?.date === today ? s.today : { pages: 0, tickets: 0, lifelines: 0 };
   const acc = s.tasks ? Math.round((s.firstTry / s.tasks) * 100) : 0;
   const ev = (e: Row) => {
@@ -88,6 +95,11 @@ function Overview({ d, settings }: { d: Row; settings: Row }) {
         <div className="a-stat"><b>🎟️ {t.tickets}/{settings.dailyTicketCap}</b><span>כרטיסים היום</span></div>
         <div className="a-stat"><b>📞 {t.lifelines || 0}/{settings.lifelinesPerDay}</b><span>גלגלי הצלה</span></div>
         <div className="a-stat"><b>🔥 {s.streak?.count || 0}</b><span>ימים ברצף</span></div>
+        <div className="a-stat"><b>📖 {t.pages}/{settings.pagesPerDay + bonus}</b><span>דפים חדשים היום</span></div>
+      </div>
+      <div className="a-row" style={{ marginTop: 12 }}>
+        <span className="a-grow a-help">כל יום נפתחים {settings.pagesPerDay} דפים חדשים, ואז הוא מקבל &quot;נגמרו הדפים של היום – מחר נפתח דף חדש&quot;. רוצה לפנק?</span>
+        <button className="a-btn gold" disabled={busy} onClick={openPage}>📖 פתח לו עוד דף היום</button>
       </div></div>
       <div className="a-card"><h2>בסך הכול</h2><div className="a-stats">
         <div className="a-stat"><b>{(s.done || []).length}</b><span>דפים שהציל</span></div>
@@ -200,7 +212,7 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
   const num = (k: string, label: string, help?: string, min = 0, max = 99) => (
     <div><label className="a-label">{label}</label><input className="a-input" type="number" min={min} max={max} value={s[k]} onChange={e => setS({ ...s, [k]: +e.target.value })} />{help && <div className="a-help">{help}</div>}</div>
   );
-  const save = async () => { await api().saveSettings(child.id, s); setSettings(s); setMsg('נשמר ✔ (ייכנס לתוקף בכניסה הבאה למשחק)'); setTimeout(() => setMsg(''), 3000); };
+  const save = async () => { await api().saveSettings(child.id, s); setSettings(s); setMsg('נשמר ✔ (נכנס לתוקף במשחק תוך חצי דקה)'); setTimeout(() => setMsg(''), 3000); };
   const intake = child.intake || {};
   return (
     <>
@@ -212,10 +224,12 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
       <div className="a-card"><h2>📞 גלגל הצלה</h2>
         <label className="a-label">מי עונה?</label>
         <div className="a-chips">{Object.entries(HELPERS).map(([k, v]) => <button key={k} className={'a-chip' + (plain(s.helperName) === k ? ' on' : '')} onClick={() => setS({ ...s, helperName: v })}>{k}</button>)}</div>
-        {num('lifelinesPerDay', 'כמה פעמים ביום', undefined, 0, 10)}
+        {num('lifelinesPerDay', 'כמה פעמים ביום (מקסימום)', undefined, 0, 10)}
+        {num('lifelineCost', 'מחיר שיחה נוספת (במטבעות)', 'השיחה הראשונה בכל פעם שהוא נכנס למשחק – בחינם', 0, 200)}
         <div><label className="a-label">כמה זמן לחכות לתשובה שלך (דקות)</label><input className="a-input" type="number" min={1} max={15} value={Math.round(s.lifelineTimeoutSec / 60 * 10) / 10} onChange={e => setS({ ...s, lifelineTimeoutSec: Math.round(+e.target.value * 60) })} /></div>
       </div>
       <div className="a-card"><h2>🎮 המשחק</h2>
+        {num('pagesPerDay', 'כמה דפים חדשים נפתחים כל יום', 'כשהם נגמרים – "מחר נפתח דף חדש". כך נשאר לו טעם של עוד', 1, 10)}
         {num('sessionMin', 'אחרי כמה דקות להציע הפסקה', undefined, 3, 60)}
         <label className="a-label"><input type="checkbox" checked={!!s.nikud} onChange={e => setS({ ...s, nikud: e.target.checked })} /> ניקוד בכל המשחק (מומלץ)</label>
         <label className="a-label">קוד הורים (ליציאה מהמשחק)</label><input className="a-input" value={s.pin} onChange={e => setS({ ...s, pin: e.target.value })} inputMode="numeric" />

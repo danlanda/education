@@ -77,3 +77,48 @@ body{font-family:'Noto Sans Hebrew',Arial,sans-serif;background:var(--night1);co
 .a-q{font-weight:700;font-size:17px;margin:4px 0}
 .a-opt{font-size:15px;padding:2px 0}
 .a-opt.ok{color:var(--a-green);font-weight:800}
+
+/* ---------- אונבורדינג ---------- */
+.w-card{max-width:520px;text-align:center;padding:26px 24px 28px}
+.w-card h1{font-size:32px}
+.w-card .a-label{text-align:right}
+.w-dots{display:flex;gap:6px;justify-content:center;margin-bottom:10px}
+.w-dots i{width:28px;height:6px;border-radius:3px;background:var(--a-line)}
+.w-dots i.on{background:linear-gradient(90deg,#f6d27a,#d89f2c)}
+.w-emoji{font-size:54px;animation:wpop .5s}
+@keyframes wpop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+.w-big{font-size:22px;text-align:center}
+.w-grades{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.w-grade{font-family:inherit;font-size:22px;font-weight:800;width:56px;height:56px;border-radius:14px;border:2px solid var(--a-line);background:#fff;cursor:pointer;color:var(--a-ink)}
+.w-grade.wide{width:auto;padding:0 18px;font-size:19px}
+.w-grade.on,.w-tile.on,.w-row.on{border-color:#d89f2c;background:#fff6dc;box-shadow:0 0 0 3px rgba(240,195,90,.35)}
+.w-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.w-tile{font-family:inherit;font-size:14px;font-weight:700;border:2px solid var(--a-line);background:#fff;border-radius:16px;padding:12px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--a-ink)}
+.w-tile span{font-size:34px}
+.w-list{display:grid;gap:8px;margin:14px 0}
+.w-row{font-family:inherit;display:flex;gap:12px;align-items:center;text-align:right;border:2px solid var(--a-line);background:#fff;border-radius:14px;padding:12px 14px;cursor:pointer;color:var(--a-ink)}
+.w-row .e{font-size:30px}.w-row b{display:block;font-size:17px}.w-row small{color:var(--a-muted);font-size:14px}
+.w-nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.w-next{margin-top:22px;font-size:19px;padding:14px}
+.w-tips{display:grid;gap:10px;text-align:right;margin:18px 0;background:#faf7f0;border-radius:14px;padding:14px}
+.w-tips div{display:flex;gap:10px;font-size:16px;line-height:1.5}
+@media (max-width:480px){ .w-tiles{grid-template-columns:repeat(2,1fr)} }
+
+/* ---------- דף נחיתה להורים ---------- */
+.lp{min-height:100vh;color:#fff;background:radial-gradient(ellipse at 50% -10%,#3f2c8c 0%,transparent 60%),linear-gradient(var(--night2),var(--night1))}
+.lp-wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+.lp-top{display:flex;justify-content:space-between;align-items:center}
+.lp-top a{color:#ffe7a6;text-decoration:none;font-size:15px;border:1px solid rgba(240,195,90,.4);border-radius:10px;padding:7px 14px}
+.lp-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;margin-top:24px}
+.lp-hero h1{font-family:var(--display);font-size:52px;line-height:1.15;margin:0 0 14px;background:linear-gradient(#fff3c4,#f0c35a 60%,#c98d1e);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lp-hero p{font-size:20px;line-height:1.6;color:#e6dcff;margin:0 0 22px}
+.lp-cta{display:inline-block;font-size:21px;font-weight:800;text-decoration:none;color:#3a2614;background:linear-gradient(#f6d27a,#d89f2c);border-radius:16px;padding:16px 30px;box-shadow:0 6px 0 #8a5d12,0 10px 30px rgba(240,195,90,.35)}
+.lp-small{display:block;margin-top:12px;font-size:14px;color:#b9addf}
+.lp-art{position:relative;border-radius:22px;overflow:hidden;border:3px solid var(--goldline);box-shadow:0 20px 60px rgba(0,0,0,.5);aspect-ratio:5/4;background:#1c1440}
+.lp-art svg{width:100%;height:100%;display:block}
+.lp-bubble{position:absolute;bottom:14px;right:14px;left:14px;display:flex;gap:10px;align-items:center;background:rgba(253,247,230,.96);color:var(--ink);border-radius:16px;padding:10px 12px;font-weight:700;font-size:17px}
+.lp-bubble img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid var(--goldline)}
+.lp-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+.lp-feat{background:rgba(255,255,255,.06);border:1px solid rgba(240,195,90,.25);border-radius:18px;padding:18px}
+.lp-feat .e{font-size:36px}.lp-feat b{display:block;font-size:19px;margin:6px 0;color:#ffe7a6}.lp-feat span{color:#d9cfff;font-size:15px;line-height:1.55}
+@media (max-width:760px){ .lp-hero{grid-template-columns:1fr} .lp-hero h1{font-size:40px} .lp-feats{grid-template-columns:1fr} }
