@@ -51,7 +51,7 @@ function Dashboard({ kids }: { kids: Row[] }) {
           <a key={k.id} href={`/admin/${k.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className="a-card">
               <div className="a-child-card" style={{ marginBottom: 12 }}>
-                <KeeperHead equipped={s.equipped} />
+                <KeeperHead equipped={s.equipped} look={s.look} />
                 <div className="a-grow"><b style={{ fontSize: 20 }}>{k.name}</b><div className="a-help">{s._updated ? 'שיחק לאחרונה ' + new Date(s._updated).toLocaleDateString('he-IL') : 'עוד לא שיחק'}</div></div>
                 <span style={{ fontSize: 22 }}>←</span>
               </div>

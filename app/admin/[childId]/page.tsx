@@ -5,12 +5,13 @@ import AdminShell from '@/components/admin/AdminShell';
 import { LifelineCard, RedemptionCard, ReplyBox } from '@/components/admin/Cards';
 import { KeeperHead } from '@/components/Art';
 import { api, vowelize, fmtTime, type Row } from '@/lib/admin';
-import { LEVELS, DEFAULT_SETTINGS, SHOP } from '@/lib/game/content.js';
+import { LEVELS, DEFAULT_SETTINGS } from '@/lib/game/content.js';
+import { ITEMS as SHOP } from '@/lib/game/avatar.js';
 
 const NIKUD = /[֑-ׇ]/g;
 const plain = (s: string) => String(s || '').replace(NIKUD, '');
 const ALL_LEVELS: Row[] = Object.values(LEVELS as Record<string, Row[]>).flat();
-const levelTitle = (id: string) => plain(ALL_LEVELS.find(l => l.id === id)?.title || id || '');
+const levelTitle = (id: string) => id === 'practice' ? 'סדנת הכתיבה' : plain(ALL_LEVELS.find(l => l.id === id)?.title || id || '');
 const TABS = [
   { id: 'overview', t: 'סקירה' }, { id: 'rewards', t: 'פרסים' }, { id: 'letters', t: 'מכתבים' },
   { id: 'lifeline', t: 'גלגל הצלה' }, { id: 'riddles', t: 'חידות' }, { id: 'settings', t: 'הגדרות' },
@@ -49,7 +50,7 @@ function ChildView({ child }: { child: Row }) {
   };
   return (
     <>
-      <div className="a-card"><div className="a-child-card"><KeeperHead equipped={s.equipped} /><div className="a-grow"><b style={{ fontSize: 22 }}>{child.name}</b>
+      <div className="a-card"><div className="a-child-card"><KeeperHead equipped={s.equipped} look={s.look} /><div className="a-grow"><b style={{ fontSize: 22 }}>{child.name}</b>
         <div className="a-help">🪙 {s.coins || 0} מטבעות · 🎟️ {d.balance} כרטיסים ({d.balance * settings.ticketMinutes} דק׳)</div></div></div></div>
       <div className="a-tabs">{TABS.map(t => (
         <button key={t.id} className={'a-tab' + (tab === t.id ? ' on' : '')} onClick={() => { setTab(t.id); history.replaceState(null, '', '?tab=' + t.id); }}>
@@ -76,6 +77,7 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
   };
   const t = s.today?.date === today ? s.today : { pages: 0, tickets: 0, lifelines: 0 };
   const acc = s.tasks ? Math.round((s.firstTry / s.tasks) * 100) : 0;
+  const p = s.practice || {}, pd = p.day?.date === today ? p.day : {};
   const ev = (e: Row) => {
     const x = e.data || {};
     switch (e.type) {
@@ -83,6 +85,13 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
       case 'daily_goal': return '🎯 השלים את משימת היום';
       case 'lifeline': return `📞 ביקש עזרה ב"${levelTitle(x.level)}"`;
       case 'riddle_solved': return `🧩 פתר חידה (${x.tries ? x.tries + ' ניסיונות שגויים' : 'בניסיון ראשון'})`;
+      case 'practice_math': return `🧮 סבב חשבון ברמה ${x.level}: ${x.score}/5 בניסיון ראשון${x.newLevel > x.level ? ' · עלה לרמה ' + x.newLevel : x.newLevel < x.level ? ' · ירד לרמה ' + x.newLevel : ''}`;
+      case 'practice_write': return `✍️ כתב מכתב בסדנת הכתיבה (${x.words} מילים)`;
+      case 'practice_riddle': return `🧩 פתר חידה ממערת החידות${x.tries ? ` (${x.tries} ניסיונות שגויים)` : ''}`;
+      case 'practice_riddle_reveal': return '🏳️ ביקש לגלות תשובה לחידה';
+      case 'practice_daily': return '🏅 השלים את האימון היומי (+1 🎟️)';
+      case 'avatar': return '🧑‍🎨 עיצב את הדמות שלו';
+      case 'tutorial_done': return '🎓 סיים את ההדרכה';
       case 'shop_buy': return `🛍️ קנה ${plain(SHOP.find((i: Row) => i.id === x.item)?.name || '')}`;
       case 'session_start': return '🎮 נכנס למשחק';
       default: return e.type;
@@ -106,6 +115,14 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
         <div className="a-stat"><b>{acc}%</b><span>הצלחה בניסיון ראשון<br />(יעד 70%–85%)</span></div>
         <div className="a-stat"><b>{s.minutes || 0}</b><span>דקות משחק</span></div>
         <div className="a-stat"><b>{(s.cards || []).length}</b><span>קלפים באוסף</span></div>
+      </div>
+      <h3>חדר האימונים</h3>
+      <div className="a-stats">
+        <div className="a-stat"><b>🧮 {p.level || '–'}/5</b><span>רמת חשבון<br />(עולה ויורדת לבד)</span></div>
+        <div className="a-stat"><b>{p.rounds || 0}</b><span>סבבי חשבון</span></div>
+        <div className="a-stat"><b>✍️ {p.writes || 0}</b><span>מכתבים בסדנה</span></div>
+        <div className="a-stat"><b>🧩 {(p.solved || []).length}</b><span>חידות שפתר</span></div>
+        <div className="a-stat"><b>{pd.math ? '✔' : '○'}{pd.write ? '✔' : '○'}{pd.riddle ? '✔' : '○'}</b><span>אימון יומי היום</span></div>
       </div>
       <h3>מפת ההתקדמות</h3>
       <div className="a-levels">{ALL_LEVELS.filter(l => !l.locked).map(l => {
