@@ -25,6 +25,7 @@ Each season: episode 1 opens in Yuval's library with the previous season's clue 
 
 | # | Season | file / export / id prefix | Clue found in ep 7 (card) | Next season |
 |---|---|---|---|---|
+| 0 | גִּ׳ינְגִּיס חָאן (הגיבור הראשון) | genghis.js / GENGHIS / c1–c7 | tiny glowing grain of sand with Greek letters `gk_sand` | Syracuse (Archimedes) |
 | 1 | אַרְכִימֶדֶס | archimedes.js / ARCHIMEDES / a0–a6 | black feather (quill) `feather` (found in ep1) | Venice |
 | 2 | מַרְקוֹ פּוֹלוֹ | marco.js / MARCO / m1–m7 | old ink bottle with a broken-hourglass symbol `inkpot` | Florence |
 | 3 | לֵאוֹנַרְדוֹ | leonardo.js / LEONARDO / l1–l7 | note in mirror writing: "גַּם לִי הָיָה סִפּוּר..." `mirrornote`. Ep1 also introduces a small **locked door** at the back of Yuval's library whose key was never found | Seville (Magellan) |
