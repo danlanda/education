@@ -1342,3 +1342,11 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 }
 @media (prefers-reduced-motion:reduce){.hy-pic img,.hy-txt span i,.hero-yuval{animation:none!important;opacity:1}}
 .cover2 .book3d{width:calc(var(--S) * .34);height:calc(var(--S) * .445)} .cover2 .bc-title{font-size:calc(var(--S) * .062)}
+/* סמל קטן לכל גיבור – במפה ובכריכה */
+.wemb{position:absolute;z-index:3;top:-4px;right:-6px;width:30px;height:30px;border-radius:50%;background:#fff6dc;border:2.5px solid #5a3a14;display:flex;align-items:center;justify-content:center;font-size:17px;line-height:1;box-shadow:0 2px 0 rgba(0,0,0,.3);pointer-events:none}
+.cv-mdi{position:absolute}
+.cv-emb{position:absolute;top:calc(var(--S) * -.012);right:calc(var(--S) * .005);width:calc(var(--S) * .055);height:calc(var(--S) * .055);min-width:20px;min-height:20px;border-radius:50%;background:#fff6dc;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:clamp(11px, calc(var(--S) * .03), 16px);line-height:1}
+@media (max-width:700px){ .wemb{width:24px;height:24px;font-size:13px;top:-3px;right:-4px} }
+.wemb{top:-6px;right:auto;left:50%;margin-left:calc(clamp(58px,7.6vw,88px) / 2 - 20px)}
+.wemb{margin-left:calc(clamp(58px,7.6vw,88px) / -2 - 10px)}
+.wemb.r{margin-left:calc(clamp(58px,7.6vw,88px) / 2 - 20px)}

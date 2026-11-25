@@ -7,7 +7,7 @@ const [file, exportName, prefix] = process.argv.slice(2);
 if (!file || !exportName || !prefix) { console.error('usage: validate-season.mjs <file> <EXPORT> <id-prefix>'); process.exit(2); }
 const mod = await import(pathToFileURL(path.resolve(file)).href);
 const eps = mod[exportName], cards = mod[exportName + '_CARDS'] || {};
-const SCENES = ['library', 'syracuse', 'bath', 'venice', 'desert', 'palace', 'prison', 'workshop', 'tuscany', 'forest', 'river', 'alexandria', 'harbor', 'siege', 'ocean', 'snow', 'egypt', 'space', 'steppe'];
+const SCENES = ['library', 'syracuse', 'bath', 'venice', 'desert', 'palace', 'prison', 'workshop', 'tuscany', 'forest', 'river', 'alexandria', 'harbor', 'siege', 'ocean', 'snow', 'egypt', 'space', 'steppe', 'alps'];
 const EXISTING_CARDS = ['book', 'feather', 'crown', 'archimedes', 'lever', 'screw', 'claw', 'sphere', 'venice', 'desert', 'kublai', 'marco', 'notebook', 'flyer', 'leonardo', 'northstar', 'harriet', 'key'];
 const NIK = /[ְ-ׇּׁׂ]/g, HEB = /[א-ת]/g;
 const plain = s => String(s).replace(/[֑-ׇ]/g, '');
