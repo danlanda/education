@@ -254,6 +254,12 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
       <div className="a-card"><h2>🎮 המשחק</h2>
         {num('pagesPerDay', 'כמה דפים חדשים נפתחים כל יום', 'כשהם נגמרים – "מחר נפתח דף חדש". כך נשאר לו טעם של עוד', 1, 10)}
         {num('sessionMin', 'אחרי כמה דקות להציע הפסקה', undefined, 3, 60)}
+        <label className="a-label">סדר הגיבורים במפה</label>
+        <div className="a-chips">
+          <button className={'a-chip' + (s.heroOrder !== 'ordered' ? ' on' : '')} onClick={() => setS({ ...s, heroOrder: 'free' })}>בחירה חופשית</button>
+          <button className={'a-chip' + (s.heroOrder === 'ordered' ? ' on' : '')} onClick={() => setS({ ...s, heroOrder: 'ordered' })}>לפי הסדר</button>
+        </div>
+        <p className="a-help">בחירה חופשית: הוא בוחר עם איזה גיבור להתחיל (הגיבור האחרון, שבו מתגלה מי הוא המוחק, נפתח רק בסוף). לפי הסדר: גיבור אחד פתוח בכל פעם. בתוך כל גיבור הפרקים תמיד לפי הסדר, ואפשר לחזור לפרק שכבר עשה.</p>
         <label className="a-label"><input type="checkbox" checked={!!s.nikud} onChange={e => setS({ ...s, nikud: e.target.checked })} /> ניקוד בכל המשחק (מומלץ)</label>
         <label className="a-label">קוד הורים (ליציאה מהמשחק)</label><input className="a-input" value={s.pin} onChange={e => setS({ ...s, pin: e.target.value })} inputMode="numeric" />
       </div>
