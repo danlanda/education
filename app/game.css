@@ -787,3 +787,29 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
   .iconbtn .ico{width:22px;height:22px}
   .pav{width:40px;height:40px;border-radius:12px}
 }
+
+/* ---------- טלפונים: סרגל פעולה בשתי שורות, מסכים נמוכים ---------- */
+.ab .btn{white-space:nowrap}
+@media (max-width:600px){
+  .ab{gap:8px}
+  .ab .grow{display:none}
+  .ab .btn{flex:1 1 0;min-width:0;justify-content:center}
+  .ab .btn.go,.ab .btn.gold.main,.ab .btn.big{flex:1 1 100%;order:2}
+  .ab .btn.ghost{font-size:16px;padding:9px 8px}
+  .ab .btn.ghost small{font-size:12px}
+  .kg.focus main{padding-bottom:calc(170px + env(safe-area-inset-bottom))}
+}
+@media (max-height:700px) and (max-width:600px){
+  .hero{min-height:390px}
+  .hero-txt{min-height:390px;padding:16px 16px}
+  .hero-keeper{height:150px}
+  .hero h2{font-size:30px}
+  .hero p{font-size:16px}
+  .numdisplay{min-height:58px;font-size:38px;padding:2px 18px}
+  .numpad{gap:7px}
+  .numpad button{padding:7px 0;font-size:24px}
+  .numwrap{gap:8px}
+  .eq{margin:4px 0 10px}
+  .question{margin-bottom:10px}
+  .tip{margin-bottom:10px}
+}
