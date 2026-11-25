@@ -1369,3 +1369,34 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 .wemb.r{margin-left:calc(clamp(48px,6vw,70px) / 2 - 18px)}
 .wpin .wlabel{font-size:clamp(11px,1.3vw,15px)}
 .wmap{min-width:900px}
+/* הדרכה: המטרה ואיך זה עובד */
+.tg-goal{display:flex;align-items:center;justify-content:center;gap:14px;margin:2px 0 6px}
+.tg-book{display:flex;align-items:center;justify-content:center;width:74px;height:74px;border-radius:20px;background:linear-gradient(#ffe9a8,#ffc928);border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink)}
+.tg-book .ico{width:50px;height:50px}
+.tg-zap{font-size:30px;animation:badge 1.2s ease-in-out infinite}
+.tg-er{width:70px;height:80px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
+.tg-flow{display:flex;align-items:stretch;justify-content:center;gap:4px;margin:6px 0 8px}
+.tg-flow.three{gap:8px}
+.tg-arr{align-self:center;font-style:normal;font:800 22px var(--display);color:var(--accent)}
+.tg-box{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;background:#fff;border:2.5px solid #e3d4b2;border-radius:16px;padding:8px 6px;box-shadow:0 3px 0 #e3d4b2}
+.tg-box .tg-ic{display:flex;align-items:center;justify-content:center;height:40px;font-size:30px}
+.tg-box .tg-ic .ico{width:38px;height:38px}
+.tg-box b{font:700 17px/1.25 var(--display);color:var(--ink)}
+.tg-box span:not(.tg-ic){font-size:14px;line-height:1.4;color:var(--ink2);font-weight:600}
+.tg-list{display:grid;gap:7px;margin:6px 0 8px}
+.tg-list .tg-box{flex-direction:row;text-align:right;gap:10px;padding:7px 10px;align-items:center}
+.tg-list .tg-box .tg-ic{flex:none;width:40px}
+.tg-list .tg-box b{display:block}
+.tg-list .tg-box{display:grid;grid-template-columns:40px 1fr;grid-template-rows:auto auto;column-gap:10px}
+.tg-list .tg-box .tg-ic{grid-row:1 / 3}
+@media (max-width:420px){ .tg-box b{font-size:15px} .tg-box span:not(.tg-ic){font-size:12.5px} .tg-arr{font-size:18px} .tg-flow.three{gap:5px} }
+@media (max-height:640px){
+  .coach-card{padding:10px 14px}
+  .coach-card h3{font-size:22px;margin:0 0 4px}
+  .coach-icon{transform:scale(.75);margin:-6px auto -6px}
+  .coach-text{font-size:17px;line-height:1.55;margin:2px 0 6px}
+  .tg-book{width:52px;height:52px;border-radius:14px}.tg-book .ico{width:34px;height:34px}
+  .tg-er{width:50px;height:58px}
+  .tg-box .tg-ic{height:30px;font-size:24px}.tg-box .tg-ic .ico{width:28px;height:28px}
+  .coach-who{margin:0 0 2px}
+}

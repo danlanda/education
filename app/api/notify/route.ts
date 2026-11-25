@@ -9,7 +9,7 @@ function message(kind: string, name: string, childId: string, d: Record<string, 
   const base = `/admin/${childId}`;
   switch (kind) {
     case 'lifeline': return { title: `📞 ${name} מבקש עזרה!`, body: String(d.question || 'לחץ כדי לענות'), url: `${base}?tab=lifeline`, urgent: true };
-    case 'redeem': return { title: `🎟️ ${name} רוצה לממש ${d.tickets} כרטיסים`, body: `${d.minutes} דקות צפייה – לאשר?`, url: `${base}?tab=rewards`, urgent: true };
+    case 'redeem': return { title: `🎟️ ${name} רוצה לממש ${d.tickets} כרטיסים`, body: `${d.minutes} דקות מסך – לאשר?`, url: `${base}?tab=rewards`, urgent: true };
     case 'goal': return { title: `🎯 ${name} השלים את משימת היום!`, body: 'כל הכבוד לו 👏', url: base };
     case 'letter': return { title: `✉️ ${name} כתב מכתב`, body: String(d.text || ''), url: `${base}?tab=letters` };
     case 'joint': return { title: `🤝 ${name} סיים איתך משימה משותפת!`, body: `"${d.title || ''}" – לאשר ולתת לו פרס?`, url: base };

@@ -212,7 +212,7 @@ function Rewards({ d, child, settings, reload }: { d: Row; child: Row; settings:
   return (
     <>
       <div className="a-card" style={{ textAlign: 'center' }}><div style={{ fontSize: 44, fontWeight: 800 }}>🎟️ {d.balance}</div>
-        <div className="a-help">= {d.balance * settings.ticketMinutes} דקות צפייה · כל כרטיס = {settings.ticketMinutes} דקות (אפשר לשנות בהגדרות)</div></div>
+        <div className="a-help">= {d.balance * settings.ticketMinutes} דקות מסך · כל כרטיס = {settings.ticketMinutes} דקות (אפשר לשנות בהגדרות)</div></div>
       {pending.length > 0 && <div className="a-card a-urgent"><h2>ממתין לאישור שלך</h2><div className="a-list">{pending.map((r: Row) => <RedemptionCard key={r.id} row={r} onDone={reload} />)}</div></div>}
       <div className="a-card"><h2>לתת כרטיס בונוס</h2>
         <input className="a-input" value={reason} onChange={e => setReason(e.target.value)} placeholder="על מה?" />
@@ -294,6 +294,8 @@ function Riddles({ d, child, reload }: { d: Row; child: Row; reload: () => void 
 const HELPERS: Record<string, string> = { 'אבא': 'אַבָּא', 'אמא': 'אִמָּא', 'סבא': 'סַבָּא', 'סבתא': 'סַבְתָּא' };
 function Settings({ child, settings, setSettings }: { child: Row; settings: Row; setSettings: (s: Row) => void }) {
   const [s, setS] = useState<Row>(settings);
+  const [voice, setVoice] = useState<boolean | null>(null);
+  useEffect(() => { fetch('/api/tts?probe=1').then(r => r.json()).then(j => setVoice(!!j.ok)).catch(() => setVoice(false)); }, []);
   const [msg, setMsg] = useState('');
   const num = (k: string, label: string, help?: string, min = 0, max = 99) => (
     <div><label className="a-label">{label}</label><input className="a-input" type="number" min={min} max={max} value={s[k]} onChange={e => setS({ ...s, [k]: +e.target.value })} />{help && <div className="a-help">{help}</div>}</div>
@@ -303,7 +305,7 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
   return (
     <>
       <div className="a-card"><h2>🎟️ פרסים בעולם האמיתי</h2>
-        {num('ticketMinutes', 'כרטיס אחד שווה (דקות צפייה)', 'מומלץ 5–10 דקות', 1, 60)}
+        {num('ticketMinutes', 'כרטיס אחד שווה (דקות מסך)', 'מומלץ 5–10 דקות', 1, 60)}
         {num('dailyGoal', 'משימת היום: כמה דפים', 'השלמת המשימה = כרטיס בונוס', 1, 10)}
         {num('dailyTicketCap', 'מקסימום כרטיסים ביום', `כרגע: עד ${s.dailyTicketCap * s.ticketMinutes} דקות ביום`, 1, 30)}
       </div>
@@ -329,7 +331,8 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
         <label className="a-label"><input type="checkbox" checked={s.wheelTickets !== false} onChange={e => setS({ ...s, wheelTickets: e.target.checked })} /> גלגל המזל יכול לתת כרטיס (נספר בתוך מקסימום הכרטיסים היומי)</label>
         <label className="a-label"><input type="checkbox" checked={!!s.nikud} onChange={e => setS({ ...s, nikud: e.target.checked })} /> ניקוד בכל המשחק (מומלץ)</label>
         <label className="a-label"><input type="checkbox" checked={s.readAloud !== false} onChange={e => setS({ ...s, readAloud: e.target.checked })} /> כפתור הקראה בדפי הסיפור (בתשלום מטבעות)</label>
-        {s.readAloud !== false && num('readAloudCost', 'מחיר הקראה של עמוד (במטבעות)', 'הקראה בקול של המכשיר בעברית, והשורה שמוקראת מודגשת – כך הוא עוקב וממשיך לקרוא. במכשיר בלי קול עברי הכפתור לא יופיע', 0, 200)}
+        {s.readAloud !== false && voice !== null && <div className="a-help" style={{ marginTop: -4, color: voice ? '#19a85a' : '#b25d00' }}>{voice ? '✔ קול מספר הסיפורים פעיל' : '⚠ עוד לא חובר שירות קול טבעי, ולכן כפתור ההקראה מוסתר במשחק'}</div>}
+        {s.readAloud !== false && num('readAloudCost', 'מחיר הקראה של עמוד (במטבעות)', 'הקראה בקול טבעי של מספר סיפורים, והשורה שמוקראת מודגשת – כך הוא עוקב וממשיך לקרוא', 0, 200)}
         {s.readAloud !== false && num('readAloudEvery', 'הקראה פעם אחת בכל כמה דפים', 'למשל 3: אחרי דף מוקרא, הוא קורא לבד עוד 2 דפים לפני שההקראה חוזרת', 1, 10)}
         <label className="a-label">קוד הורים (ליציאה מהמשחק)</label><input className="a-input" value={s.pin} onChange={e => setS({ ...s, pin: e.target.value })} inputMode="numeric" />
       </div>

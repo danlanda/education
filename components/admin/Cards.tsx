@@ -60,7 +60,7 @@ export function RedemptionCard({ row, childName, onDone }: { row: Row; childName
   return (
     <div className="a-item">
       <div className="a-meta">{childName ? childName + ' · ' : ''}{fmtTime(row.created_at)}</div>
-      <div className="a-q">🎟️ {row.tickets} כרטיסים = {row.minutes} דקות צפייה</div>
+      <div className="a-q">🎟️ {row.tickets} כרטיסים = {row.minutes} דקות מסך</div>
       <div className="a-row" style={{ marginTop: 8 }}>
         <button className="a-btn green" disabled={busy} onClick={() => decide(true)}>✔ מאשר</button>
         <button className="a-btn light" disabled={busy} onClick={() => decide(false)}>לא עכשיו</button>
