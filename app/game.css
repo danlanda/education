@@ -1420,7 +1420,7 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 .wtab span{font-size:20px}
 .wtab.on{background:linear-gradient(#ffd96a,#f5b52e);border-color:#b07a12;box-shadow:0 3px 0 #a06a0a;transform:translateY(-1px)}
 .wtab .wnew{position:absolute;top:-3px;left:-3px;width:12px;height:12px;border-radius:50%;background:#ff4d4d;border:2px solid #fff;animation:pulse 1.4s infinite}
-@media (max-width:640px){.wtabs{justify-content:flex-start;margin:0 -16px;padding:2px 16px 10px}.wtab{font-size:15px;padding:7px 11px}}
+@media (max-width:640px){.wtabs{flex-wrap:wrap;gap:6px}.wtab{font-size:15px;padding:6px 10px;gap:4px}.wtab span{font-size:17px}}
 /* מפה בציור (חלל, אקדמיה, ים) – אין הרבה תחנות, אז היא לא צריכה להיות רחבה */
 .wmap-scroll.theme .wmap{min-width:0}
 .wmap-scroll.theme .wpin .wlabel{background:rgba(255,248,230,.96)}
