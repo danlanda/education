@@ -1305,3 +1305,39 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
   .cv-eyes{left:6px;bottom:6px;z-index:4;padding:10px}
   .cv-eyes i{width:22px;height:10px}
 }
+/* הכריכה מתאימה את עצמה לגובה המסך: הספר, מעגל הגיבורים והשמות גדלים וקטנים יחד */
+.cv-stage{--S:clamp(240px, min(580px, 92vw, calc(100dvh - 270px)), 580px)}
+.cover2 .book3d{width:calc(var(--S) * .36);height:calc(var(--S) * .47)}
+.cover2 .bc-frame{gap:calc(var(--S) * .015)}
+.cover2 .bc-frame svg{width:calc(var(--S) * .14);height:calc(var(--S) * .14)}
+.cover2 .bc-title{font-size:calc(var(--S) * .066)}
+.cover2 .bc-sub{font-size:calc(var(--S) * .03)}
+.cv-pic{width:calc(var(--S) * .125);height:calc(var(--S) * .125)}
+.cv-mdi{left:calc(var(--S) * -.09);top:calc(var(--S) * -.0625 - 3px);width:calc(var(--S) * .18)}
+.cv-mdi b{font-size:clamp(10px, calc(var(--S) * .026), 14px)}
+.cv-greet .st-wave{display:none}
+.cover2{justify-content:center;gap:clamp(8px, 1.6dvh, 16px)}
+.cover2 .btn.mega{font-size:clamp(22px, 3.2dvh, 32px);padding:clamp(9px, 1.4dvh, 15px) 24px}
+@media (max-width:700px){ .cv-stage{--S:clamp(230px, min(430px, 96vw, calc(100dvh - 250px)), 430px)} .cover2{justify-content:flex-start} }
+@media (max-width:700px){ .cv-stage{--S:clamp(230px, min(420px, 88vw, calc(100dvh - 250px)), 420px)} }
+/* הבית: יובל בתוך הכרטיס הגדול */
+.hero{height:390px}
+.hero-keeper{padding:0;cursor:pointer}
+.hero-yuval{display:flex;align-items:center;gap:10px;max-width:min(100%,540px);background:#fffaf0;color:var(--ink);border:3px solid var(--ink);border-radius:20px;border-top-right-radius:8px;
+  padding:6px 12px 7px 8px;box-shadow:0 4px 0 var(--ink);margin:2px 0;animation:greetin .6s .25s both;text-align:right}
+.hy-pic{position:relative;flex:none;width:54px;height:54px;padding:0;border-radius:50%}
+.hy-pic img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;border:3px solid #fff;box-shadow:0 0 0 2.5px var(--ink);animation:onair 2.4s ease-in-out infinite}
+.hy-pic.bump{animation:bump .4s}
+.hy-mic{position:absolute;bottom:-5px;left:-6px;width:24px;height:24px;border-radius:50%;background:#ff4d6d;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:12px}
+.hy-txt{font-size:17px;line-height:1.45;font-weight:600;color:var(--ink2)}
+.hy-txt b{font-family:var(--display);font-weight:700;font-size:19px;color:var(--ink);margin-inline-end:4px}
+.hy-txt span i{font-style:normal;display:inline-block;opacity:0;animation:wordin .28s forwards}
+.hero p{font-weight:600}
+@media (max-width:700px){
+  .hero{height:auto}
+  .hero-yuval{max-width:100%}
+  .hy-pic{width:44px;height:44px}
+  .hy-txt{font-size:15px}
+  .hy-txt b{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){.hy-pic img,.hy-txt span i,.hero-yuval{animation:none!important;opacity:1}}
