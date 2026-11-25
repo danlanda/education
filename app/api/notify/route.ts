@@ -12,6 +12,7 @@ function message(kind: string, name: string, childId: string, d: Record<string, 
     case 'redeem': return { title: `🎟️ ${name} רוצה לממש ${d.tickets} כרטיסים`, body: `${d.minutes} דקות צפייה – לאשר?`, url: `${base}?tab=rewards`, urgent: true };
     case 'goal': return { title: `🎯 ${name} השלים את משימת היום!`, body: 'כל הכבוד לו 👏', url: base };
     case 'letter': return { title: `✉️ ${name} כתב מכתב`, body: String(d.text || ''), url: `${base}?tab=letters` };
+    case 'joint': return { title: `🤝 ${name} סיים איתך משימה משותפת!`, body: `"${d.title || ''}" – לאשר ולתת לו פרס?`, url: base };
     case 'riddle': return { title: `🧩 ${name} פתר את החידה!`, body: `התשובה שלו: ${d.answer || ''}`, url: `${base}?tab=riddles` };
     default: return null;
   }
