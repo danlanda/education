@@ -1350,3 +1350,22 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 .wemb{top:-6px;right:auto;left:50%;margin-left:calc(clamp(58px,7.6vw,88px) / 2 - 20px)}
 .wemb{margin-left:calc(clamp(58px,7.6vw,88px) / -2 - 10px)}
 .wemb.r{margin-left:calc(clamp(58px,7.6vw,88px) / 2 - 20px)}
+/* מפה אמיתית: סיכות מיקום וקווים */
+.wst-l{fill:none;stroke:#fff6dc;stroke-width:2;stroke-dasharray:4 4;opacity:.8}
+.wst-m path{fill:#e0453b;stroke:#fff;stroke-width:1.6}
+.wst-m circle{fill:#fff}
+.wst.lk .wst-m path{fill:#8c8ca0}
+.wst.lk .wst-l{opacity:.45}
+.wst.sel .wst-l{stroke:#ffd96a;stroke-width:3.4;stroke-dasharray:none;opacity:1;filter:drop-shadow(0 0 3px rgba(0,0,0,.45))}
+.wst.sel .wst-m{transform:scale(1.55);animation:pinbob 1.4s ease-in-out infinite}
+.wst.sel .wst-m path{fill:#ff2d55;stroke-width:1.4}
+@keyframes pinbob{0%,100%{transform:scale(1.55) translateY(0)}50%{transform:scale(1.55) translateY(-3px)}}
+.wst-t{font:800 14px Rubik,Heebo,sans-serif;fill:#fff;stroke:#0b2a4a;stroke-width:3.5px;paint-order:stroke}
+.wpin .wdisc{width:clamp(54px,6.8vw,80px);height:clamp(54px,6.8vw,80px)}
+.wemb{margin-left:calc(clamp(54px,6.8vw,80px) / -2 - 10px)}
+.wemb.r{margin-left:calc(clamp(54px,6.8vw,80px) / 2 - 20px)}
+.wpin .wdisc{width:clamp(48px,6vw,70px);height:clamp(48px,6vw,70px)}
+.wemb{margin-left:calc(clamp(48px,6vw,70px) / -2 - 10px);width:26px;height:26px;font-size:15px}
+.wemb.r{margin-left:calc(clamp(48px,6vw,70px) / 2 - 18px)}
+.wpin .wlabel{font-size:clamp(11px,1.3vw,15px)}
+.wmap{min-width:900px}
