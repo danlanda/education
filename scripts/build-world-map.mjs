@@ -29,7 +29,7 @@ const medLand = simp(geoPath(projI).digits(1)(load('50m')), 1.6);
 const medGrat = simp(geoPath(projI).digits(1)(geoGraticule().step([5, 5])()), 5);
 const I = (lon, lat) => projI([lon, lat]).map(v => +v.toFixed(1));
 const world = { // מקומות אמיתיים במפת העולם
-  mongolia: P(106.9, 47.9), gobi: P(96, 41), beijing: P(116.4, 39.9), magstrait: P(-70.9, -53.5), cebu: P(123.9, 10.3), maryland: P(-76.6, 39.0),
+  mongolia: P(106.9, 47.9), yucatan: P(-89.6, 20.7), switzerland: P(8.2, 46.8), ghana: P(-1.5, 7.5), spain: P(-3.7, 40.4), gobi: P(96, 41), beijing: P(116.4, 39.9), magstrait: P(-70.9, -53.5), cebu: P(123.9, 10.3), maryland: P(-76.6, 39.0),
   hydaspes: P(73.6, 32.7), weddell: P(-45, -69.5), sgeorgia: P(-36.5, -54.3), canaveral: P(-80.6, 28.4), seville: P(-5.98, 37.39), venice: P(12.33, 45.44), israel: P(34.8, 32.1), pella: P(22.5, 40.76),
   europe: P(18, 55), asia: P(92, 55), africa: P(22, 6), namerica: P(-88, 50), samerica: P(-60, -12), australia: P(134, -26), antarctica: P(-20, -77), atlantic: P(-38, 22), indian: P(78, -18),
   sahara: P(12, 22), arabia: P(46, 22), gobiD: P(104, 43), ausdes: P(130, -25), kalahari: P(22, -22),

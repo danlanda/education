@@ -1412,3 +1412,15 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 @media (max-width:700px){ .kg.bigread .story{font-size:28px} .kg.bigread .question{font-size:26px} }
 .qlabel.challenge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(#ffe36e,#f6a817);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:2px 14px 4px;font:700 18px var(--display);box-shadow:0 3px 0 var(--ink);margin-bottom:8px}
 .qlabel.challenge small{font-size:14px;opacity:.75}
+
+/* 🌍 החלפת עולם במפה: גיבורים / סיפורים / חלל / קסם / טבע */
+.wtabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 10px;margin:0 auto;max-width:1100px;justify-content:center}
+.wtabs::-webkit-scrollbar{display:none}
+.wtab{position:relative;flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:2px solid rgba(90,58,20,.25);background:#fff8e6;color:#5a3a14;font:800 17px/1 Rubik,Heebo,sans-serif;cursor:pointer;box-shadow:0 2px 0 rgba(90,58,20,.18)}
+.wtab span{font-size:20px}
+.wtab.on{background:linear-gradient(#ffd96a,#f5b52e);border-color:#b07a12;box-shadow:0 3px 0 #a06a0a;transform:translateY(-1px)}
+.wtab .wnew{position:absolute;top:-3px;left:-3px;width:12px;height:12px;border-radius:50%;background:#ff4d4d;border:2px solid #fff;animation:pulse 1.4s infinite}
+@media (max-width:640px){.wtabs{justify-content:flex-start;margin:0 -16px;padding:2px 16px 10px}.wtab{font-size:15px;padding:7px 11px}}
+/* מפה בציור (חלל, אקדמיה, ים) – אין הרבה תחנות, אז היא לא צריכה להיות רחבה */
+.wmap-scroll.theme .wmap{min-width:0}
+.wmap-scroll.theme .wpin .wlabel{background:rgba(255,248,230,.96)}

@@ -7,10 +7,10 @@ import path from 'path';
 import { SEASON_FILES } from '../lib/game/seasons/index.js';
 
 const meta = [], cards = {};
-for (const { file, exp } of SEASON_FILES) {
+for (const { file, exp, world } of SEASON_FILES) {
   const m = await import(pathToFileURL(path.resolve(`lib/game/seasons/${file}.js`)).href);
   const eps = m[exp]; if (!Array.isArray(eps)) throw new Error(`${file}: export ${exp} missing`);
-  meta.push({ file, episodes: eps.map(e => ({ id: e.id, ...(e.chapter ? { chapter: e.chapter } : {}), title: e.title, scene: e.scene, card: e.card })) });
+  meta.push({ file, world: world || 'history', episodes: eps.map(e => ({ id: e.id, ...(e.chapter ? { chapter: e.chapter } : {}), title: e.title, scene: e.scene, card: e.card })) });
   Object.assign(cards, m[exp + '_CARDS'] || {});
 }
 const out = `/* נוצר אוטומטית ע"י scripts/build-season-manifest.mjs – לא לערוך ידנית */\n`
