@@ -11,6 +11,9 @@ import { ITEMS as SHOP } from '@/lib/game/avatar.js';
 const NIKUD = /[֑-ׇ]/g;
 const plain = (s: string) => String(s || '').replace(NIKUD, '');
 const ALL_LEVELS: Row[] = Object.values(LEVELS as Record<string, Row[]>).flat();
+// עונות: כל גיבור הוא עונה של כמה פרקים
+const SEASONS: { name: string; levels: Row[] }[] = [];
+ALL_LEVELS.filter(l => !l.locked).forEach(l => { if (l.chapter || !SEASONS.length) SEASONS.push({ name: plain(l.chapter || l.title), levels: [] }); SEASONS[SEASONS.length - 1].levels.push(l); });
 const levelTitle = (id: string) => id === 'practice' ? 'סדנת הכתיבה' : plain(ALL_LEVELS.find(l => l.id === id)?.title || id || '');
 const TABS = [
   { id: 'overview', t: 'סקירה' }, { id: 'rewards', t: 'פרסים' }, { id: 'letters', t: 'מכתבים' },
@@ -92,6 +95,8 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
       case 'practice_daily': return '🏅 השלים את האימון היומי (+1 🎟️)';
       case 'avatar': return '🧑‍🎨 עיצב את הדמות שלו';
       case 'tutorial_done': return '🎓 סיים את ההדרכה';
+      case 'tutorial_new': return '🎓 ראה את הסיור "מה חדש"';
+      case 'arena': return `🏆 זירת טריוויה ב"${levelTitle(x.level)}": מקום ${x.rank} מתוך 6 (${x.right}/${x.of} נכונות)`;
       case 'shop_buy': return `🛍️ קנה ${plain(SHOP.find((i: Row) => i.id === x.item)?.name || '')}`;
       case 'session_start': return '🎮 נכנס למשחק';
       default: return e.type;
@@ -124,11 +129,13 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
         <div className="a-stat"><b>🧩 {(p.solved || []).length}</b><span>חידות שפתר</span></div>
         <div className="a-stat"><b>{pd.math ? '✔' : '○'}{pd.write ? '✔' : '○'}{pd.riddle ? '✔' : '○'}</b><span>אימון יומי היום</span></div>
       </div>
-      <h3>מפת ההתקדמות</h3>
-      <div className="a-levels">{ALL_LEVELS.filter(l => !l.locked).map(l => {
-        const done = (s.done || []).includes(l.id);
-        return <div key={l.id} className={'a-level' + (done ? ' done' : '')}>{done ? '⭐'.repeat(s.stars?.[l.id] || 0) : '⬜'} {plain(l.title)}</div>;
-      })}</div></div>
+      <h3>העונות</h3>
+      <div className="a-levels">{SEASONS.map(se => {
+        const n = se.levels.filter(l => (s.done || []).includes(l.id)).length, wins = se.levels.filter(l => s.aluf?.[l.id]).length;
+        return <div key={se.name} className={'a-level' + (n === se.levels.length ? ' done' : '')} title={se.levels.map(l => plain(l.title)).join(' · ')}>
+          {n === se.levels.length ? '✅' : n ? '📖' : '⬜'} {se.name} · {n}/{se.levels.length}{wins ? ` · 🏆${wins}` : ''}</div>;
+      })}</div>
+      {s.arena?.played ? <p className="a-help" style={{ marginTop: 10 }}>🏆 זירות טריוויה: {s.arena.played} · ניצחונות: {s.arena.wins || 0} · מקום בטבלה השבועית: {s.arena.week?.lastRank || '–'}</p> : null}</div>
       <div className="a-card"><h2>פעילות אחרונה</h2>
         <div className="a-ledger">{d.events.filter((e: Row) => e.type !== 'session_start').slice(0, 25).map((e: Row, i: number) => <div key={i}><span>{ev(e)}</span><span className="a-help">{fmtTime(e.created_at)}</span></div>)}
           {!d.events.length && <div className="a-help">עוד אין פעילות</div>}</div></div>
