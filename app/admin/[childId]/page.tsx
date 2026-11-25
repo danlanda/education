@@ -95,7 +95,6 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
       case 'practice_daily': return '🏅 השלים את האימון היומי (+1 🎟️)';
       case 'avatar': return '🧑‍🎨 עיצב את הדמות שלו';
       case 'tutorial_done': return '🎓 סיים את ההדרכה';
-      case 'tutorial_new': return '🎓 ראה את הסיור "מה חדש"';
       case 'arena': return `🏆 זירת טריוויה ב"${levelTitle(x.level)}": מקום ${x.rank} מתוך 6 (${x.right}/${x.of} נכונות)`;
       case 'shop_buy': return `🛍️ קנה ${plain(SHOP.find((i: Row) => i.id === x.item)?.name || '')}`;
       case 'session_start': return '🎮 נכנס למשחק';
