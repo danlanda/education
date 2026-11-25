@@ -871,3 +871,164 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 .loading-page.panel{color:var(--ink);min-height:0;max-width:480px;margin:40px auto}
 .loading-page > .ico{width:84px;height:84px;animation:float 1.6s ease-in-out infinite}
 .loading-page b{font-family:var(--display);font-weight:700;font-size:24px}
+
+/* ---------- בונוסים בחנות ---------- */
+.stab.bonus{background:linear-gradient(#b993ff,#7a43e6);color:#fff}
+.stab.bonus.on{background:linear-gradient(#ffe36e,#f6a817);color:var(--ink)}
+.bonus-grid{display:grid;gap:14px;margin-bottom:10px}
+.bonus-grid ~ .shop-grid{display:none}
+.bitem{position:relative;display:flex;align-items:center;gap:14px;width:100%;text-align:right;color:var(--ink);background:linear-gradient(170deg,var(--parch1),var(--parch2));
+  border:3px solid var(--ink);border-radius:20px;padding:10px 14px;box-shadow:inset 0 0 0 3px #c7b3ff,0 5px 0 var(--ink);transition:transform .1s}
+.bitem:active{transform:translateY(3px)}
+.bitem.off{filter:saturate(.4);opacity:.8}
+.bitem .btxt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.bitem b{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.3}
+.bitem small{font-size:14px;color:var(--ink2)}
+.bitem .bhero{font-family:var(--display);font-weight:600;color:var(--purple2)}
+.bitem .sprice{flex:none;font-family:var(--display);font-weight:700;color:var(--gold2);display:inline-flex;align-items:center;gap:4px;font-size:16px;text-align:center;max-width:110px}
+.bitem .sprice .ico{width:22px;height:22px}
+.bitem.own .sprice{color:var(--ok)}
+.bitem.pack{background:linear-gradient(135deg,#fff3c4,#ffd96a);box-shadow:inset 0 0 0 3px #e0a21a,0 5px 0 var(--ink)}
+.bpack{position:relative;flex:none;width:84px;height:70px}
+.bpack i{position:absolute;top:6px;left:22px;width:40px;height:56px;border-radius:8px;border:2.5px solid var(--ink);background:linear-gradient(#a06bff,#6d36d6);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-style:normal;font-size:20px;transform:rotate(var(--r));box-shadow:0 3px 0 var(--ink)}
+.bcount{display:inline-flex;align-items:center;gap:4px}
+.bcount .ico{width:18px;height:18px}
+.bstories{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.bthumb{position:relative;flex:none;width:96px;height:64px;border-radius:12px;overflow:hidden;border:2.5px solid var(--ink)}
+.bthumb svg{width:100%;height:100%;display:block}
+.bthumb .lockveil .ico{width:30px;height:30px}
+.bdone{position:absolute;top:2px;left:2px;width:24px;height:24px}
+.bdone .ico{width:100%;height:100%}
+.bprev{width:240px;height:120px;margin:0 auto 8px;border-radius:16px;overflow:hidden;border:3px solid var(--ink)}
+.bprev svg{width:100%;height:100%;display:block}
+.facts-open{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0}
+.fcard{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:10px 8px;box-shadow:0 4px 0 var(--ink);text-align:center;
+  animation:flipin .6s cubic-bezier(.2,1.3,.4,1) both}
+.fcard.flat{animation:none}
+.fcard .fe{font-size:40px;line-height:1}
+.fcard small{font-family:var(--display);font-weight:600;color:var(--purple2);font-size:13px}
+.fcard p{margin:0;font-size:16px;line-height:1.55;font-weight:500}
+.facts-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.loading-page.small{min-height:120px;color:var(--ink)}
+@media (max-width:600px){ .facts-open{grid-template-columns:1fr} .bstories{grid-template-columns:1fr} .bthumb{width:78px;height:54px} .bitem b{font-size:17px} .bpack{width:64px} .bpack i{left:12px} }
+@media (max-width:700px){ .shop-tabs{grid-template-columns:repeat(3,1fr)} }
+
+/* ================= 🌱 משחק שגדל: הפתעות, ינשוף, מתנה יומית, מגן רצף, תגים, דף זהב, ליגות ================= */
+/* טאב שנפתח עכשיו – זוהר עם "חדש!" */
+.tab.isnew{animation:newtab 1.6s ease-in-out infinite}
+.tab.isnew::after{content:'חָדָשׁ!';position:absolute;top:-12px;inset-inline-start:50%;transform:translateX(50%);background:linear-gradient(#ffe36e,#f6a817);color:var(--ink);
+  font:700 12px var(--display);padding:1px 8px 2px;border-radius:999px;border:2px solid var(--ink);white-space:nowrap}
+@keyframes newtab{50%{box-shadow:0 0 0 3px rgba(255,201,40,.8),0 0 22px rgba(255,201,40,.7)}}
+/* חלון "חדש!" */
+.reveal{display:flex;flex-direction:column;align-items:center;gap:6px}
+.reveal h2{font-size:32px;margin:4px 0 0;line-height:1.2}
+.reveal .story{font-size:23px;line-height:1.65;margin:0}
+.reveal .small{margin:2px 0}
+.rv-new{display:inline-block;font-family:var(--display);font-weight:700;font-size:18px;color:var(--ink);background:linear-gradient(#ffe36e,#f6a817);border:3px solid var(--ink);
+  border-radius:999px;padding:2px 18px 4px;box-shadow:0 3px 0 var(--ink);animation:pop .45s both}
+.rv-new.soft{background:#efe5ff;font-size:16px;box-shadow:none;border-width:2px}
+.rv-new.gold{background:linear-gradient(#fff3a8,#ffc928)}
+.rv-art{display:flex;align-items:center;justify-content:center;width:150px;height:150px;margin:6px auto 2px;animation:pop .55s .1s both}
+.rv-art svg{width:100%;height:100%;display:block;overflow:visible}
+.rv-art .ico{width:112px;height:112px}
+.rv-art.streak-pop .ico,.streak-pop .rv-art .ico{width:110px;height:110px}
+.rv-ico{display:flex;align-items:center;justify-content:center;width:140px;height:140px;border-radius:36px;background:radial-gradient(circle at 50% 35%,#fff7d6,#ffd66a);border:3px solid var(--ink);box-shadow:0 6px 0 var(--ink)}
+.rv-ico .ico{width:92px;height:92px}
+.rv-emoji{font-size:104px;line-height:1;filter:drop-shadow(0 6px 0 rgba(43,24,56,.25))}
+.rv-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:4px 0 6px}
+/* ביצת הינשוף */
+.rv-art.egg{width:170px;height:170px;cursor:pointer;animation:pop .55s both,eggwob 1.4s 1s ease-in-out infinite}
+.rv-art.egg.hatch{animation:eggshake .7s ease-in-out}
+.rv-art.egg.born{animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes eggwob{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}60%{transform:rotate(-3deg)}}
+@keyframes eggshake{0%,100%{transform:none}15%{transform:rotate(-12deg) scale(1.05)}30%{transform:rotate(12deg)}45%{transform:rotate(-10deg) scale(1.1)}60%{transform:rotate(9deg)}80%{transform:scale(1.2)}}
+#owlName{width:100%;max-width:360px}
+#owlName input{text-align:center;margin:6px 0 4px;font-size:24px;padding:10px}
+.owl-big{width:180px;height:180px}
+.owl-big.evolve{animation:pop .7s cubic-bezier(.2,1.6,.4,1) both;filter:drop-shadow(0 0 22px rgba(255,201,40,.85))}
+.owl-steps{display:flex;gap:10px;justify-content:center;margin:6px 0}
+.owl-steps span{width:58px;height:62px;border-radius:16px;background:#f3ecdc;border:2.5px solid #e3d4b2;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.owl-steps span.on{background:#fff7d6;border-color:var(--gold2)}
+.owl-steps span svg{width:100%;height:100%}
+.owl-steps i{font:700 26px var(--display);color:#c9b993;font-style:normal}
+/* הינשוף בבית: יושב ליד השומר, ובשורה במשימות */
+.hero-owl{position:absolute;z-index:3;bottom:10px;left:calc(5% + 150px);width:92px;height:100px;padding:0;filter:drop-shadow(0 8px 10px rgba(0,0,0,.5));animation:float 3s .6s ease-in-out infinite;cursor:pointer}
+.hero-owl svg{width:100%;height:100%;display:block;overflow:visible}
+.quest .qi.owl-qi{background:linear-gradient(#ffe9a8,#ffc928);overflow:hidden;padding:2px}
+.quest .qi.owl-qi svg{width:100%;height:100%}
+.quest .qe{font-size:30px;line-height:1}
+.quest .qr .qe{font-size:24px}
+.quest.surprise{background:linear-gradient(90deg,rgba(160,107,255,.35),rgba(160,107,255,.12));border-color:#a06bff}
+.quest.surprise .qi{background:linear-gradient(#b890ff,#6d36d6)}
+.quest.surprise .qe{animation:badge 1.6s ease-in-out infinite;display:inline-block}
+.shtag{font-size:15px;letter-spacing:-2px}
+/* מתנה יומית */
+.gcal{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 4px}
+.gday{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px 6px;border-radius:18px;background:#fffaf0;border:3px solid #e3d4b2;box-shadow:0 4px 0 #e3d4b2;color:var(--ink)}
+.gday small{font:700 14px var(--display);color:var(--ink2)}
+.gday .gi{font-size:34px;line-height:1.1;height:44px;display:flex;align-items:center;justify-content:center}
+.gday .gi .ico{width:34px;height:34px}
+.gday .gi svg{max-height:44px;width:auto}
+.gday b{display:flex;align-items:center;gap:3px;font:700 16px var(--display)}
+.gday b .ico{width:18px;height:18px}
+.gday.big{grid-column:span 2;background:linear-gradient(#fff3c4,#ffd66a);border-color:var(--gold2);box-shadow:0 4px 0 var(--gold2)}
+.gday.big .gi .ico{width:46px;height:46px}
+.gday.got{opacity:.6;background:#e9f9ef;border-color:#9fdcb7;box-shadow:0 4px 0 #9fdcb7}
+.gday.got .gi .ico{color:var(--ok)}
+.gday:disabled{cursor:default}
+.gday.today{border-color:var(--ink);box-shadow:0 5px 0 var(--ink);animation:pulse 1.2s ease-in-out infinite;background:linear-gradient(#fffdf2,#ffe9a8)}
+.gday.opened{animation:pop .5s;background:linear-gradient(#e9fff1,#b8f5cf);border-color:var(--ok)}
+/* רצף + מגן */
+.streak-pop .rv-art .ico{color:#ff6a00}
+.week.big{width:min(320px,90%);gap:7px}
+.week.big i{height:16px;border-radius:8px;background:#e9dfca}
+.shields{display:flex;flex-direction:column;align-items:center;gap:6px;margin:8px 0 2px;padding:12px 14px;border-radius:20px;background:#f3ecdc;border:2.5px solid #e3d4b2;width:100%}
+.sh-row{display:flex;gap:10px;font-size:38px}
+.sh-row span{filter:grayscale(1);opacity:.35}
+.sh-row span.on{filter:none;opacity:1;animation:pop .4s}
+/* תגים */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:8px}
+.bdg{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:14px 10px;border-radius:20px;background:linear-gradient(165deg,#fffaf0,#f6e3b4);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);color:var(--ink)}
+.bdg .be{font-size:44px;line-height:1.15;display:flex;align-items:center;justify-content:center;height:52px}
+.bdg .be .ico{width:30px;height:30px;color:#a89a80}
+.bdg b{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.2}
+.bdg small{font-size:14px;color:var(--ink2);line-height:1.35}
+.bdg.off{background:#ece4d4;border-color:#b9ab90;box-shadow:0 5px 0 #b9ab90;opacity:.75}
+.bdg.mini{flex-direction:row;padding:5px 12px 5px 8px;gap:6px;border-width:2.5px;box-shadow:0 3px 0 var(--ink);border-radius:999px}
+.bdg.mini .be{font-size:24px;height:auto}
+.bdg.mini b{font-size:15px}
+.btoast{position:fixed;z-index:90;top:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:8px 20px 8px 12px;border-radius:999px;
+  background:linear-gradient(#fff7d6,#ffd66a);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink),0 14px 30px rgba(0,0,0,.45);color:var(--ink);animation:toastin .5s cubic-bezier(.2,1.5,.4,1);pointer-events:none}
+.btoast.out{opacity:0;transform:translate(-50%,-30px);transition:all .45s}
+.btoast .be{font-size:36px;line-height:1}
+.btoast .bt{display:flex;flex-direction:column;line-height:1.15}
+.btoast small{font:700 13px var(--display);color:var(--ink2)}
+.btoast b{font:700 20px var(--display)}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,-40px) scale(.8)}}
+/* ✨ דף זהב: כל המסך מקבל ניצוץ זהב */
+.kg.golden #lvlbar .lprog i{background:linear-gradient(#fff3a8,#ffc928 55%,#e8920a)}
+.kg.golden #app .panel{border-color:#b8860b;box-shadow:inset 0 0 0 4px #fff6cf,inset 0 0 0 6px #e6b84a,0 7px 0 #8a6400,0 0 36px rgba(255,201,40,.55),0 24px 50px rgba(0,0,0,.45)}
+.kg.golden #app::before{content:'✨ דַּף זָהָב · כָּל מַטְבֵּעַ כָּפוּל';display:block;width:max-content;margin:0 auto 10px;font:700 17px var(--display);color:var(--ink);
+  background:linear-gradient(#fff3a8,#ffc928);border:2.5px solid var(--ink);border-radius:999px;padding:3px 16px 5px;box-shadow:0 3px 0 var(--ink)}
+.vbanner.gold{background:linear-gradient(#ffe36e,#e8920a);color:var(--ink);text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.golden-pop .rv-emoji{animation:spin360 2.4s ease-in-out infinite}
+@keyframes spin360{50%{transform:scale(1.12) rotate(12deg)}}
+/* ליגה בטבלה */
+.league-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 0 8px;padding:8px 12px;border-radius:16px;background:#f3ecdc;border:2.5px solid var(--lc,#c97a3a)}
+.league-line .le{font-size:30px;line-height:1}
+.league-line b{font:700 19px var(--display)}
+.league-line small{font-size:14px;color:var(--ink2);flex-basis:100%;text-align:center}
+@media (max-width:700px){
+  .hero-owl{left:auto;right:12px;top:10px;bottom:auto;width:64px;height:70px}
+  .reveal h2{font-size:26px}
+  .reveal .story{font-size:20px}
+  .rv-art{width:120px;height:120px}
+  .rv-emoji{font-size:84px}
+  .gcal{gap:7px}
+  .gday .gi{font-size:28px;height:38px}
+  .badges{grid-template-columns:repeat(2,1fr)}
+}
+.big-title.sub{font-size:32px;margin:18px 0 8px}
+.big-title.sub:first-of-type{margin-top:4px}
+.tab.isnew .badge{display:none}

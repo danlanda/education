@@ -95,8 +95,19 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
       case 'practice_daily': return '🏅 השלים את האימון היומי (+1 🎟️)';
       case 'avatar': return '🧑‍🎨 עיצב את הדמות שלו';
       case 'tutorial_done': return '🎓 סיים את ההדרכה';
+      case 'bonus_buy': return `⭐ קנה סיפור בונוס (${x.price} מטבעות)`;
+      case 'bonus_read': return `📚 קרא סיפור בונוס עד הסוף`;
+      case 'facts_pack': return `🃏 פתח חבילת עובדות מדהימות`;
       case 'read_aloud': return `🔊 קנה הקראה ב"${levelTitle(x.level)}" (${x.cost} מטבעות)`;
       case 'arena': return `🏆 זירת טריוויה ב"${levelTitle(x.level)}": מקום ${x.rank} מתוך 6 (${x.right}/${x.of} נכונות)`;
+      case 'feature_unlock': return `🎁 נפתחה הפתעה חדשה במשחק: ${({ owl: 'ינשוף הזמן', practice: 'חדר האימונים', gift: 'מתנה יומית', arena: 'זירת החידון', badges: 'תגים', shield: 'מגן רצף', golden: 'דפי זהב', league: 'ליגות', bonus: 'בונוסים בחנות' } as Row)[x.feature] || x.feature}`;
+      case 'owl_hatch': return `🦉 הינשוף בקע${x.name ? ` – קרא לו "${x.name}"` : ''}`;
+      case 'owl_stage': return `🦉 הינשוף גדל לשלב ${x.stage + 1} (${x.words} מילים)`;
+      case 'badge': return `🏅 קיבל תג חדש`;
+      case 'daily_gift': return `🎁 פתח מתנה יומית (יום ${x.day})`;
+      case 'shield_buy': return `🛡️ קנה מגן רצף`;
+      case 'shield_used': return `🛡️ מגן רצף שמר על הרצף`;
+      case 'league_up': return `🥉 עלה ליגה בזירה`;
       case 'shop_buy': return `🛍️ קנה ${plain(SHOP.find((i: Row) => i.id === x.item)?.name || '')}`;
       case 'session_start': return '🎮 נכנס למשחק';
       default: return e.type;
@@ -135,6 +146,14 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
         return <div key={se.name} className={'a-level' + (n === se.levels.length ? ' done' : '')} title={se.levels.map(l => plain(l.title)).join(' · ')}>
           {n === se.levels.length ? '✅' : n ? '📖' : '⬜'} {se.name} · {n}/{se.levels.length}{wins ? ` · 🏆${wins}` : ''}</div>;
       })}</div>
+      <h3>מה שגדל איתו</h3>
+      <div className="a-stats">
+        <div className="a-stat"><b>🦉 {(s.owl?.words || 0).toLocaleString()}</b><span>מילים שקרא וכתב<br />{s.owl?.name ? `(הינשוף "${s.owl.name}")` : ''}</span></div>
+        <div className="a-stat"><b>🏅 {Object.keys(s.badges || {}).length}</b><span>תגים</span></div>
+        <div className="a-stat"><b>✨ {s.goldenCount || 0}</b><span>דפי זהב</span></div>
+        <div className="a-stat"><b>🛡️ {s.shields || 0}</b><span>מגיני רצף</span></div>
+        <div className="a-stat"><b>🎁 {Object.keys(s.feat || {}).length}/9</b><span>הפתעות שנפתחו</span></div>
+      </div>
       {s.arena?.played ? <p className="a-help" style={{ marginTop: 10 }}>🏆 זירות טריוויה: {s.arena.played} · ניצחונות: {s.arena.wins || 0} · מקום בטבלה השבועית: {s.arena.week?.lastRank || '–'}</p> : null}</div>
       <div className="a-card"><h2>פעילות אחרונה</h2>
         <div className="a-ledger">{d.events.filter((e: Row) => e.type !== 'session_start').slice(0, 25).map((e: Row, i: number) => <div key={i}><span>{ev(e)}</span><span className="a-help">{fmtTime(e.created_at)}</span></div>)}
@@ -261,6 +280,8 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
           <button className={'a-chip' + (s.heroOrder === 'ordered' ? ' on' : '')} onClick={() => setS({ ...s, heroOrder: 'ordered' })}>לפי הסדר</button>
         </div>
         <p className="a-help">בחירה חופשית: הוא בוחר עם איזה גיבור להתחיל (הגיבור האחרון, שבו מתגלה מי הוא המוחק, נפתח רק בסוף). לפי הסדר: גיבור אחד פתוח בכל פעם. בתוך כל גיבור הפרקים תמיד לפי הסדר, ואפשר לחזור לפרק שכבר עשה.</p>
+        <label className="a-label"><input type="checkbox" checked={s.gradual !== false} onChange={e => setS({ ...s, gradual: e.target.checked })} /> משחק שגדל: חלקי המשחק נפתחים בהדרגה, הפתעה אחת בכל פעם (מומלץ)</label>
+        <div className="a-help" style={{ marginTop: -4 }}>ביום הראשון הוא רואה רק סיפור, מפה, כרטיסים וחנות. אחר כך, כל יום-יומיים, נפתח משהו חדש: ינשוף שגדל מקריאה, חדר אימונים, מתנה יומית, זירת חידון, תגים, מגן רצף, דפי זהב, ליגות ובונוסים. בלי סימון – הכול פתוח מההתחלה.</div>
         <label className="a-label"><input type="checkbox" checked={!!s.nikud} onChange={e => setS({ ...s, nikud: e.target.checked })} /> ניקוד בכל המשחק (מומלץ)</label>
         <label className="a-label"><input type="checkbox" checked={s.readAloud !== false} onChange={e => setS({ ...s, readAloud: e.target.checked })} /> כפתור הקראה בדפי הסיפור (בתשלום מטבעות)</label>
         {s.readAloud !== false && num('readAloudCost', 'מחיר הקראה של עמוד (במטבעות)', 'הקראה בקול של המכשיר בעברית, והשורה שמוקראת מודגשת – כך הוא עוקב וממשיך לקרוא. במכשיר בלי קול עברי הכפתור לא יופיע', 0, 200)}
