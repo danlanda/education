@@ -264,6 +264,7 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
         <label className="a-label"><input type="checkbox" checked={!!s.nikud} onChange={e => setS({ ...s, nikud: e.target.checked })} /> ניקוד בכל המשחק (מומלץ)</label>
         <label className="a-label"><input type="checkbox" checked={s.readAloud !== false} onChange={e => setS({ ...s, readAloud: e.target.checked })} /> כפתור הקראה בדפי הסיפור (בתשלום מטבעות)</label>
         {s.readAloud !== false && num('readAloudCost', 'מחיר הקראה של עמוד (במטבעות)', 'הקראה בקול של המכשיר בעברית, והשורה שמוקראת מודגשת – כך הוא עוקב וממשיך לקרוא. במכשיר בלי קול עברי הכפתור לא יופיע', 0, 200)}
+        {s.readAloud !== false && num('readAloudEvery', 'הקראה פעם אחת בכל כמה דפים', 'למשל 3: אחרי דף מוקרא, הוא קורא לבד עוד 2 דפים לפני שההקראה חוזרת', 1, 10)}
         <label className="a-label">קוד הורים (ליציאה מהמשחק)</label><input className="a-input" value={s.pin} onChange={e => setS({ ...s, pin: e.target.value })} inputMode="numeric" />
       </div>
       <button className="a-btn block green" onClick={save}>שמירה</button>

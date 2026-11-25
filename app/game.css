@@ -865,3 +865,9 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 .story p.speaking{background:#fff1b8;border-radius:10px;box-shadow:0 0 0 6px #fff1b8}
 #tts.on{--c1:#d9ccff;--c2:#b59bff}
 #tts.on .ico{animation:pulse .9s ease-in-out infinite}
+
+/* ---------- טעינת עונה ---------- */
+.loading-page{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:50vh;color:#fff;text-align:center}
+.loading-page.panel{color:var(--ink);min-height:0;max-width:480px;margin:40px auto}
+.loading-page > .ico{width:84px;height:84px;animation:float 1.6s ease-in-out infinite}
+.loading-page b{font-family:var(--display);font-weight:700;font-size:24px}
