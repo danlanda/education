@@ -95,6 +95,7 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
       case 'practice_daily': return '🏅 השלים את האימון היומי (+1 🎟️)';
       case 'avatar': return '🧑‍🎨 עיצב את הדמות שלו';
       case 'tutorial_done': return '🎓 סיים את ההדרכה';
+      case 'read_aloud': return `🔊 קנה הקראה ב"${levelTitle(x.level)}" (${x.cost} מטבעות)`;
       case 'arena': return `🏆 זירת טריוויה ב"${levelTitle(x.level)}": מקום ${x.rank} מתוך 6 (${x.right}/${x.of} נכונות)`;
       case 'shop_buy': return `🛍️ קנה ${plain(SHOP.find((i: Row) => i.id === x.item)?.name || '')}`;
       case 'session_start': return '🎮 נכנס למשחק';
@@ -261,6 +262,8 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
         </div>
         <p className="a-help">בחירה חופשית: הוא בוחר עם איזה גיבור להתחיל (הגיבור האחרון, שבו מתגלה מי הוא המוחק, נפתח רק בסוף). לפי הסדר: גיבור אחד פתוח בכל פעם. בתוך כל גיבור הפרקים תמיד לפי הסדר, ואפשר לחזור לפרק שכבר עשה.</p>
         <label className="a-label"><input type="checkbox" checked={!!s.nikud} onChange={e => setS({ ...s, nikud: e.target.checked })} /> ניקוד בכל המשחק (מומלץ)</label>
+        <label className="a-label"><input type="checkbox" checked={s.readAloud !== false} onChange={e => setS({ ...s, readAloud: e.target.checked })} /> כפתור הקראה בדפי הסיפור (בתשלום מטבעות)</label>
+        {s.readAloud !== false && num('readAloudCost', 'מחיר הקראה של עמוד (במטבעות)', 'הקראה בקול של המכשיר בעברית, והשורה שמוקראת מודגשת – כך הוא עוקב וממשיך לקרוא. במכשיר בלי קול עברי הכפתור לא יופיע', 0, 200)}
         <label className="a-label">קוד הורים (ליציאה מהמשחק)</label><input className="a-input" value={s.pin} onChange={e => setS({ ...s, pin: e.target.value })} inputMode="numeric" />
       </div>
       <button className="a-btn block green" onClick={save}>שמירה</button>

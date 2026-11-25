@@ -859,3 +859,9 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 .ar-join small{color:var(--muted);font-size:13px}
 @keyframes feedIn{from{opacity:0;transform:translateY(-10px)}}
 @media (max-width:600px){ .ar-feed{min-height:74px} .ar-join{font-size:15px} .ar-search{margin-bottom:8px} }
+
+/* ---------- הקראה ---------- */
+.story p{transition:background .25s,box-shadow .25s}
+.story p.speaking{background:#fff1b8;border-radius:10px;box-shadow:0 0 0 6px #fff1b8}
+#tts.on{--c1:#d9ccff;--c2:#b59bff}
+#tts.on .ico{animation:pulse .9s ease-in-out infinite}
