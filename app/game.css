@@ -1251,3 +1251,57 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
   background-size:300% 100%,100% 100%;background-repeat:no-repeat;background-position:150% 0,0 0;animation:pulse 2.2s ease-in-out infinite,shinebg 3.2s ease-in-out infinite}
 @keyframes shinebg{0%,45%{background-position:150% 0,0 0}100%{background-position:-60% 0,0 0}}
 @media (prefers-reduced-motion:reduce){.btn.mega{animation:none!important}}
+
+/* ================= 📖 הכריכה: המסך הראשון ================= */
+.cover2{position:relative;min-height:calc(100dvh - 30px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:14px 12px 26px;text-align:center;overflow:hidden}
+.cv-bg{position:fixed;inset:0;z-index:0;opacity:.3;filter:blur(3px) saturate(.9);pointer-events:none}
+.cv-bg svg{width:100%;height:100%;display:block}
+.cover2 .st-spark{position:fixed;z-index:1}
+.cv-greet.st-greet{position:relative;z-index:3;top:auto;right:auto;left:auto;margin:0 auto;max-width:min(640px,100%);animation:greetin .7s .3s both}
+.cv-greet .st-bubble b{font-size:24px}
+.cv-greet .st-bubble span{font-size:19px}
+.cv-stage{--S:min(520px,92vw);--R:calc(var(--S) * .43);position:relative;z-index:2;width:var(--S);height:var(--S);display:flex;align-items:center;justify-content:center;flex:none}
+.cv-rays{position:absolute;inset:2%;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,226,140,.26) 0 7deg,rgba(255,226,140,0) 7deg 20deg);
+  -webkit-mask:radial-gradient(circle,#000 18%,transparent 66%);mask:radial-gradient(circle,#000 18%,transparent 66%);animation:spin360b 50s linear infinite}
+.cv-stage::before{content:'';position:absolute;inset:16%;border-radius:50%;background:radial-gradient(circle,rgba(255,214,106,.45),rgba(160,107,255,.18) 55%,transparent 72%)}
+.cv-orbit{position:absolute;inset:0;animation:spin360b 70s linear infinite}
+.cv-md{position:absolute;left:50%;top:50%;width:0;height:0;transform:rotate(var(--a)) translateY(calc(var(--R) * -1)) rotate(calc(var(--a) * -1))}
+.cv-mdi{position:absolute;left:-40px;top:-44px;width:80px;display:flex;flex-direction:column;align-items:center;gap:3px;animation:spin360b 70s linear infinite reverse}
+.cv-pic{display:block;width:66px;height:66px;border-radius:50%;overflow:hidden;border:3px solid #ffd66a;box-shadow:0 0 0 3px var(--ink),0 0 18px rgba(255,214,106,.55);animation:erasefx 9s ease-in-out infinite;animation-delay:var(--d)}
+.cv-pic svg{width:100%;height:100%;display:block}
+.cv-mdi b{font:700 13px var(--display);color:#fff;background:rgba(14,9,40,.75);border-radius:8px;padding:0 7px 1px;white-space:nowrap}
+@keyframes erasefx{0%,74%,100%{opacity:1;filter:none}80%{opacity:.18;filter:grayscale(1) blur(1.5px)}86%{opacity:.7;filter:grayscale(.5)}90%{opacity:.3;filter:grayscale(1)}}
+.cover2 .book3d{z-index:3}
+.cover2 .book-glow{background:radial-gradient(rgba(255,226,140,.35),transparent 68%)}
+.cover2 .btn.mega{width:min(460px,100%);position:relative;z-index:3}
+.cv-hint{position:relative;z-index:3;margin:0;max-width:540px;color:#d9cfff;font-size:18px;font-weight:600;line-height:1.5;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+/* העיניים של המוחק בחושך */
+.cv-eyes{position:fixed;z-index:2;left:5%;bottom:14%;display:flex;gap:16px;padding:14px;opacity:0;animation:eyesin 1.2s 4s forwards;background:none}
+.cv-eyes i{display:block;width:28px;height:12px;border-radius:50%;background:radial-gradient(#ffb3c0,#ff2d55 55%,rgba(255,45,85,0) 74%);box-shadow:0 0 20px 6px rgba(255,45,85,.4);animation:blink 5s 5.5s infinite}
+.cv-eyes.gone{animation:none;opacity:0;transform:scale(.3);transition:all .35s}
+@keyframes eyesin{to{opacity:.9}}
+@keyframes blink{0%,90%,100%{transform:scaleY(1)}94%{transform:scaleY(.08)}}
+.cover2.opening .cv-orbit,.cover2.opening .cv-eyes,.cover2.opening .cv-greet,.cover2.opening .cv-hint,.cover2.opening .cv-rays{opacity:0;transition:opacity .5s}
+@media (max-width:700px){
+  .cv-stage{--S:min(400px,94vw)}
+  .cover2 .book3d{width:178px;height:232px}
+  .cover2 .bc-frame svg{width:62px;height:62px}
+  .cover2 .bc-title{font-size:26px}
+  .cover2 .bc-sub{font-size:13px}
+  .cv-pic{width:50px;height:50px;border-width:2.5px}
+  .cv-mdi{left:-32px;top:-34px;width:64px}
+  .cv-mdi b{font-size:11px;padding:0 5px}
+  .cv-greet .st-bubble b{font-size:19px}
+  .cv-greet .st-bubble span{font-size:16px}
+  .cv-hint{font-size:15px}
+  .cover2{gap:10px;justify-content:flex-start;padding-top:12px}
+}
+@media (prefers-reduced-motion:reduce){.cv-orbit,.cv-mdi,.cv-rays,.cv-pic,.cv-eyes i{animation:none!important}}
+@media (max-width:700px){
+  .cover2 .book3d{width:146px;height:190px}
+  .cover2 .bc-frame svg{width:50px;height:50px}
+  .cover2 .bc-title{font-size:22px}
+  .cover2 .bc-sub{font-size:12px}
+  .cv-eyes{left:6px;bottom:6px;z-index:4;padding:10px}
+  .cv-eyes i{width:22px;height:10px}
+}
