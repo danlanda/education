@@ -1400,3 +1400,15 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
   .tg-box .tg-ic{height:30px;font-size:24px}.tg-box .tg-ic .ico{width:28px;height:28px}
   .coach-who{margin:0 0 2px}
 }
+/* 🧠 התאמה אישית: קריאה שורה אחרי שורה, אותיות גדולות, אתגר חשבון */
+.story p.hide{display:none}
+.story.linemode p{opacity:.55;transition:opacity .3s}
+.story.linemode p:last-of-type:not(.hide),.story.linemode p:not(.hide):has(+ p.hide){opacity:1}
+.story p.reveal-line{animation:lineIn .35s ease both}
+@keyframes lineIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kg.bigread .story{font-size:34px;line-height:2.05}
+.kg.bigread .question{font-size:31px}
+.kg.bigread .opt{font-size:29px}
+@media (max-width:700px){ .kg.bigread .story{font-size:28px} .kg.bigread .question{font-size:26px} }
+.qlabel.challenge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(#ffe36e,#f6a817);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:2px 14px 4px;font:700 18px var(--display);box-shadow:0 3px 0 var(--ink);margin-bottom:8px}
+.qlabel.challenge small{font-size:14px;opacity:.75}

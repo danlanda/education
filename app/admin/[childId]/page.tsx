@@ -8,6 +8,7 @@ import { api, vowelize, fmtTime, type Row } from '@/lib/admin';
 import { LEVELS, DEFAULT_SETTINGS } from '@/lib/game/content.js';
 import { ITEMS as SHOP } from '@/lib/game/avatar.js';
 import { JOINT, JOINT_CATS } from '@/lib/game/joint.js';
+import { READ_LEVELS, CHALLENGES } from '@/lib/game/learner.js';
 
 const NIKUD = /[֑-ׇ]/g;
 const plain = (s: string) => String(s || '').replace(NIKUD, '');
@@ -67,6 +68,35 @@ function ChildView({ child }: { child: Row }) {
       {tab === 'riddles' && <Riddles d={d} child={child} reload={load} />}
       {tab === 'settings' && <Settings child={child} settings={settings} setSettings={setSettings} />}
     </>
+  );
+}
+
+/* 🧠 פרופיל הלמידה: מה המשחק מדד, ומה הוא שינה בעקבות זה */
+const ADAPT_TEXT: Record<string, string> = {
+  'read-page': 'הקריאה השתפרה – עבר מ"שורה אחרי שורה" לעמוד שלם', 'read-lines': 'הקריאה האטה – חזר ל"שורה אחרי שורה"', 'font-normal': 'קורא מהר – האותיות חזרו לגודל רגיל',
+  'comp-1': 'הבנת הנקרא: רמזים כבר אחרי טעות אחת', 'comp-2': 'הבנת הנקרא: רמזים אחרי שתי טעויות', 'comp-3': 'הבנת הנקרא מצוינת – פחות עזרה',
+  'math-1': 'חשבון: רמזים מוקדמים, בלי אתגר נוסף', 'math-2': 'חשבון: אתגר בכל פרק ברמה שלו', 'math-3': 'חשבון מצוין – האתגר עלה רמה',
+  'write-up': 'כותב הרבה – מינימום המילים עלה', 'write-down': 'הכתיבה קשה לו – מינימום המילים ירד', profile: 'עדכנת את פרופיל הלמידה בהגדרות',
+};
+function LearnCard({ s, settings, child }: { s: Row; settings: Row; child: Row }) {
+  const k = s.skill; if (!k) return null;
+  const pf = { ...(child.intake || {}), ...(settings.profile || {}) };
+  const pct = (w: number[]) => (w && w.length >= 3 ? Math.round(w.reduce((a, b) => a + b, 0) / w.length * 100) + '%' : '–');
+  const wpm = k.read?.wpm ? Math.round(k.read.wpm) : null, first = k.read?.first ? Math.round(k.read.first) : null;
+  const arena = k.read?.wpm ? Math.max(22, Math.min(50, Math.round(14 + 1800 / Math.max(k.read.wpm, 25)))) : [50, 45, 30, 25][k.read?.lv ?? 2];
+  return (
+    <div className="a-card"><h2>🧠 פרופיל הלמידה</h2>
+      <p className="a-help">מתחיל ממה שסיפרת ({pf.reading || 'רמת קריאה לא צוינה'}{pf.challenges?.length ? ' · קשה לו: ' + pf.challenges.join(', ') : ''}) – ומתעדכן לבד לפי מה שהמשחק רואה. אפשר לשנות בהגדרות.</p>
+      <div className="a-stats">
+        <div className="a-stat"><b>📖 {wpm ? wpm + ' מ׳/ד׳' : '–'}</b><span>מהירות קריאה (מילים לדקה){first && wpm ? <><br />{wpm > first ? '▲' : wpm < first ? '▼' : '='} התחיל ב־{first}</> : <><br />נמדד בכל דף ({k.read?.n || 0} עד עכשיו)</>}</span></div>
+        <div className="a-stat"><b>{k.read?.mode === 'lines' ? '☝️ שורה-שורה' : '📄 עמוד שלם'}</b><span>איך הוא רואה את הסיפור{k.read?.big ? <><br />אותיות גדולות</> : null}</span></div>
+        <div className="a-stat"><b>🧠 {pct(k.comp?.win)}</b><span>הבנת הנקרא – נכון בניסיון ראשון<br />רמז אחרי {k.comp?.lv === 1 ? 'טעות אחת' : 'שתי טעויות'}</span></div>
+        <div className="a-stat"><b>🧮 {pct(k.math?.win)}</b><span>חשבון בסיפורים – נכון בניסיון ראשון<br />{k.math?.lv >= 2 ? `אתגר חשבון בכל פרק (רמה ${Math.min(5, (s.practice?.level || 3) + (k.math.lv === 3 ? 1 : 0))})` : 'רמזים מוקדמים'}</span></div>
+        <div className="a-stat"><b>✍️ ×{k.write?.f ?? 1}</b><span>מינימום מילים במשימות כתיבה<br />ממוצע: {k.write?.avg || 0} מילים</span></div>
+        <div className="a-stat"><b>⏱️ {arena} שנ׳</b><span>זמן לשאלה בזירה{k.focus ? <><br />זירה קצרה (3 שאלות)</> : null}</span></div>
+      </div>
+      {k.log?.length ? <><h3>מה המשחק שינה לאחרונה</h3><div className="a-ledger">{[...k.log].reverse().slice(0, 6).map((l: Row, i: number) => <div key={i}><span>{ADAPT_TEXT[l.what] || l.what}</span><span className="a-help">{new Date(l.at).toLocaleDateString('he-IL')}</span></div>)}</div></> : null}
+    </div>
   );
 }
 
@@ -141,6 +171,7 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
       case 'owl_hatch': return `🦉 הינשוף בקע${x.name ? ` – קרא לו "${x.name}"` : ''}`;
       case 'owl_stage': return `🦉 הינשוף גדל לשלב ${x.stage + 1} (${x.words} מילים)`;
       case 'badge': return `🏅 קיבל תג חדש`;
+      case 'adapt': return `🧠 ${ADAPT_TEXT[x.what] || 'המשחק התאים את עצמו לילד'}`;
       case 'joint_new': return `🤝 קיבל משימה משותפת: "${plain((JOINT as Row[]).find(j => j.id === x.id)?.title || '')}"`;
       case 'joint_ask': return `🙌 סימן שסיימתם את המשימה המשותפת – מחכה לאישור`;
       case 'joint_done': return `🤝 קיבל פרס על משימה משותפת`;
@@ -158,6 +189,7 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
   return (
     <>
       <JointCard s={s} child={child} settings={settings} setSettings={setSettings} />
+      <LearnCard s={s} settings={settings} child={child} />
       <div className="a-card"><h2>היום</h2><div className="a-stats">
         <div className="a-stat"><b>{t.pages}/{settings.dailyGoal}</b><span>משימת היום</span></div>
         <div className="a-stat"><b>🎟️ {t.tickets}/{settings.dailyTicketCap}</b><span>כרטיסים היום</span></div>
@@ -325,6 +357,13 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
           <button className={'a-chip' + (s.heroOrder === 'ordered' ? ' on' : '')} onClick={() => setS({ ...s, heroOrder: 'ordered' })}>לפי הסדר</button>
         </div>
         <p className="a-help">בחירה חופשית: הוא בוחר עם איזה גיבור להתחיל (הגיבור האחרון, שבו מתגלה מי הוא המוחק, נפתח רק בסוף). לפי הסדר: גיבור אחד פתוח בכל פעם. בתוך כל גיבור הפרקים תמיד לפי הסדר, ואפשר לחזור לפרק שכבר עשה.</p>
+        <label className="a-label">פרופיל למידה – רמת קריאה</label>
+        <div className="a-row" style={{ flexWrap: 'wrap', gap: 6 }}>{READ_LEVELS.map((r: string) => { const cur = (s.profile?.reading ?? child.intake?.reading) === r;
+          return <button key={r} className={'a-chip' + (cur ? ' on' : '')} onClick={() => setS({ ...s, profile: { ...(child.intake || {}), ...(s.profile || {}), reading: r } })}>{r}</button>; })}</div>
+        <label className="a-label">במה קשה לו? (אפשר כמה)</label>
+        <div className="a-row" style={{ flexWrap: 'wrap', gap: 6 }}>{CHALLENGES.map((c: string) => { const list: string[] = s.profile?.challenges ?? child.intake?.challenges ?? []; const on = list.includes(c);
+          return <button key={c} className={'a-chip' + (on ? ' on' : '')} onClick={() => setS({ ...s, profile: { ...(child.intake || {}), ...(s.profile || {}), challenges: on ? list.filter(x => x !== c) : [...list, c] } })}>{c}</button>; })}</div>
+        <div className="a-help" style={{ marginTop: 4 }}>המשחק מתחיל מכאן: קורא לאט → שורה אחרי שורה ואותיות גדולות, יותר זמן בזירה והקראה בחצי מחיר. קשה בכתיבה → פחות מילים. טוב בחשבון → אתגר בכל פרק. ואחר כך הוא ממשיך להתאים את עצמו לבד.</div>
         <label className="a-label"><input type="checkbox" checked={s.gradual !== false} onChange={e => setS({ ...s, gradual: e.target.checked })} /> משחק שגדל: חלקי המשחק נפתחים בהדרגה, הפתעה אחת בכל פעם (מומלץ)</label>
         <div className="a-help" style={{ marginTop: -4 }}>ביום הראשון הוא רואה רק סיפור, מפה, כרטיסים וחנות. אחר כך, כל יום-יומיים, נפתח משהו חדש: ינשוף שגדל מקריאה, חדר אימונים, מתנה יומית, זירת חידון, תגים, גלגל מזל, מגן רצף, דפי זהב, ליגות ובונוסים. בלי סימון – הכול פתוח מההתחלה.</div>
         <label className="a-label"><input type="checkbox" checked={s.jointTasks !== false} onChange={e => setS({ ...s, jointTasks: e.target.checked })} /> משימות משותפות איתך (בלי מסך) מדי כמה ימים – אתה מאשר כשסיימתם</label>
