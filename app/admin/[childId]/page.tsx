@@ -77,6 +77,7 @@ const ADAPT_TEXT: Record<string, string> = {
   'comp-1': 'הבנת הנקרא: רמזים כבר אחרי טעות אחת', 'comp-2': 'הבנת הנקרא: רמזים אחרי שתי טעויות', 'comp-3': 'הבנת הנקרא מצוינת – פחות עזרה',
   'math-1': 'חשבון: רמזים מוקדמים, בלי אתגר נוסף', 'math-2': 'חשבון: אתגר בכל פרק ברמה שלו', 'math-3': 'חשבון מצוין – האתגר עלה רמה',
   'write-up': 'כותב הרבה – מינימום המילים עלה', 'write-down': 'הכתיבה קשה לו – מינימום המילים ירד', profile: 'עדכנת את פרופיל הלמידה בהגדרות',
+  'run-up': 'מרוץ הסיפור הלך לו טוב – הרמה עלתה (מהיר יותר, יותר מכשולים)', 'run-down': 'מרוץ הסיפור היה קשה לו – הרמה ירדה (לאט יותר, פחות מכשולים)',
 };
 function LearnCard({ s, settings, child }: { s: Row; settings: Row; child: Row }) {
   const k = s.skill; if (!k) return null;
@@ -94,6 +95,7 @@ function LearnCard({ s, settings, child }: { s: Row; settings: Row; child: Row }
         <div className="a-stat"><b>🧮 {pct(k.math?.win)}</b><span>חשבון בסיפורים – נכון בניסיון ראשון<br />{k.math?.lv >= 2 ? `אתגר חשבון בכל פרק (רמה ${Math.min(5, (s.practice?.level || 3) + (k.math.lv === 3 ? 1 : 0))})` : 'רמזים מוקדמים'}</span></div>
         <div className="a-stat"><b>✍️ ×{k.write?.f ?? 1}</b><span>מינימום מילים במשימות כתיבה<br />ממוצע: {k.write?.avg || 0} מילים</span></div>
         <div className="a-stat"><b>⏱️ {arena} שנ׳</b><span>זמן לשאלה בזירה{k.focus ? <><br />זירה קצרה (3 שאלות)</> : null}</span></div>
+        <div className="a-stat"><b>🏃 רמה {k.run?.lv ?? (k.focus || k.readHard ? 1 : 2)}/6</b><span>מרוץ הסיפור – עולה ויורד לפי ההצלחה<br />{k.run?.n ? `${k.run.n} מרוצים` : 'עוד לא רץ'}{k.comp?.lv === 1 ? ' · 2 תשובות בכל שער' : ''}</span></div>
       </div>
       {k.log?.length ? <><h3>מה המשחק שינה לאחרונה</h3><div className="a-ledger">{[...k.log].reverse().slice(0, 6).map((l: Row, i: number) => <div key={i}><span>{ADAPT_TEXT[l.what] || l.what}</span><span className="a-help">{new Date(l.at).toLocaleDateString('he-IL')}</span></div>)}</div></> : null}
     </div>
