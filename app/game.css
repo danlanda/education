@@ -1475,3 +1475,62 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 .rn-lv{display:inline-flex;align-items:center;gap:6px;margin-top:4px;padding:3px 12px;border-radius:999px;background:#2a1d5a;color:#ffe36e;font:800 15px/1.2 Rubik,Heebo,sans-serif}
 .rn-lv span{color:#fff}
 .rchip.lvup{background:#fff3c4;border-color:#f5b52e}
+
+/* 🗺️ סרגל המסע בתוך פרק: תחנה לכל דף/משימה, הדמות הולכת, 🎁 באמצע ו־🏁 בסוף */
+.kg.focus .lprog{overflow:visible;height:22px;margin-inline:10px}
+#lvlMarks{position:absolute;inset:0;pointer-events:none}
+.jm{position:absolute;top:50%;width:7px;height:7px;margin-inline-start:-3.5px;margin-top:-3.5px;border-radius:50%;background:rgba(255,255,255,.55);font-size:13px;line-height:0}
+.jm.t{width:9px;height:9px;margin-top:-4.5px;margin-inline-start:-4.5px;border-radius:2px;transform:rotate(45deg);background:rgba(255,227,110,.7)}
+.jm.t.done{background:#fff}.jm.t.star{background:#ffc928;box-shadow:0 0 6px #ffc928}
+.jm.r.done{background:rgba(255,255,255,.95)}
+.jm.c,.jm.f{width:auto;height:auto;background:none;margin-top:-1px;transform:translateX(50%);filter:drop-shadow(0 1px 1px rgba(0,0,0,.6))}
+[dir=rtl] .jm.c,[dir=rtl] .jm.f{transform:translateX(50%)}
+.jm.c.done{opacity:.45}
+#lvlMe{position:absolute;top:50%;width:34px;height:34px;margin-top:-19px;margin-inline-start:-17px;transition:inset-inline-start .6s cubic-bezier(.3,1.4,.5,1);filter:drop-shadow(0 2px 2px rgba(0,0,0,.5));pointer-events:none;animation:jwalk 1.2s ease-in-out infinite}
+#lvlMe svg{width:100%;height:100%;display:block}
+@keyframes jwalk{50%{transform:translateY(-3px)}}
+#lvlPow{display:none;align-items:center;gap:3px;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.45);color:#fff;font:800 16px/1 Rubik,Heebo,sans-serif;white-space:nowrap}
+#lvlPow.on{display:flex}
+.pw-combo{color:#ffd166}.pw-combo.pop{animation:pwpop .5s cubic-bezier(.2,1.8,.4,1)}.pw-combo.break{animation:pwbreak .4s forwards}
+@keyframes pwpop{0%{transform:scale(.4)}60%{transform:scale(1.45)}100%{transform:scale(1)}}
+@keyframes pwbreak{to{transform:scale(.2) rotate(-25deg);opacity:0}}
+.pw-b{font-size:15px}
+@media (max-width:520px){#lvlbar{gap:8px}.kg.focus .lprog{margin-inline:6px}#lvlPow{font-size:14px;padding:3px 7px}.jm.c,.jm.f{font-size:11px}}
+
+/* ↩️ חזרה לדף הקודם */
+.btn.back{flex:0 0 auto!important;width:auto!important;min-width:0;padding-inline:14px 16px;gap:4px;font-size:17px}
+.btn.back .ico{transform:scaleX(-1)}
+@media (max-width:520px){.btn.back{padding-inline:10px 12px;font-size:15px}}
+
+/* 💎 יהלום שמתחבא בציור */
+.scene{position:relative}
+.gem{position:absolute;z-index:2;width:38px;height:38px;border:0;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.9),rgba(255,255,255,0) 70%);font-size:24px;line-height:38px;padding:0;cursor:pointer;animation:gemtw 2.2s ease-in-out infinite}
+.gem.got{animation:gemgot .6s forwards}
+@keyframes gemtw{0%,100%{transform:scale(.85);opacity:.75}50%{transform:scale(1.1);opacity:1;filter:drop-shadow(0 0 6px #fff)}}
+@keyframes gemgot{to{transform:translateY(-60px) scale(1.6);opacity:0}}
+
+/* 🎁 תיבת אוצר */
+.chest-step{text-align:center;padding:6px 0 4px}
+.chest-big{position:relative;width:190px;height:190px;margin:8px auto 4px;border:0;background:none;cursor:pointer;display:block}
+.chest-big .ico{position:relative;width:160px;height:160px;filter:drop-shadow(0 8px 0 rgba(0,0,0,.25))}
+.cb-glow{position:absolute;inset:10px;border-radius:50%;background:radial-gradient(circle,rgba(255,217,106,.75),rgba(255,217,106,0) 70%);animation:cbglow 1.6s ease-in-out infinite}
+@keyframes cbglow{50%{transform:scale(1.15);opacity:.6}}
+.cb-taps{position:absolute;top:6px;inset-inline-end:10px;min-width:38px;height:38px;border-radius:50%;background:#ff5d73;color:#fff;font:900 22px/38px Rubik,Heebo,sans-serif;box-shadow:0 3px 0 #b8344a}
+.chest-big.wob{animation:cbwob .35s}
+@keyframes cbwob{25%{transform:rotate(-9deg) scale(1.05)}50%{transform:rotate(8deg)}75%{transform:rotate(-4deg)}}
+.chest-big.open .ico{animation:cbopen .6s forwards}.chest-big.open .cb-taps{display:none}
+@keyframes cbopen{40%{transform:scale(1.25)}100%{transform:scale(.9);opacity:.35}}
+.cb-out{display:flex;flex-direction:column;align-items:center;gap:4px;animation:pop .5s both}
+.cb-prize{font-size:64px;line-height:1}
+.cb-out b{font:900 26px/1.3 Rubik,Heebo,sans-serif;color:#4a2e0c}.cb-out small{font:600 18px/1.4 Rubik,Heebo,sans-serif;color:#7a5a30}
+
+/* 🏃 במרוץ: תשובה שנפסלה, כוחות */
+.rn-opt.out{opacity:.4;text-decoration:line-through;box-shadow:none;transform:none}
+.rn-opt.out::after{content:"✘";position:absolute;top:4px;inset-inline-start:8px;color:#d33;font-size:16px}
+.rn-bst{position:absolute;top:52px;left:0;right:0;display:flex;justify-content:center;gap:6px;pointer-events:none;z-index:2}
+.rn-bst span{padding:3px 10px;border-radius:999px;background:rgba(20,14,50,.72);color:#fff;font:800 16px/1.2 Rubik,Heebo,sans-serif}
+.rn-bst span.pulse{animation:pulse 1s infinite}
+.rn-boost-in{margin:-2px 0 10px;padding:6px 10px;border-radius:12px;background:#fff3c4;font:700 16px/1.4 Rubik,Heebo,sans-serif;color:#5a3a14}
+.rn-boost-in span{font-size:22px;margin-inline-start:4px}
+.cloze{display:block;margin-top:10px;padding:10px 14px;border-radius:14px;background:#fff6dc;border:2px dashed #e0c98e;font-family:"Frank Ruhl Libre",serif;font-weight:700}
+.rn-q .cloze{font-size:.95em;margin-top:6px;padding:6px 10px}
