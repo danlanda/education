@@ -166,7 +166,7 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
       case 'bonus_read': return `📚 קרא סיפור בונוס עד הסוף`;
       case 'facts_pack': return `🃏 פתח חבילת עובדות מדהימות`;
       case 'read_aloud': return `🔊 קנה הקראה ב"${levelTitle(x.level)}" (${x.cost} מטבעות)`;
-      case 'arena': return `🏆 זירת טריוויה ב"${levelTitle(x.level)}": מקום ${x.rank} מתוך 6 (${x.right}/${x.of} נכונות)`;
+      case 'arena': return x.mode === 'run' ? `🏃 מרוץ הסיפור ב"${levelTitle(x.level)}": מקום ${x.rank} מתוך 6 (${x.right}/${x.of} שערים נכונים, ${x.coins || 0} מטבעות בדרך)` : `🏆 זירת טריוויה ב"${levelTitle(x.level)}": מקום ${x.rank} מתוך 6 (${x.right}/${x.of} נכונות)`;
       case 'feature_unlock': return `🎁 נפתחה הפתעה חדשה במשחק: ${({ owl: 'ינשוף הזמן', practice: 'חדר האימונים', gift: 'מתנה יומית', arena: 'זירת החידון', badges: 'תגים', wheel: 'גלגל המזל', joint: 'משימות משותפות', shield: 'מגן רצף', golden: 'דפי זהב', league: 'ליגות', bonus: 'בונוסים בחנות' } as Row)[x.feature] || x.feature}`;
       case 'owl_hatch': return `🦉 הינשוף בקע${x.name ? ` – קרא לו "${x.name}"` : ''}`;
       case 'owl_stage': return `🦉 הינשוף גדל לשלב ${x.stage + 1} (${x.words} מילים)`;
@@ -363,9 +363,14 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
         <label className="a-label">במה קשה לו? (אפשר כמה)</label>
         <div className="a-row" style={{ flexWrap: 'wrap', gap: 6 }}>{CHALLENGES.map((c: string) => { const list: string[] = s.profile?.challenges ?? child.intake?.challenges ?? []; const on = list.includes(c);
           return <button key={c} className={'a-chip' + (on ? ' on' : '')} onClick={() => setS({ ...s, profile: { ...(child.intake || {}), ...(s.profile || {}), challenges: on ? list.filter(x => x !== c) : [...list, c] } })}>{c}</button>; })}</div>
-        <div className="a-help" style={{ marginTop: 4 }}>המשחק מתחיל מכאן: קורא לאט → שורה אחרי שורה ואותיות גדולות, יותר זמן בזירה והקראה בחצי מחיר. קשה בכתיבה → פחות מילים. טוב בחשבון → אתגר בכל פרק. ואחר כך הוא ממשיך להתאים את עצמו לבד.</div>
+        <div className="a-help" style={{ marginTop: 4 }}>המשחק מתחיל מכאן: קורא לאט → שורה אחרי שורה ואותיות גדולות, יותר זמן לשאלות והקראה בחצי מחיר. קשה בכתיבה → פחות מילים. טוב בחשבון → אתגר בכל פרק. ואחר כך הוא ממשיך להתאים את עצמו לבד.</div>
         <label className="a-label"><input type="checkbox" checked={s.gradual !== false} onChange={e => setS({ ...s, gradual: e.target.checked })} /> משחק שגדל: חלקי המשחק נפתחים בהדרגה, הפתעה אחת בכל פעם (מומלץ)</label>
-        <div className="a-help" style={{ marginTop: -4 }}>ביום הראשון הוא רואה רק סיפור, מפה, כרטיסים וחנות. אחר כך, כל יום-יומיים, נפתח משהו חדש: ינשוף שגדל מקריאה, חדר אימונים, מתנה יומית, זירת חידון, תגים, גלגל מזל, מגן רצף, דפי זהב, ליגות ובונוסים. בלי סימון – הכול פתוח מההתחלה.</div>
+        <div className="a-help" style={{ marginTop: -4 }}>ביום הראשון הוא רואה רק סיפור, מפה, כרטיסים וחנות. אחר כך, כל יום-יומיים, נפתח משהו חדש: ינשוף שגדל מקריאה, חדר אימונים, מתנה יומית, מרוץ הסיפור, תגים, גלגל מזל, מגן רצף, דפי זהב, ליגות ובונוסים. בלי סימון – הכול פתוח מההתחלה.</div>
+        <label className="a-label">סוף כל פרק – משחק השאלות על הסיפור</label>
+        <div className="a-row" style={{ flexWrap: 'wrap', gap: 6 }}>{[['run', '🏃 מרוץ הסיפור'], ['arena', '🏆 זירת טריוויה']].map(([v, l]) => {
+          const on = (s.endGame || 'run') === v;
+          return <button key={v} className={'a-chip' + (on ? ' on' : '')} onClick={() => setS({ ...s, endGame: v })}>{l}</button>; })}</div>
+        <div className="a-help" style={{ marginTop: 4 }}>מרוץ: הדמות שלו רצה בעולם של הפרק, אוספת מטבעות וקופצת מעל מכשולים, ובכל שער עונים על שאלה מהסיפור. המרוץ נעצר בזמן השאלה, כך שאין לחץ זמן. זירה: 5 שאלות עם שעון מול שחקנים אחרים.</div>
         <label className="a-label"><input type="checkbox" checked={s.jointTasks !== false} onChange={e => setS({ ...s, jointTasks: e.target.checked })} /> משימות משותפות איתך (בלי מסך) מדי כמה ימים – אתה מאשר כשסיימתם</label>
         <label className="a-label"><input type="checkbox" checked={s.wheelTickets !== false} onChange={e => setS({ ...s, wheelTickets: e.target.checked })} /> גלגל המזל יכול לתת כרטיס (נספר בתוך מקסימום הכרטיסים היומי)</label>
         <label className="a-label"><input type="checkbox" checked={!!s.nikud} onChange={e => setS({ ...s, nikud: e.target.checked })} /> ניקוד בכל המשחק (מומלץ)</label>
