@@ -176,3 +176,126 @@
   .kd-grid{grid-template-columns:repeat(5,1fr)}
   .kd-bal{width:80px;height:104px}.kd-bal span{font-size:46px}
 }
+
+/* ===== 🐣 הכפר של הוּפִּי – סיפור, מפה, כפר, חנות ===== */
+.kd-stars{display:flex;align-items:center;gap:4px;padding:6px 14px;border-radius:999px;background:#fff;box-shadow:0 4px 0 rgba(43,29,85,.2);font:900 22px/1 Rubik,Heebo,sans-serif;color:#b07a12}
+.kd-prog i{display:grid;place-items:center;width:auto;min-width:30px;height:30px;padding:0 3px;font-style:normal;font-size:17px;border-radius:12px;background:rgba(255,255,255,.55);border:3px solid #fff}
+.kd-prog i.on{background:#d7ffe2;border-color:#2fcf6f;box-shadow:none}
+.kd-prog i.cur{transform:scale(1.18);background:#fff3c4;border-color:#ffc928}
+/* דף סיפור */
+.kd-story{display:flex;flex-direction:column;align-items:center;gap:12px}
+.kd-scene{position:relative;width:100%;max-width:760px;aspect-ratio:16/10;border-radius:32px;overflow:hidden;box-shadow:0 10px 0 rgba(43,29,85,.25);border:5px solid #fff;cursor:pointer}
+.kd-scene>svg{position:absolute;inset:0;width:100%;height:100%}
+.kd-friend{position:absolute;bottom:4%;left:50%;width:34%;transform:translateX(-50%);animation:kdpop .6s cubic-bezier(.2,1.6,.4,1)}
+.kd-friend svg,.kd-friend-svg{width:100%;height:auto;display:block}
+.kd-friend.sad svg{animation:kdshiver 1.4s ease-in-out infinite}
+.kd-friend.happy svg{animation:kddance .9s ease-in-out infinite}
+@keyframes kdshiver{25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+.kd-pic-st{position:absolute;top:8%;right:8%;font-size:clamp(50px,13vw,110px);animation:kdbreathe 2s ease-in-out infinite}
+.kd-owl-st{position:absolute;bottom:2%;left:4%;width:26%}.kd-owl-st .kd-owl{width:100%;height:auto}
+.kd-hero-st{position:absolute;bottom:2%;right:4%;width:22%;animation:kdpop .5s .3s both}
+.kd-hero-st svg{width:100%;height:auto}
+.kd-bubble-st{max-width:760px;padding:12px 18px;border-radius:22px;background:#fff;font:700 18px/1.5 Rubik,Heebo,sans-serif;color:#4a3a7a;box-shadow:0 5px 0 rgba(43,29,85,.15);text-align:center}
+/* בחירת דמות */
+.kd-pick{display:flex;flex-direction:column;align-items:center;gap:10px}
+.kd-looks{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;max-width:640px}
+.kd-look{border:0;border-radius:26px;background:#fff;padding:8px;box-shadow:0 8px 0 rgba(43,29,85,.2)}
+.kd-look svg{width:100%;height:auto;display:block}.kd-look.on{background:#d7ffe2;transform:scale(1.08)}
+@media (max-width:520px){.kd-looks{grid-template-columns:repeat(2,1fr)}}
+/* מפת המסע */
+.kd-app:has(.kd-map){justify-content:flex-start}
+.kd-map{position:relative;padding-bottom:110px}
+.kd-path{position:relative;display:flex;flex-direction:column;gap:6px;padding:10px 0 20px;
+  background:repeating-linear-gradient(transparent 0 14px,rgba(255,255,255,.85) 14px 26px) 50% 0/10px 100% no-repeat}
+.kd-node{position:relative;height:124px}
+.kd-nbtn{position:absolute;left:var(--x);top:50%;transform:translate(-50%,-50%);width:108px;height:108px;border-radius:50%;border:6px solid #fff;padding:0;overflow:hidden;background:#fff;box-shadow:0 8px 0 rgba(43,29,85,.25)}
+.kd-nscene{position:absolute;inset:0}.kd-nscene svg{width:100%;height:100%;display:block}
+.kd-nface{position:absolute;inset:0;display:grid;place-items:center;font:900 54px/1 Rubik,Heebo,sans-serif;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.45),0 0 12px rgba(0,0,0,.4)}
+.kd-nface.party{font-size:48px}
+.kd-nfriend{position:absolute;inset:6px}.kd-nfriend svg{width:100%;height:100%}
+.kd-node.done .kd-nbtn{border-color:#7cf29a}
+.kd-node.lock .kd-nbtn{filter:grayscale(.85) brightness(.85);opacity:.75}
+.kd-node.lock .kd-nface{font-size:34px}
+.kd-node.cur .kd-nbtn{border-color:#ffc928;box-shadow:0 0 0 6px rgba(255,201,40,.45),0 8px 0 rgba(43,29,85,.25);animation:kdbreathe 1.4s ease-in-out infinite;width:124px;height:124px}
+.kd-nme{position:absolute;left:var(--x);top:-14px;width:64px;transform:translateX(-50%);animation:kdtalk 1s ease-in-out infinite;pointer-events:none;z-index:2}
+.kd-nme svg{width:100%;height:auto}
+.kd-dock{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:14px;padding:10px 16px;border-radius:30px;background:rgba(255,255,255,.92);box-shadow:0 8px 24px rgba(43,29,85,.25);z-index:6}
+.kd-dbtn{width:74px;height:74px;border-radius:22px;border:0;background:linear-gradient(#fff,#f3ecff);font-size:40px;box-shadow:0 5px 0 rgba(43,29,85,.22)}
+.kd-dbtn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(43,29,85,.22)}
+/* הכרות */
+.kd-meet{display:flex;flex-direction:column;align-items:center;gap:16px}
+.kd-friend.big{position:relative;left:auto;bottom:auto;transform:none;width:min(52vw,240px);border:0;background:none;padding:0;cursor:pointer;animation:kdpop .6s cubic-bezier(.2,1.6,.4,1),kdbreathe 2s 1s ease-in-out infinite}
+.kd-words{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.kd-word{position:relative;width:110px;height:110px;border:0;border-radius:28px;background:#fff;font-size:64px;box-shadow:0 7px 0 rgba(43,29,85,.2)}
+.kd-word b{position:absolute;top:-8px;inset-inline-end:-8px;width:38px;height:38px;border-radius:50%;background:#ff5d73;color:#fff;font-size:24px;line-height:38px}
+.kd-word.heard{background:#fff3c4}
+.kd-fingers{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:560px}
+.kd-fing{position:relative;width:78px;height:78px;border:0;border-radius:22px;background:#fff;font-size:46px;box-shadow:0 6px 0 rgba(43,29,85,.2)}
+.kd-fing.on{background:#d7ffe2;transform:scale(1.08)}
+.kd-fing.on::after{content:attr(data-n);position:absolute;top:-8px;inset-inline-end:-8px;width:30px;height:30px;border-radius:50%;background:#4a9bff;color:#fff;font:900 18px/30px Rubik,sans-serif}
+/* כוכבים אחרי משחקון */
+.kd-starsup{display:flex;justify-content:center;padding-top:60px}
+.kd-st3{display:flex;gap:10px}
+.kd-st3 span{font-size:96px;filter:grayscale(1) opacity(.35);transform:scale(.6)}
+.kd-st3 span.on{animation:kdstar3 .6s cubic-bezier(.2,1.8,.4,1) forwards}
+@keyframes kdstar3{to{filter:none;transform:scale(1) rotate(-8deg)}}
+/* כפר */
+.kd-village{display:flex;flex-direction:column;align-items:center;gap:10px}
+.kd-houses{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;width:100%;max-width:700px;padding:12px;border-radius:26px;background:rgba(255,255,255,.55)}
+.kd-houses.nums{grid-template-columns:repeat(5,1fr)}
+.kd-house{position:relative;aspect-ratio:1/1.1;border:0;border-radius:14px;background:none;padding:0}
+.kd-house .kd-plot{display:grid;place-items:center;width:100%;height:100%;border-radius:14px;border:3px dashed rgba(43,29,85,.25);color:rgba(43,29,85,.35);font:900 26px Rubik,sans-serif}
+.kd-house.ok{background:#fffaf0;box-shadow:0 5px 0 rgba(43,29,85,.2)}
+.kd-roof{position:absolute;top:-12px;left:-4px;right:-4px;height:22px;background:var(--c);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.kd-hf{position:absolute;inset:12px 4px 2px}.kd-hf svg{width:100%;height:100%}
+.kd-house.jump{animation:kddance .6s}
+@media (max-width:520px){.kd-houses{grid-template-columns:repeat(5,1fr)}}
+/* חנות */
+.kd-shop{display:flex;flex-direction:column;align-items:center;gap:10px}
+.kd-me-big{width:150px}.kd-me-big svg{width:100%;height:auto}
+.kd-items{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:640px}
+.kd-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:0;border-radius:22px;background:#fff;box-shadow:0 6px 0 rgba(43,29,85,.2)}
+.kd-ipic{width:74px;height:84px}.kd-ipic svg{width:100%;height:100%}
+.kd-iprice{font:900 18px/1 Rubik,sans-serif;color:#b07a12}
+.kd-item.poor{opacity:.55}.kd-item.own{background:#f3ecff}.kd-item.on{background:#d7ffe2;box-shadow:0 6px 0 #2fcf6f}
+@media (max-width:520px){.kd-items{grid-template-columns:repeat(3,1fr)}}
+/* סוף פרק */
+.kd-finale{display:flex;flex-direction:column;align-items:center;gap:8px}
+.kd-home-house{position:relative;width:200px;height:190px;margin-top:20px;border-radius:22px;background:#fffaf0;box-shadow:0 10px 0 rgba(43,29,85,.2)}
+.kd-home-house .kd-roof{top:-40px;height:60px;left:-14px;right:-14px}
+.kd-home-house .kd-hf{inset:14px 20px 6px}.kd-hf.go{animation:kdpop .9s cubic-bezier(.2,1.6,.4,1)}
+.kd-party{display:grid;place-items:center;height:100%;font-size:110px}
+.kd-fin-row{display:flex;align-items:flex-end;gap:10px}
+.kd-fin-me{width:110px;animation:kddance .9s ease-in-out infinite}.kd-fin-me svg{width:100%;height:auto}
+.kd-sticker.small{font-size:84px;padding:10px 20px}
+/* מרוץ בגן */
+.kd-run{height:calc(100svh - 120px)}
+.runwrap.collect .rn-gate,.runwrap.collect .rn-score{display:none}
+.kd-rt{font:900 26px/1 Rubik,sans-serif}
+.kd-run-intro{display:flex;flex-direction:column;align-items:center}
+.kd-run-intro .kd-friend-svg{width:180px}
+.kd-swipe{font-size:52px;animation:kdswipe 1.2s ease-in-out infinite}
+@keyframes kdswipe{50%{transform:translateX(16px)}}
+.kd-tl .kd-friend-svg{width:96px}
+/* תיקונים: סרגל עליון בטלפון, ריווח במפה */
+.kd-prog{min-width:0;overflow:hidden;gap:5px}
+.kd-node{height:150px}
+@media (max-width:520px){
+  .kd-top{gap:6px;padding:8px}
+  .kd-prog i{min-width:26px;height:26px;font-size:14px;border-width:2px;border-radius:9px}
+  .kd-prog i.cur{transform:scale(1.12)}
+  .kd-stars{padding:5px 10px;font-size:18px}
+  .kd-nbtn{width:96px;height:96px}.kd-node.cur .kd-nbtn{width:112px;height:112px}
+  .kd-nface{font-size:46px}
+}
+/* 🐣 מצב גן בתוך המשחק הראשי */
+.kd-in{padding-top:14px}
+.kd-in .qlabel{margin:0 auto 6px}
+.kd-star.fixed{position:fixed;z-index:999;font-size:44px;transform:translate(-50%,-50%);animation:kdstar 1s ease-out forwards;pointer-events:none}
+.kg.kids .story p{font-size:24px}
+.kg.kids .story p.speaking{background:#fff3c4;border-radius:10px;box-shadow:0 0 0 6px #fff3c4}
+.kd-prac{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:520px;margin:10px auto}
+.kd-pbtn{aspect-ratio:1;border:0;border-radius:28px;background:#fff;font-size:64px;box-shadow:0 8px 0 rgba(43,29,85,.25)}
+.kd-pbtn:active{transform:translateY(6px);box-shadow:0 2px 0 rgba(43,29,85,.25)}
+.kd-in .kd-first,.kd-in .kd-meet{padding-bottom:10px}
+.kd-in .kd-sky{height:min(60svh,520px)}

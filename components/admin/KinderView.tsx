@@ -69,3 +69,21 @@ export default function KinderView({ child }: { child: Row }) {
     </>
   );
 }
+
+/** כרטיס "מה הוא לומד" לילד בגן (בתוך מסך הילד הרגיל): אותיות וחשבון */
+export function KinderLearn({ s }: { s: Row }) {
+  const k: Row = s.kd || {}, letters: string[] = k.letters || [], stat: Row = k.stat || {};
+  const knownN = letters.filter(l => known(stat[l])).length;
+  return (
+    <div className="a-card"><h2>🐣 מה הוא לומד (גן חובה)</h2>
+      <p className="a-help">הסיפורים מוקראים לו, ובמקום שאלות קריאה הוא משחק באותיות ובחשבון. כל פרק מלמד אות חדשה (מתחילים מהאות הראשונה של השם שלו). {letters.length} אותיות נפתחו, {knownN} כבר יושבות טוב.</p>
+      <div className="a-row" style={{ flexWrap: 'wrap', gap: 6 }}>{(KLETTERS as Row[]).map(L => {
+        const open = letters.includes(L.l), ok = known(stat[L.l]), st = stat[L.l];
+        return <span key={L.l} title={st ? `${st.ok} נכון · ${st.bad} טעויות` : ''} style={{ width: 40, height: 40, borderRadius: 12, display: 'grid', placeItems: 'center', fontSize: 22, fontWeight: 900,
+          background: ok ? '#d7ffe2' : open ? '#fff3c4' : '#f2f0f7', border: `2px solid ${ok ? '#2fcf6f' : open ? '#ffc928' : '#e4e0ef'}`, color: open ? '#2b1d55' : '#bbb' }}>{L.l}</span>;
+      })}</div>
+      <div className="a-help" style={{ marginTop: 6 }}>🟩 יודע · 🟨 לומד עכשיו · ⬜ עוד לא</div>
+      <div className="a-stats" style={{ marginTop: 10 }}><div className="a-stat"><b>🔢 עד {Math.max(1, ...(k.nums || [1]))}</b><span>{MATH_TEXT[k.math || 1]}</span></div></div>
+    </div>
+  );
+}

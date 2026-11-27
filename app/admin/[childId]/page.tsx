@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import AdminShell from '@/components/admin/AdminShell';
 import { LifelineCard, RedemptionCard, ReplyBox } from '@/components/admin/Cards';
 import { KeeperHead } from '@/components/Art';
-import KinderView from '@/components/admin/KinderView';
+import { KinderLearn } from '@/components/admin/KinderView';
 import { api, vowelize, fmtTime, type Row } from '@/lib/admin';
 import { LEVELS, DEFAULT_SETTINGS } from '@/lib/game/content.js';
 import { ITEMS as SHOP } from '@/lib/game/avatar.js';
@@ -27,7 +27,7 @@ export default function ChildAdmin() {
   const { childId } = useParams<{ childId: string }>();
   return (
     <AdminShell title="אזור הורים" back="/admin">
-      {kids => { const k = kids.find(x => x.id === childId) || kids[0]; return !k ? <div className="a-card">לא נמצא</div> : k.grade === 0 || k.settings?.mode === 'kinder' ? <KinderView child={k} /> : <ChildView child={k} />; }}
+      {kids => { const k = kids.find(x => x.id === childId) || kids[0]; return !k ? <div className="a-card">לא נמצא</div> : <ChildView child={k} />; }}
     </AdminShell>
   );
 }
@@ -192,7 +192,7 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
   return (
     <>
       <JointCard s={s} child={child} settings={settings} setSettings={setSettings} />
-      <LearnCard s={s} settings={settings} child={child} />
+      {child.grade === 0 || child.settings?.mode === 'kinder' ? <KinderLearn s={s} /> : <LearnCard s={s} settings={settings} child={child} />}
       <div className="a-card"><h2>היום</h2><div className="a-stats">
         <div className="a-stat"><b>{t.pages}/{settings.dailyGoal}</b><span>משימת היום</span></div>
         <div className="a-stat"><b>🎟️ {t.tickets}/{settings.dailyTicketCap}</b><span>כרטיסים היום</span></div>

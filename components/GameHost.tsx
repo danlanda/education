@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import '@/app/game.css';
 import '@/app/kinder.css';
 import { createGame } from '@/lib/game/engine.js';
-import { createKinder } from '@/lib/game/kinder.js';
 import { supabaseStore, demoStore, setDemoKey } from '@/lib/game/store.js';
 import { DEMO, sb } from '@/lib/supabase/client';
 
@@ -14,7 +13,7 @@ export default function GameHost({ childId }: { childId: string }) {
   useEffect(() => {
     if (!ref.current) return;
     const el = ref.current;
-    let game: { destroy: () => void } | null = null, gone = false;
+    let game: { destroy: () => void } | null = null;
     try { localStorage.setItem('kidMode', childId); } catch {}
     const ganDemo = childId === 'gan';   // הדגמה של גן חובה
     setDemoKey(ganDemo ? 'keepers-gan' : 'keepers-demo');
@@ -23,14 +22,9 @@ export default function GameHost({ childId }: { childId: string }) {
       onExit: () => { try { sessionStorage.setItem('adminUnlocked', '1'); } catch {} router.push('/admin'); },   // אחרי קוד נכון
       onLocked: () => { try { sessionStorage.removeItem('adminUnlocked'); } catch {} router.push('/admin'); },   // לאזור ההורים דרך מסך הקוד (וגם "שכחתי את הקוד")
     };
-    // ילד בגן חובה (grade 0) מקבל את משחק הגן – בלי קריאה, הכול בקול
-    (async () => {
-      let kinder = ganDemo;
-      if (!kinder) { try { const r = await store.init(); kinder = r.child?.grade === 0 || r.child?.settings?.mode === 'kinder'; } catch {} }
-      if (gone) return;
-      game = (kinder ? createKinder : createGame)(el, store, opts);
-    })();
-    return () => { gone = true; if (game) game.destroy(); };
+    // ילד בגן חובה (grade 0) – אותו משחק במצב גן: הסיפור מוקרא, והמשימות הן אותיות וחשבון ראשון
+    game = createGame(el, store, opts);
+    return () => { if (game) game.destroy(); };
   }, [childId, router]);
   return <div ref={ref} />;
 }

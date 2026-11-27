@@ -29,7 +29,7 @@ export async function createFamilyFromIntake(d: Data): Promise<string> {
     p_family_name: '', p_child_name: d.name.trim(), p_grade: d.grade,
     p_intake: d.grade === 0 ? { stage: 'gan', reading: 'עוד לומד את האותיות', interests: d.interests, notes: d.notes, filled_at: new Date().toISOString() }
       : { reading: d.reading, interests: d.interests, challenges: d.challenges, notes: d.notes, filled_at: new Date().toISOString() },
-    p_settings: d.grade === 0 ? { mode: 'kinder', kinderMinutes: d.kinderMinutes || 20, helperName: HELPERS[d.helper] || d.helper }
+    p_settings: d.grade === 0 ? { mode: 'kinder', helperName: HELPERS[d.helper] || d.helper, ticketMinutes: d.ticketMinutes }
       : { helperName: HELPERS[d.helper] || d.helper, ticketMinutes: d.ticketMinutes },
   });
   if (error) throw error;
@@ -48,7 +48,7 @@ export default function Wizard({ withAccount }: { withAccount: boolean }) {
   const he = d.name.trim() || 'הוא';
 
   const gan = d.grade === 0;   // גן חובה: משחק אחר לגמרי (אותיות וחשבון בקול), בלי שאלון קריאה ופרסים
-  const steps = gan ? ['child', 'gan', ...(withAccount && !DEMO ? ['account'] : []), 'done'] : ['child', 'interests', 'reading', 'rewards', ...(withAccount && !DEMO ? ['account'] : []), 'done'];
+  const steps = gan ? ['child', 'interests', 'gan', 'rewards', ...(withAccount && !DEMO ? ['account'] : []), 'done'] : ['child', 'interests', 'reading', 'rewards', ...(withAccount && !DEMO ? ['account'] : []), 'done'];
   const cur = steps[step];
   const next = () => { setErr(''); setStep(s => s + 1); window.scrollTo(0, 0); };
   const back = () => { setErr(''); setStep(s => Math.max(0, s - 1)); };
@@ -110,15 +110,10 @@ export default function Wizard({ withAccount }: { withAccount: boolean }) {
 
         {cur === 'gan' && <>
           <div className="w-emoji">🦉</div>
-          <h1>המשחק של {he} בגן</h1>
-          <div className="a-sub">הוּפִּי הינשוף מדבר אליו ומלמד אותיות וחשבון ראשון: בלונים, ציור אותיות, ספירה, האכלת דרקון ומדבקות לאלבום. הוא משחק לבד, בלי לקרוא.</div>
-          <label className="a-label">כמה זמן ביום? (אחר כך הינשוף הולך לישון)</label>
-          <div className="w-grades">{[10, 15, 20, 30].map(m => <button key={m} type="button" className={'w-grade wide' + ((d.kinderMinutes || 20) === m ? ' on' : '')} onClick={() => set({ kinderMinutes: m })}>{m} דק׳</button>)}</div>
-          <div className="a-help" style={{ textAlign: 'center' }}>🔊 חשוב: הקול. בטלפון או בטאבלט – להגביר את הווליום. אפשר לשנות הכול אחר כך.</div>
-          {err && <div className="a-msg a-err">{err}</div>}
-          <div className="w-nav"><button className="a-btn light" onClick={back}>→ חזרה</button>
-            {steps.includes('account') ? <button className="a-btn gold" onClick={next}>המשך ←</button>
-              : <button className="a-btn gold" disabled={busy} onClick={finishWithoutAccount}>{busy ? '...' : 'סיימנו! ✨'}</button>}</div>
+          <h1>המשחק של {he} – במצב גן</h1>
+          <div className="a-sub">אותו משחק, אותם גיבורים, אותה מפה, חנות ומרוץ – רק שהסיפור מוקרא לו בקול, וכל המשימות הן אותיות וחשבון ראשון. כל פרק מלמד אות חדשה. הוא משחק לבד, בלי לקרוא.</div>
+          <div className="a-help" style={{ textAlign: 'center' }}>🔊 חשוב: הקול. בטלפון או בטאבלט – להגביר את הווליום (ובאייפון לבדוק שהמתג בצד לא על שקט).</div>
+          <div className="w-nav"><button className="a-btn light" onClick={back}>→ חזרה</button><button className="a-btn gold" onClick={next}>המשך ←</button></div>
         </>}
 
         {cur === 'reading' && <>
@@ -170,8 +165,8 @@ export default function Wizard({ withAccount }: { withAccount: boolean }) {
           <div className="a-sub">עכשיו הרגע הכי חשוב: הפעם הראשונה.</div>
           {gan ? <div className="w-tips">
             <div>🔊 <span>הקול הוא העיקר: הגבירו את הווליום (ובאייפון – לבדוק שהמתג בצד לא על שקט).</span></div>
-            <div>🦉 <span>הוּפִּי הינשוף מסביר כל דבר בקול. בפעם הראשונה שבו לידו דקה – ואז הוא ממשיך לבד.</span></div>
-            <div>🌙 <span>אחרי {d.kinderMinutes || 20} דקות הינשוף הולך לישון. אפשר לשנות באזור ההורים.</span></div>
+            <div>🎧 <span>הסיפור מוקרא לו, וכל הוראה נאמרת בקול. בפעם הראשונה שבו לידו כמה דקות – ואז הוא ממשיך לבד.</span></div>
+            <div>🌙 <span>כל יום נפתחים דפים חדשים בסיפור. כשהם נגמרים – מחכים למחר.</span></div>
           </div> : <div className="w-tips">
             <div>🛋️ <span>שבו ביחד, בלי לחץ. 10–15 דקות זה מושלם.</span></div>
             <div>📖 <span>תנו לו לקרוא לבד. אם הוא נתקע, יש רמזים, וגם &quot;טלפון ל{d.helper}&quot;.</span></div>
