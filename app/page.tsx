@@ -24,6 +24,10 @@ export default function Home() {
         if (role === 'admin') { router.replace('/admin'); return; }
         setView('landing'); return;
       }
+      // קישור "שכחתי סיסמה" מהמייל שהגיע לדף הבית → לבחירת סיסמה חדשה
+      if (window.location.hash.includes('type=recovery')) { router.replace('/login?reset=1' + window.location.hash); return; }
+      const rec = sb().auth.onAuthStateChange(ev => { if (ev === 'PASSWORD_RECOVERY') router.replace('/login?reset=1'); });
+      setTimeout(() => rec.data.subscription.unsubscribe(), 5000);
       const { data } = await sb().auth.getUser();
       if (!data.user) { setView('landing'); return; }
       let kids = await api().children();

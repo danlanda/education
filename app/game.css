@@ -1534,3 +1534,4 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
 .rn-boost-in span{font-size:22px;margin-inline-start:4px}
 .cloze{display:block;margin-top:10px;padding:10px 14px;border-radius:14px;background:#fff6dc;border:2px dashed #e0c98e;font-family:"Frank Ruhl Libre",serif;font-weight:700}
 .rn-q .cloze{font-size:.95em;margin-top:6px;padding:6px 10px}
+.linkbtn{display:block;margin:12px auto 0;border:0;background:none;color:#6a4bd8;font:700 16px Rubik,Heebo,sans-serif;text-decoration:underline;cursor:pointer}

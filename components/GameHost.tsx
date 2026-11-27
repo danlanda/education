@@ -19,7 +19,10 @@ export default function GameHost({ childId }: { childId: string }) {
     const ganDemo = childId === 'gan';   // הדגמה של גן חובה
     setDemoKey(ganDemo ? 'keepers-gan' : 'keepers-demo');
     const store = DEMO || childId === 'demo' || ganDemo ? demoStore() : supabaseStore(sb(), childId);
-    const opts = { onExit: () => { try { sessionStorage.setItem('adminUnlocked', '1'); } catch {} router.push('/admin'); } };
+    const opts = {
+      onExit: () => { try { sessionStorage.setItem('adminUnlocked', '1'); } catch {} router.push('/admin'); },   // אחרי קוד נכון
+      onLocked: () => { try { sessionStorage.removeItem('adminUnlocked'); } catch {} router.push('/admin'); },   // לאזור ההורים דרך מסך הקוד (וגם "שכחתי את הקוד")
+    };
     // ילד בגן חובה (grade 0) מקבל את משחק הגן – בלי קריאה, הכול בקול
     (async () => {
       let kinder = ganDemo;
