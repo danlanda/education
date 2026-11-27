@@ -168,11 +168,15 @@ export default function Wizard({ withAccount }: { withAccount: boolean }) {
           <div className="w-emoji">🎉</div>
           <h1>ההרפתקה של {he} מוכנה!</h1>
           <div className="a-sub">עכשיו הרגע הכי חשוב: הפעם הראשונה.</div>
-          <div className="w-tips">
+          {gan ? <div className="w-tips">
+            <div>🔊 <span>הקול הוא העיקר: הגבירו את הווליום (ובאייפון – לבדוק שהמתג בצד לא על שקט).</span></div>
+            <div>🦉 <span>הוּפִּי הינשוף מסביר כל דבר בקול. בפעם הראשונה שבו לידו דקה – ואז הוא ממשיך לבד.</span></div>
+            <div>🌙 <span>אחרי {d.kinderMinutes || 20} דקות הינשוף הולך לישון. אפשר לשנות באזור ההורים.</span></div>
+          </div> : <div className="w-tips">
             <div>🛋️ <span>שבו ביחד, בלי לחץ. 10–15 דקות זה מושלם.</span></div>
             <div>📖 <span>תנו לו לקרוא לבד. אם הוא נתקע, יש רמזים, וגם &quot;טלפון ל{d.helper}&quot;.</span></div>
             <div>🌙 <span>כל יום נפתחים 2 דפים חדשים. כשהם נגמרים, הוא יחכה למחר. זה בכוונה.</span></div>
-          </div>
+          </div>}
           <button className="a-btn block gold w-next" onClick={goPlay}>🎮 {d.name.trim() ? `${d.name.trim()} משחק` : 'מתחילים לשחק'} במכשיר הזה</button>
           <div style={{ height: 10 }} />
           <button className="a-btn block light" onClick={goAdmin}>📱 זה הטלפון שלי: לאזור ההורים ולהפעלת התראות</button>

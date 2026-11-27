@@ -21,7 +21,8 @@ export default function PlayPick() {
       <div className="a-auth-card">
         <Logo /><h1>מי משחק?</h1>
         <div className="a-choice">{kids.map(k => (
-          <a key={k.id} href={`/play/${k.id}`}><KeeperHead /><span><b>{k.name}</b></span></a>
+          <a key={k.id} href={`/play/${k.id}`}>{k.grade === 0 || k.settings?.mode === 'kinder' ? <span style={{ fontSize: 44, lineHeight: 1 }}>🦉</span> : <KeeperHead />}
+            <span><b>{k.name}</b><small style={{ display: 'block', opacity: .7 }}>{k.grade === 0 || k.settings?.mode === 'kinder' ? 'גן חובה' : k.grade ? `כיתה ${'אבגדהו'[k.grade - 1] || k.grade}׳` : ''}</small></span></a>
         ))}</div>
       </div>
     </div>
