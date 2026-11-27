@@ -47,6 +47,24 @@ function Dashboard({ kids }: { kids: Row[] }) {
         const s = info[k.id]?.state || {}, set = { ...DEFAULT_SETTINGS, ...(k.settings || {}) };
         const t = s.today?.date === today ? s.today : { pages: 0, tickets: 0 };
         const acc = s.tasks ? Math.round((s.firstTry / s.tasks) * 100) : 0;
+        if (k.grade === 0 || k.settings?.mode === 'kinder') {   // 🐣 גן חובה: אותיות, מדבקות וזמן משחק
+          const kd = s.kd || {}, day = kd.day && kd.day.d === new Date().toDateString() ? kd.day : { secs: 0, acts: 0 };
+          return (
+            <a key={k.id} href={`/admin/${k.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="a-card">
+                <div className="a-child-card" style={{ marginBottom: 12 }}><span style={{ fontSize: 40 }}>🦉</span>
+                  <div className="a-grow"><b style={{ fontSize: 20 }}>{k.name}</b><div className="a-help">גן חובה · {s._updated ? 'שיחק לאחרונה ' + new Date(s._updated).toLocaleDateString('he-IL') : 'עוד לא שיחק'}</div></div>
+                  <span style={{ fontSize: 22 }}>←</span></div>
+                <div className="a-stats">
+                  <div className="a-stat"><b>🔤 {(kd.letters || []).length}</b><span>אותיות שנפתחו</span></div>
+                  <div className="a-stat"><b>🔢 רמה {kd.math || 1}</b><span>חשבון</span></div>
+                  <div className="a-stat"><b>⏱️ {Math.round((day.secs || 0) / 60)}/{k.settings?.kinderMinutes || 20}</b><span>דקות היום</span></div>
+                  <div className="a-stat"><b>📒 {(kd.stickers || []).length}</b><span>מדבקות</span></div>
+                </div>
+              </div>
+            </a>
+          );
+        }
         return (
           <a key={k.id} href={`/admin/${k.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className="a-card">

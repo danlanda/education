@@ -81,15 +81,17 @@ function cloudApi(): AdminApi {
 
 function demoApi(): AdminApi {
   const d = () => demoData();
+  const gan = (): Row | null => { try { const g = JSON.parse(localStorage.getItem('keepers-gan') || 'null'); return g && g.child ? g : null; } catch { return null; } };
   const upd = (fn: (x: Row) => void) => { const x = demoData(); fn(x); saveDemoData(x); };
   const now = () => new Date().toISOString();
   return {
     demo: true,
     async me() { return { email: 'הדגמה' }; },
-    async children() { return [{ ...d().child, grade: 3, intake: {} }]; },
-    async child() { return { ...d().child, grade: 3, intake: {} }; },
-    async state() { return d().state; },
-    async events() { return [...d().events].reverse().slice(0, 30); },
+    // הדגמה: הילד הרגיל, ואם שיחקו בהדגמת הגן – גם ילד הגן
+    async children() { const g = gan(); return [{ ...d().child, grade: 3, intake: {} }, ...(g ? [{ ...g.child, id: 'gan', grade: 0, intake: { stage: 'gan' } }] : [])]; },
+    async child(id) { const g = gan(); return id === 'gan' && g ? { ...g.child, id: 'gan', grade: 0 } : { ...d().child, grade: 3, intake: {} }; },
+    async state(id) { const g = gan(); return id === 'gan' && g ? g.state || {} : d().state; },
+    async events(id) { const g = gan(); return id === 'gan' && g ? [...(g.events || [])].reverse().slice(0, 60) : [...d().events].reverse().slice(0, 30); },
     async ledger() { return [...d().ledger].reverse(); },
     async redemptions(_ids, pendingOnly) { const r = [...d().redemptions].reverse(); return pendingOnly ? r.filter((x: Row) => x.status === 'pending') : r; },
     async decide(id, approve) { upd(x => { const r = x.redemptions.find((y: Row) => y.id === id); if (r && r.status === 'pending') { r.status = approve ? 'approved' : 'declined'; r.decided_at = now(); if (approve) x.ledger.push({ delta: -r.tickets, reason: 'מימוש', created_at: now() }); } }); },
@@ -101,7 +103,7 @@ function demoApi(): AdminApi {
     async riddles() { return [...d().riddles].reverse(); },
     async addRiddle(_c, r) { upd(x => x.riddles.push({ id: Math.random().toString(36).slice(2), status: 'active', created_at: now(), ...r })); },
     async archiveRiddle(id) { upd(x => { const r = x.riddles.find((y: Row) => y.id === id); if (r) r.status = 'archived'; }); },
-    async saveSettings(_c, settings) { upd(x => { x.child.settings = settings; }); },
+    async saveSettings(c, settings) { if (c === 'gan') { const g = gan(); if (g) { g.child.settings = settings; localStorage.setItem('keepers-gan', JSON.stringify(g)); } return; } upd(x => { x.child.settings = settings; }); },
     live(onChange) { const t = setInterval(onChange, 3000); return () => clearInterval(t); },
     async signOut() {},
   };

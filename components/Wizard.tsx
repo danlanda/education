@@ -22,13 +22,15 @@ const HELPERS: Record<string, string> = { 'אבא': 'אַבָּא', 'אמא': '�
 const GRADES = ['א', 'ב', 'ג', 'ד', 'ה', 'ו'];
 export const PENDING_KEY = 'pendingIntake';
 
-type Data = { name: string; grade: number; interests: string[]; reading: string; challenges: string[]; ticketMinutes: number; helper: string; notes: string };
+type Data = { name: string; grade: number; interests: string[]; reading: string; challenges: string[]; ticketMinutes: number; helper: string; notes: string; kinderMinutes?: number };
 
 export async function createFamilyFromIntake(d: Data): Promise<string> {
   const { data, error } = await sb().rpc('create_family_with_child', {
     p_family_name: '', p_child_name: d.name.trim(), p_grade: d.grade,
-    p_intake: { reading: d.reading, interests: d.interests, challenges: d.challenges, notes: d.notes, filled_at: new Date().toISOString() },
-    p_settings: { helperName: HELPERS[d.helper] || d.helper, ticketMinutes: d.ticketMinutes },
+    p_intake: d.grade === 0 ? { stage: 'gan', reading: 'עוד לומד את האותיות', interests: d.interests, notes: d.notes, filled_at: new Date().toISOString() }
+      : { reading: d.reading, interests: d.interests, challenges: d.challenges, notes: d.notes, filled_at: new Date().toISOString() },
+    p_settings: d.grade === 0 ? { mode: 'kinder', kinderMinutes: d.kinderMinutes || 20, helperName: HELPERS[d.helper] || d.helper }
+      : { helperName: HELPERS[d.helper] || d.helper, ticketMinutes: d.ticketMinutes },
   });
   if (error) throw error;
   return String(data);
@@ -45,7 +47,8 @@ export default function Wizard({ withAccount }: { withAccount: boolean }) {
   const toggle = (k: 'interests' | 'challenges', v: string) => set({ [k]: d[k].includes(v) ? d[k].filter(x => x !== v) : [...d[k], v] } as Partial<Data>);
   const he = d.name.trim() || 'הוא';
 
-  const steps = ['child', 'interests', 'reading', 'rewards', ...(withAccount && !DEMO ? ['account'] : []), 'done'];
+  const gan = d.grade === 0;   // גן חובה: משחק אחר לגמרי (אותיות וחשבון בקול), בלי שאלון קריאה ופרסים
+  const steps = gan ? ['child', 'gan', ...(withAccount && !DEMO ? ['account'] : []), 'done'] : ['child', 'interests', 'reading', 'rewards', ...(withAccount && !DEMO ? ['account'] : []), 'done'];
   const cur = steps[step];
   const next = () => { setErr(''); setStep(s => s + 1); window.scrollTo(0, 0); };
   const back = () => { setErr(''); setStep(s => Math.max(0, s - 1)); };
@@ -53,7 +56,7 @@ export default function Wizard({ withAccount }: { withAccount: boolean }) {
   async function finishWithoutAccount() {
     setBusy(true); setErr('');
     try {
-      if (DEMO) setChildId('demo'); else setChildId(await createFamilyFromIntake(d));
+      if (DEMO) setChildId(d.grade === 0 ? 'gan' : 'demo'); else setChildId(await createFamilyFromIntake(d));
       next();
     } catch (e) { setErr((e as Error).message); }
     setBusy(false);
@@ -90,7 +93,9 @@ export default function Wizard({ withAccount }: { withAccount: boolean }) {
           <label className="a-label">השם שלו</label>
           <input className="a-input w-big" autoFocus value={d.name} onChange={e => set({ name: e.target.value })} placeholder="למשל: איתי" />
           <label className="a-label">באיזו כיתה?</label>
-          <div className="w-grades">{GRADES.map((g, i) => <button key={g} type="button" className={'w-grade' + (d.grade === i + 1 ? ' on' : '')} onClick={() => set({ grade: i + 1 })}>{g}׳</button>)}</div>
+          <div className="w-grades"><button type="button" className={'w-grade wide' + (d.grade === 0 ? ' on' : '')} onClick={() => set({ grade: 0 })}>גן חובה</button>
+            {GRADES.map((g, i) => <button key={g} type="button" className={'w-grade' + (d.grade === i + 1 ? ' on' : '')} onClick={() => set({ grade: i + 1 })}>{g}׳</button>)}</div>
+          {d.grade === 0 && <div className="a-help" style={{ textAlign: 'center' }}>🐣 לגן חובה יש משחק מיוחד: אותיות וחשבון ראשון, הכול בקול ובתמונות – בלי צורך לקרוא.</div>}
           <button className="a-btn block gold w-next" disabled={!d.name.trim()} onClick={next}>המשך ←</button>
         </>}
 
@@ -101,6 +106,19 @@ export default function Wizard({ withAccount }: { withAccount: boolean }) {
           <div className="w-tiles">{INTERESTS.map(x => (
             <button key={x.k} type="button" className={'w-tile' + (d.interests.includes(x.k) ? ' on' : '')} onClick={() => toggle('interests', x.k)}><span>{x.e}</span>{x.k}</button>))}</div>
           <div className="w-nav"><button className="a-btn light" onClick={back}>→ חזרה</button><button className="a-btn gold" disabled={!d.interests.length} onClick={next}>המשך ←</button></div>
+        </>}
+
+        {cur === 'gan' && <>
+          <div className="w-emoji">🦉</div>
+          <h1>המשחק של {he} בגן</h1>
+          <div className="a-sub">הוּפִּי הינשוף מדבר אליו ומלמד אותיות וחשבון ראשון: בלונים, ציור אותיות, ספירה, האכלת דרקון ומדבקות לאלבום. הוא משחק לבד, בלי לקרוא.</div>
+          <label className="a-label">כמה זמן ביום? (אחר כך הינשוף הולך לישון)</label>
+          <div className="w-grades">{[10, 15, 20, 30].map(m => <button key={m} type="button" className={'w-grade wide' + ((d.kinderMinutes || 20) === m ? ' on' : '')} onClick={() => set({ kinderMinutes: m })}>{m} דק׳</button>)}</div>
+          <div className="a-help" style={{ textAlign: 'center' }}>🔊 חשוב: הקול. בטלפון או בטאבלט – להגביר את הווליום. אפשר לשנות הכול אחר כך.</div>
+          {err && <div className="a-msg a-err">{err}</div>}
+          <div className="w-nav"><button className="a-btn light" onClick={back}>→ חזרה</button>
+            {steps.includes('account') ? <button className="a-btn gold" onClick={next}>המשך ←</button>
+              : <button className="a-btn gold" disabled={busy} onClick={finishWithoutAccount}>{busy ? '...' : 'סיימנו! ✨'}</button>}</div>
         </>}
 
         {cur === 'reading' && <>

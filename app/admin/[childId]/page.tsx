@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import AdminShell from '@/components/admin/AdminShell';
 import { LifelineCard, RedemptionCard, ReplyBox } from '@/components/admin/Cards';
 import { KeeperHead } from '@/components/Art';
+import KinderView from '@/components/admin/KinderView';
 import { api, vowelize, fmtTime, type Row } from '@/lib/admin';
 import { LEVELS, DEFAULT_SETTINGS } from '@/lib/game/content.js';
 import { ITEMS as SHOP } from '@/lib/game/avatar.js';
@@ -26,7 +27,7 @@ export default function ChildAdmin() {
   const { childId } = useParams<{ childId: string }>();
   return (
     <AdminShell title="אזור הורים" back="/admin">
-      {kids => { const k = kids.find(x => x.id === childId) || kids[0]; return k ? <ChildView child={k} /> : <div className="a-card">לא נמצא</div>; }}
+      {kids => { const k = kids.find(x => x.id === childId) || kids[0]; return !k ? <div className="a-card">לא נמצא</div> : k.grade === 0 || k.settings?.mode === 'kinder' ? <KinderView child={k} /> : <ChildView child={k} />; }}
     </AdminShell>
   );
 }

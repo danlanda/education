@@ -35,6 +35,8 @@ function allowedLines() {
     const content = (await import('@/lib/game/content.js')) as unknown as { LEVELS: Record<string, Episode[]> };
     const seasons = (await import('@/lib/game/seasons/index.js')) as unknown as { SEASON_FILES: { exp: string; load: () => Promise<Record<string, Episode[]>> }[] };
     const bonus = (await import('@/lib/game/bonus.js')) as unknown as { BONUS_STORIES: Episode[] };
+    const kinder = (await import('@/lib/game/kinder-data.js')) as unknown as { kinderLines: () => Set<string> };
+    for (const l of kinder.kinderLines()) set.add(l);   // גן חובה: הוראות בקול
     for (const l of Object.values(content.LEVELS).flat()) collect(set, l.steps);
     for (const f of seasons.SEASON_FILES) for (const ep of (await f.load())[f.exp] || []) collect(set, ep.steps);
     for (const b of bonus.BONUS_STORIES) collect(set, b.steps);
