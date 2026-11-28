@@ -5,11 +5,13 @@ import AdminShell from '@/components/admin/AdminShell';
 import { LifelineCard, RedemptionCard, ReplyBox } from '@/components/admin/Cards';
 import { KeeperHead } from '@/components/Art';
 import { KinderLearn } from '@/components/admin/KinderView';
+import VideosCard from '@/components/admin/VideosCard';
 import { api, vowelize, fmtTime, type Row } from '@/lib/admin';
 import { LEVELS, DEFAULT_SETTINGS } from '@/lib/game/content.js';
 import { ITEMS as SHOP } from '@/lib/game/avatar.js';
 import { JOINT, JOINT_CATS } from '@/lib/game/joint.js';
 import { READ_LEVELS, CHALLENGES } from '@/lib/game/learner.js';
+import { VIDEOS } from '@/lib/game/videos.js';
 
 const NIKUD = /[֑-ׇ]/g;
 const plain = (s: string) => String(s || '').replace(NIKUD, '');
@@ -191,6 +193,8 @@ function Overview({ d, child, settings, setSettings }: { d: Row; child: Row; set
   };
   return (
     <>
+      {(() => { const pend = (VIDEOS as Row[]).filter(v => !v.own && !(settings.videosOk || []).includes(v.id) && !(settings.videosNo || []).includes(v.id)).length;
+        return pend && settings.videos !== false ? <a className="a-card" href="?tab=settings" style={{ display: 'block', textDecoration: 'none', color: 'inherit', background: '#fff8e1' }}>🎬 <b>{pend} סרטונים מחכים לאישור שלך</b><div className="a-help">הילד רואה סרטון רק אחרי שאישרת. לחץ כדי לראות ולאשר (בהגדרות).</div></a> : null; })()}
       <JointCard s={s} child={child} settings={settings} setSettings={setSettings} />
       {child.grade === 0 || child.settings?.mode === 'kinder' ? <KinderLearn s={s} /> : <LearnCard s={s} settings={settings} child={child} />}
       <div className="a-card"><h2>היום</h2><div className="a-stats">
@@ -337,8 +341,10 @@ function Settings({ child, settings, setSettings }: { child: Row; settings: Row;
   );
   const save = async () => { await api().saveSettings(child.id, s); setSettings(s); setMsg('נשמר ✔ (נכנס לתוקף במשחק תוך חצי דקה)'); setTimeout(() => setMsg(''), 3000); };
   const intake = child.intake || {};
+  const saveNow = async (n: Row) => { setS(n); await api().saveSettings(child.id, n); setSettings(n); setMsg('נשמר ✔'); setTimeout(() => setMsg(''), 2000); };
   return (
     <>
+      <VideosCard settings={s} save={saveNow} />
       <div className="a-card"><h2>🎟️ פרסים בעולם האמיתי</h2>
         {num('ticketMinutes', 'כרטיס אחד שווה (דקות מסך)', 'מומלץ 5–10 דקות', 1, 60)}
         {num('dailyGoal', 'משימת היום: כמה דפים', 'השלמת המשימה = כרטיס בונוס', 1, 10)}
