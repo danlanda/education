@@ -1567,3 +1567,9 @@ textarea{min-height:150px;resize:vertical;line-height:1.6;background-image:repea
   .rotate-hint b{font-size:28px}
 }
 @keyframes rotHint{0%,30%{transform:rotate(-90deg)}60%,100%{transform:rotate(0)}}
+
+/* 🎟️ על מה משתמשים בכרטיסים */
+.tk-kinds{display:flex;gap:12px;justify-content:center;margin:6px 0 4px}
+.tk-kind{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:120px;padding:12px 16px;border-radius:22px;border:3px solid #e3d4b2;background:#fffaf0;font-family:var(--display);color:var(--ink);cursor:pointer;box-shadow:0 5px 0 #e3d4b2}
+.tk-kind span{font-size:44px;line-height:1}.tk-kind b{font-size:20px}
+.tk-kind.on{border-color:var(--ink);background:#fff3c4;box-shadow:0 5px 0 var(--ink)}

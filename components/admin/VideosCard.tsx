@@ -18,14 +18,18 @@ export default function VideosCard({ settings, save }: { settings: Row; save: (s
     save({ ...settings, videosOk: yes ? [...ok.filter(x => x !== k), k] : ok.filter(x => x !== k), videosNo: yes ? no.filter(x => x !== k) : [...no.filter(x => x !== k), k] });
   };
   const topics = Object.keys(TOPICS).filter(t => list.some(v => v.topic === t));
+  /** לאשר הרבה בבת אחת (כל הסרטונים של גיבור, או את כל הרשימה) */
+  const approveMany = (vs: Row[]) => { const ks = vs.map(videoKey); save({ ...settings, videosOk: [...ok.filter(x => !ks.includes(x)), ...ks], videosNo: no.filter(x => !ks.includes(x)) }); };
   return (
     <div className="a-card"><h2>🎬 סרטונים בתוך הסיפור</h2>
-      <p className="a-help">פעם-פעמיים בכל גיבור מופיע סרטון קצר על הנושא, בתוך חלון במשחק. כל הסרטונים נבחרו מערוצים חינוכיים מוכרים, אבל <b>הילד רואה רק סרטון שאישרת</b> – תסתכל ותאשר. רוב הסרטונים באנגלית – וזה מעולה: חשיפה טבעית לאנגלית דרך נושא שהוא כבר מכיר מהסיפור. הנגן נעול: בלי סרטונים מומלצים, בלי כפתורים של יוטיוב, ואי אפשר לצאת ממנו ליוטיוב.</p>
+      <p className="a-help">בכל פרק מופיע סרטון קצר על הנושא של הפרק, בתוך חלון במשחק. כל הסרטונים נבחרו מערוצים חינוכיים מוכרים, אבל <b>הילד רואה רק סרטון שאישרת</b> – תסתכל ותאשר. רוב הסרטונים באנגלית – וזה מעולה: חשיפה טבעית לאנגלית דרך נושא שהוא כבר מכיר מהסיפור. הנגן נעול: בלי סרטונים מומלצים, בלי כפתורים של יוטיוב, ואי אפשר לצאת ממנו ליוטיוב.</p>
       <label className="a-label"><input type="checkbox" checked={settings.videos !== false} onChange={e => save({ ...settings, videos: e.target.checked })} /> להראות סרטונים (רק מאושרים)</label>
-      {pending > 0 && <div className="a-msg" style={{ background: '#fff3c4' }}>⏳ {pending} סרטונים מחכים לאישור שלך</div>}
+      {pending > 0 && <div className="a-msg" style={{ background: '#fff3c4', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>⏳ {pending} סרטונים מחכים לאישור שלך
+        <button className="a-chip" onClick={() => { if (confirm(`לאשר את כל ${pending} הסרטונים שמחכים? (אפשר לבטל כל אחד בנפרד אחר כך)`)) approveMany(list.filter(v => !ok.includes(videoKey(v)) && !no.includes(videoKey(v)))); }}>✔ לאשר את כולם</button></div>}
       {!list.length && <p className="a-help">עוד אין סרטונים ברשימה.</p>}
       {topics.map((t, ti) => { const w = TOPICS[t].world || 'history', newW = ti === 0 || (TOPICS[topics[ti - 1]].world || 'history') !== w; return (
-        <div key={t} style={{ marginTop: 12 }}>{newW && <h3 style={{ margin: '18px 0 4px', fontSize: 17, borderBottom: '2px solid #eee', paddingBottom: 4 }}>{WORLDS[w]}</h3>}<b>{plain(TOPICS[t].title)}</b>
+        <div key={t} style={{ marginTop: 12 }}>{newW && <h3 style={{ margin: '18px 0 4px', fontSize: 17, borderBottom: '2px solid #eee', paddingBottom: 4 }}>{WORLDS[w]}</h3>}<div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}><b>{plain(TOPICS[t].title)}</b>
+          {list.some(v => v.topic === t && !ok.includes(videoKey(v))) && <button className="a-chip" onClick={() => approveMany(list.filter(v => v.topic === t && !no.includes(videoKey(v))))}>✔ לאשר את כל הסרטונים של הנושא</button>}</div>
           {list.filter(v => v.topic === t).map(v => { const k = videoKey(v), st = ok.includes(k) ? 'ok' : no.includes(k) ? 'no' : 'wait';
             return (
               <div key={k} className="a-row" style={{ gap: 10, alignItems: 'center', marginTop: 8, padding: 8, borderRadius: 12, background: st === 'ok' ? '#e9fbef' : st === 'no' ? '#f6f2f2' : '#fffaf0' }}>
@@ -33,7 +37,7 @@ export default function VideosCard({ settings, save }: { settings: Row; save: (s
                   {v.id && <img src={ytThumb(v.id)} alt="" style={{ width: 120, height: 68, objectFit: 'cover', borderRadius: 8, display: 'block' }} />}
                   <span style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', fontSize: 28, color: '#fff', textShadow: '0 2px 6px #000' }}>▶</span></button>
                 <div className="a-grow" style={{ minWidth: 0 }}><div style={{ fontWeight: 700, fontSize: 14 }}>{v.title}</div>
-                  <div className="a-help">{v.channel} · {v.lang === 'he' ? 'עברית' : 'אנגלית'}{v.minutes ? ` · ${v.minutes} דק׳` : ''}</div>{v.note && <div className="a-help">{v.note}</div>}</div>
+                  <div className="a-help">{v.ep ? `פרק ${v.ep} · ` : ''}{v.channel} · {v.lang === 'he' ? 'עברית' : 'אנגלית'}{v.minutes ? ` · ${v.minutes} דק׳` : ''}</div>{v.note && <div className="a-help">{v.note}</div>}</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <button className={'a-chip' + (st === 'ok' ? ' on' : '')} onClick={() => set(v, true)}>✔ מאשר</button>
                   <button className={'a-chip' + (st === 'no' ? ' on' : '')} onClick={() => set(v, false)}>✖ לא</button>

@@ -70,13 +70,27 @@ async function speak(text: string): Promise<ArrayBuffer> {
   return r.arrayBuffer();
 }
 
+/** טקסט של המשחק: עברית (עם או בלי ניקוד), מספרים וסימני פיסוק בלבד, עד 500 תווים */
+const gameText = (t: string) => t.length <= 500 && /[\u05D0-\u05EA]/.test(t) && /^[\u0590-\u05FF0-9\s.,!?:;"'()\-–—…׳״%+=/{}]+$/.test(t);
+/** מגבלת קצב פשוטה לכל כתובת: עד 240 משפטים חדשים בעשר דקות (משפטים שכבר הוקראו מגיעים מהמטמון ולא נספרים) */
+const hits = new Map<string, number[]>();
+function rateOk(req: Request) {
+  const ip = (req.headers.get('x-forwarded-for') || 'x').split(',')[0].trim(), now = Date.now();
+  const a = (hits.get(ip) || []).filter(x => now - x < 600000); a.push(now); hits.set(ip, a);
+  if (hits.size > 5000) hits.clear();
+  return a.length <= 240;
+}
+
 export async function GET(req: Request) {
   const u = new URL(req.url);
   if (u.searchParams.get('probe')) return NextResponse.json({ ok: !!provider() }, { headers: { 'Cache-Control': 'no-store' } });
   if (!provider()) return NextResponse.json({ error: 'no voice configured' }, { status: 404 });
   const line = (u.searchParams.get('t') || '').slice(0, 1200);
   const name = (u.searchParams.get('n') || '').replace(/[^֐-׿a-zA-Z ]/g, '').slice(0, 20).trim() || 'שׁוֹמֵר הַזְּמַן';
-  if (!line || !(await allowedLines()).has(line)) return NextResponse.json({ error: 'not a story line' }, { status: 403 });
+  // שורות מהסיפורים – תמיד. טקסט קצר אחר של המשחק (הוראות, כפתורים, חלונות לילד שעוד לא קורא) – רק אם הוא בעברית, ובמגבלת קצב
+  const known = (await allowedLines()).has(line);
+  if (!line || (!known && !gameText(line))) return NextResponse.json({ error: 'not a game line' }, { status: 403 });
+  if (!known && !rateOk(req)) return NextResponse.json({ error: 'slow down' }, { status: 429 });
   try {
     const audio = await speak(clean(line, name));
     return new NextResponse(audio, { headers: { 'Content-Type': provider() === 'mock' ? 'audio/wav' : 'audio/mpeg', 'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, immutable' } });
