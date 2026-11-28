@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
 import type { Row } from '@/lib/admin';
-import { VIDEOS, TOPICS as TOPICS0, videoKey, ytThumb } from '@/lib/game/videos.js';
-const TOPICS = TOPICS0 as Record<string, { title: string }>;
+import { VIDEOS, TOPICS as TOPICS0, WORLDS as WORLDS0, videoKey, ytThumb } from '@/lib/game/videos.js';
+const TOPICS = TOPICS0 as Record<string, { title: string; world?: string }>;
+const WORLDS = WORLDS0 as Record<string, string>;
 
 const plain = (s: string) => String(s || '').replace(/[֑-ׇ]/g, '');
 
@@ -23,8 +24,8 @@ export default function VideosCard({ settings, save }: { settings: Row; save: (s
       <label className="a-label"><input type="checkbox" checked={settings.videos !== false} onChange={e => save({ ...settings, videos: e.target.checked })} /> להראות סרטונים (רק מאושרים)</label>
       {pending > 0 && <div className="a-msg" style={{ background: '#fff3c4' }}>⏳ {pending} סרטונים מחכים לאישור שלך</div>}
       {!list.length && <p className="a-help">עוד אין סרטונים ברשימה.</p>}
-      {topics.map(t => (
-        <div key={t} style={{ marginTop: 12 }}><b>{plain(TOPICS[t].title)}</b>
+      {topics.map((t, ti) => { const w = TOPICS[t].world || 'history', newW = ti === 0 || (TOPICS[topics[ti - 1]].world || 'history') !== w; return (
+        <div key={t} style={{ marginTop: 12 }}>{newW && <h3 style={{ margin: '18px 0 4px', fontSize: 17, borderBottom: '2px solid #eee', paddingBottom: 4 }}>{WORLDS[w]}</h3>}<b>{plain(TOPICS[t].title)}</b>
           {list.filter(v => v.topic === t).map(v => { const k = videoKey(v), st = ok.includes(k) ? 'ok' : no.includes(k) ? 'no' : 'wait';
             return (
               <div key={k} className="a-row" style={{ gap: 10, alignItems: 'center', marginTop: 8, padding: 8, borderRadius: 12, background: st === 'ok' ? '#e9fbef' : st === 'no' ? '#f6f2f2' : '#fffaf0' }}>
@@ -39,7 +40,7 @@ export default function VideosCard({ settings, save }: { settings: Row; save: (s
                 </div>
               </div>
             ); })}
-        </div>))}
+        </div>); })}
       {preview && (
         <div onClick={() => setPreview(null)} style={{ position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(0,0,0,.8)', display: 'grid', placeItems: 'center', padding: 12 }}>
           <div onClick={e => e.stopPropagation()} style={{ width: 'min(100%, 800px)', background: '#000', borderRadius: 14, overflow: 'hidden' }}>
