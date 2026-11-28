@@ -19,7 +19,7 @@ export default function VideosCard({ settings, save }: { settings: Row; save: (s
   const topics = Object.keys(TOPICS).filter(t => list.some(v => v.topic === t));
   return (
     <div className="a-card"><h2>🎬 סרטונים בתוך הסיפור</h2>
-      <p className="a-help">פעם-פעמיים בכל גיבור מופיע סרטון קצר על הנושא, בתוך חלון במשחק. כל הסרטונים נבחרו מערוצים חינוכיים מוכרים, אבל <b>הילד רואה רק סרטון שאישרת</b> – תסתכל ותאשר. הנגן נעול: בלי סרטונים מומלצים, בלי כפתורים של יוטיוב, ואי אפשר לצאת ממנו ליוטיוב.</p>
+      <p className="a-help">פעם-פעמיים בכל גיבור מופיע סרטון קצר על הנושא, בתוך חלון במשחק. כל הסרטונים נבחרו מערוצים חינוכיים מוכרים, אבל <b>הילד רואה רק סרטון שאישרת</b> – תסתכל ותאשר. רוב הסרטונים באנגלית – וזה מעולה: חשיפה טבעית לאנגלית דרך נושא שהוא כבר מכיר מהסיפור. הנגן נעול: בלי סרטונים מומלצים, בלי כפתורים של יוטיוב, ואי אפשר לצאת ממנו ליוטיוב.</p>
       <label className="a-label"><input type="checkbox" checked={settings.videos !== false} onChange={e => save({ ...settings, videos: e.target.checked })} /> להראות סרטונים (רק מאושרים)</label>
       {pending > 0 && <div className="a-msg" style={{ background: '#fff3c4' }}>⏳ {pending} סרטונים מחכים לאישור שלך</div>}
       {!list.length && <p className="a-help">עוד אין סרטונים ברשימה.</p>}
