@@ -22,7 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Rubik:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@700;900&family=Noto+Sans+Hebrew:wght@400;600;800&display=swap" rel="stylesheet" />
       </head>
-      <body>{children}</body>
+      <body>
+        {/* המשחק התעדכן בזמן שהדף היה פתוח? קובץ ישן לא נטען → טוענים מחדש לבד (פעם בדקה לכל היותר) */}
+        <script dangerouslySetInnerHTML={{ __html: `window.addEventListener('error',function(e){var m=String((e&&e.message)||'');if(/Loading chunk|ChunkLoadError|Loading CSS chunk/.test(m)){try{var k='autoReloadAt',l=+(sessionStorage.getItem(k)||0);if(Date.now()-l>60000){sessionStorage.setItem(k,Date.now());location.reload();}}catch(x){}}});window.addEventListener('unhandledrejection',function(e){var m=String((e&&e.reason&&(e.reason.name+' '+e.reason.message))||'');if(/ChunkLoadError|Loading chunk/.test(m)){try{var k='autoReloadAt',l=+(sessionStorage.getItem(k)||0);if(Date.now()-l>60000){sessionStorage.setItem(k,Date.now());location.reload();}}catch(x){}}});` }} />
+        {children}
+      </body>
     </html>
   );
 }

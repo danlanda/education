@@ -224,7 +224,7 @@
 .kd-dbtn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(43,29,85,.22)}
 /* הכרות */
 .kd-meet{display:flex;flex-direction:column;align-items:center;gap:16px}
-.kd-friend.big{position:relative;left:auto;bottom:auto;transform:none;width:min(52vw,240px);border:0;background:none;padding:0;cursor:pointer;animation:kdpop .6s cubic-bezier(.2,1.6,.4,1),kdbreathe 2s 1s ease-in-out infinite}
+.kd-friend.big{position:relative;left:auto;bottom:auto;transform:none;width:min(52vw,240px,26vh);border:0;background:none;padding:0;cursor:pointer;animation:kdpop .6s cubic-bezier(.2,1.6,.4,1),kdbreathe 2s 1s ease-in-out infinite}
 .kd-words{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .kd-word{position:relative;width:110px;height:110px;border:0;border-radius:28px;background:#fff;font-size:64px;box-shadow:0 7px 0 rgba(43,29,85,.2)}
 .kd-word b{position:absolute;top:-8px;inset-inline-end:-8px;width:38px;height:38px;border-radius:50%;background:#ff5d73;color:#fff;font-size:24px;line-height:38px}
@@ -304,3 +304,6 @@
 .k-unlock-btn{position:relative;width:min(56vw,240px);aspect-ratio:1;border-radius:50%;border:8px solid #ffc928;padding:0;overflow:hidden;background:#fff;box-shadow:0 0 0 14px rgba(255,201,40,.3),0 14px 40px rgba(0,0,0,.4);animation:kdbreathe 1.4s ease-in-out infinite;cursor:pointer}
 .k-unlock-btn img{width:100%;height:100%;object-fit:cover;display:block}
 .k-unlock-btn span{position:absolute;inset:0;display:grid;place-items:center;font-size:90px;color:#fff;background:rgba(47,207,111,.55);text-shadow:0 4px 0 rgba(0,0,0,.3);padding-inline-start:12px}
+
+/* מסכים נמוכים (טלפון): הכפתורים תמיד בתוך המסך */
+@media (max-height:760px){.kd-meet{gap:10px}.kd-meet .kd-word{width:88px;height:88px;font-size:50px}.kd-meet .btn.big{margin-top:0}}
